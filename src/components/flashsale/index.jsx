@@ -1,4 +1,4 @@
-import { Badge, Button, Card, CardBody, CardFooter, CardHeader, Image, ScrollShadow } from "@nextui-org/react";
+import { Badge, Button, Card, CardBody, CardFooter, ScrollShadow } from "@nextui-org/react";
 import React from "react";
 import arduino from "../../assets/image/arduino.png";
 import PowerSupply  from "../../assets/image/DC Power Supply Variable, 120V 3A Bench Power Supply.png";
@@ -6,7 +6,6 @@ import Zoyi from "../../assets/image/Zoyi ZT-109 Small Handheld Tester Autorangi
 import NE555 from "../../assets/image/NE555 Timer.png";
 import Raspberry from "../../assets/image/Raspberry pi 4(4GB RAM).png";
 import { ImStarEmpty, ImStarFull } from "react-icons/im";
-import { HiHeart } from "react-icons/hi";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import { BiCart } from "react-icons/bi";
 
@@ -79,10 +78,10 @@ export default function FlashSale() {
 
   
   return (
-    <div className=" my-5 md:mx-[10%] p-5  rounded-lg">
+    <div className=" my-5 md:mx-[10%] p-5 ">
       <h1 className="font-bold text-xl mb-4 ">Top selling items</h1>
       <ScrollShadow className="w-full  " hideScrollBar offset={100} orientation="horizontal" size={20}>
-        <div className="gap-4 w-fit flex ">
+        <div className="gap-4 w-fit flex p-1">
           {list.map((item, index) => (
             <Badge
               content="new"
@@ -90,11 +89,11 @@ export default function FlashSale() {
               size="sm"
               isInvisible={!item.new}
               placement="top-left"
+              key={index}
             >
               <Card
                 shadow="sm"
                 radius="none"
-                key={index}
                 isPressable
                 onPress={() => console.log("item pressed")}
                 className="w-[16em]"

@@ -25,12 +25,11 @@ import { FiBell, FiMail, FiMessageSquare, FiShoppingCart } from "react-icons/fi"
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuItems = [
-    "Profile",
-    "Dashboard",
-    "Activity",
-    "Analytics",
-    "System",
-    "Deployments",
+    "Home",
+    "About us",
+    "Contact us",
+    "Products",
+    "Business",
     "My Settings",
     "Team Settings",
     "Help & Feedback",
