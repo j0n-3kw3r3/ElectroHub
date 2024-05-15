@@ -57,7 +57,7 @@ export default function Category() {
       <h1 className="font-bold text-xl mb-4  ">
         Search by <span className="text-secondary">Category</span>
       </h1>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 items-center  ">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center  ">
         {categories.map((category, index) => (
           <div
             key={index}
