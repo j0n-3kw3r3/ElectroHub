@@ -12,7 +12,7 @@ export default function Hero() {
             Find top-quality capacitors, resistors, Arduino boards, test meters, and more. Fast shipping, competitive
             pricing, and expert support. Start building your project today!
           </p>
-          <button className="bg-secondary text-white px-4 py-2 flex items-center gap-2 ">
+          <button className="bg-secondary text-white px-4 py-2 flex items-center gap-2 shadow-lg hover:scale-105 ease-in-out duration-150 border ">
             Shop now{" "}
             <span>
               <FiArrowRight />
