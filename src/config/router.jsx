@@ -1,7 +1,7 @@
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import {authRoutes, inAppRoutes} from './routes';
-import AppLayout from '@/layouts/applayout';
-import Authlayout from '@/layouts/authlayout';
+import AuthLayout from '../layouts/authlayout';
+import Applayout from '../layouts/applayout';
 
 const renderRoutes = (layout, routes) => (
   <Routes>
@@ -17,8 +17,8 @@ const renderRoutes = (layout, routes) => (
 const RouterComponent = () => (
   <Router>
     <Routes>
-      <Route path="auth/*" element={renderRoutes(<Authlayout />, authRoutes)} />
-      <Route path="/*" element={renderRoutes(<AppLayout />, inAppRoutes)} />
+      <Route path="auth/*" element={renderRoutes(<AuthLayout />, authRoutes)} />
+      <Route path="/*" element={renderRoutes(<Applayout />, inAppRoutes)} />
     </Routes>
   </Router>
 );

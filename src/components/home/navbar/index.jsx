@@ -63,8 +63,8 @@ export default function Nav() {
   ];
 
   return (
-    <div>
-      <Navbar disableAnimation className="md:py-2">
+    <>
+      <Navbar  className="md:py-2" shouldHideOnScroll position="sticky" >
         <NavbarContent className="md:hidden sm:flex gap-4">
           <NavbarMenuToggle
             icon={isMenuOpen ? <BiX /> : <BiMenu />}
@@ -208,10 +208,10 @@ export default function Nav() {
           </div>
           <div className="w-fit">
             <p className="text-sm text-secondary  ">Free Delivery</p>
-            <p className="text-xs">For all orders from ₦100,000</p>
+            <p className="text-xs">For all orders above ₦100,000</p>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

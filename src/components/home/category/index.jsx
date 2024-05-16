@@ -1,12 +1,12 @@
 import React from "react";
-import Capacitor from "../../assets/image/capacitor.png";
-import resistor from "../../assets/image/resistor.png";
-import inductor from "../../assets/image/inductor.png";
-import transistor from "../../assets/image/transistor.png";
-import multimeter from "../../assets/image/multimeter.png";
-import sensor from "../../assets/image/sensor.png";
-import solder from "../../assets/image/solder.png";
-import power from "../../assets/image/power.png";
+import Capacitor from "../../../assets/image/capacitor.png";
+import resistor from "../../../assets/image/resistor.png";
+import inductor from "../../../assets/image/inductor.png";
+import transistor from "../../../assets/image/transistor.png";
+import multimeter from "../../../assets/image/multimeter.png";
+import sensor from "../../../assets/image/sensor.png";
+import solder from "../../../assets/image/solder.png";
+import power from "../../../assets/image/power.png";
 
 export default function Category() {
   const categories = [
@@ -44,12 +44,12 @@ export default function Category() {
       title: "Tools and supplies",
       img: solder,
       url: "product/tools-and-supplies",
-      },
-      {
-          title: "Power Products",
-          img: power,
-            url: "product/power-products",
-    }
+    },
+    {
+      title: "Power Products",
+      img: power,
+      url: "product/power-products",
+    },
   ];
 
   return (

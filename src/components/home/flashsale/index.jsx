@@ -1,88 +1,31 @@
 import { Badge, Button, Card, CardBody, CardFooter, ScrollShadow } from "@nextui-org/react";
 import React from "react";
-import arduino from "../../assets/image/arduino.png";
-import PowerSupply  from "../../assets/image/DC Power Supply Variable, 120V 3A Bench Power Supply.png";
-import Zoyi from "../../assets/image/Zoyi ZT-109 Small Handheld Tester Autoranging Digital Multimeter.png";
-import NE555 from "../../assets/image/NE555 Timer.png";
-import Raspberry from "../../assets/image/Raspberry pi 4(4GB RAM).png";
 import { ImStarEmpty, ImStarFull } from "react-icons/im";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import { BiCart } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../../redux/cartSlice";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { products } from "../../../assets/data/product";
 
 export default function FlashSale() {
-  const list = [
-    {
-      title: "Arduino uno r3",
-      img: arduino,
-      price: "₦13,500.00",
-      star: "3.5",
-      discount: "₦30000",
-      liked: false,
-      new: true,
-    },
-    {
-      title: "Raspberry pi 4(4GB RAM)",
-      img: Raspberry,
-      price: "₦85,000.00",
-      star: "3.5",
-      discount: "₦105,000.00",
-      liked: true,
-      new: false,
-    },
-    {
-      title: "NE555 Timer IC",
-      img: NE555,
-      price: "₦100.00",
-      star: "3.5",
-      discount: "₦200.00",
-      liked: true,
-      new: true,
-    },
-    {
-      title: "Zoyi ZT-109 Small Handheld Tester Autoranging Digital Multimeter",
-      img: Zoyi,
-      price: "₦25,000.00",
-      star: "3.5",
-      discount: "₦27,500.00",
-      liked: false,
-      new: true,
-    },
-    {
-      title: "DC Power Supply Variable, 120V 3A Bench Power Supply",
-      img: PowerSupply,
-      price: "₦85,000.00",
-      star: "3.5",
-      discount: "₦105,000.00",
-      liked: true,
-      new: false,
-    },
-    {
-      title: "NE555 Timer IC",
-      img: NE555,
-      price: "₦100.00",
-      star: "3.5",
-      discount: "₦200.00",
-      liked: true,
-      new: true,
-    },
-    {
-      title: "Zoyi ZT-109 Small Handheld Tester Autoranging Digital Multimeter",
-      img: Zoyi,
-      price: "₦25,000.00",
-      star: "3.5",
-      discount: "₦27,500.00",
-      liked: false,
-      new: true,
-    },
-  ];
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  
+  const handlePress = (data) => {
+    if (data) {
+      dispatch(addToCart(data));
+      toast.success(`${data.title} has been added to your cart`);
+    }
+  };
+
   return (
     <div className=" my-5 md:mx-[10%] p-5 ">
       <h1 className="font-bold text-xl mb-4 ">Top selling items</h1>
       <ScrollShadow className="w-full  " hideScrollBar offset={100} orientation="horizontal" size={20}>
         <div className="gap-4 w-fit flex p-1">
-          {list.map((item, index) => (
+          {products.map((item, index) => (
             <Badge
               content="new"
               className="bg-primary text-white "
@@ -91,13 +34,7 @@ export default function FlashSale() {
               placement="top-left"
               key={index}
             >
-              <Card
-                shadow="sm"
-                radius="none"
-                isPressable
-                onPress={() => console.log("item pressed")}
-                className="w-[16em]"
-              >
+              <Card shadow="sm" radius="none" className="w-[16em]">
                 <CardBody className="overflow-visible p-0 bg-neutral ">
                   <div className="absolute right-4 top-2 p-1 rounded-full  items-center  bg-white  ">
                     {item.liked ? (
@@ -106,12 +43,25 @@ export default function FlashSale() {
                       <GoHeart size={20} className="hover:text-danger " />
                     )}
                   </div>
-                  <img alt={item.title} className="w-full object-contain h-[10em]" src={item.img} />
+                  <img
+                    alt={item.title}
+                    className="w-full object-contain h-[10em] cursor-pointer "
+                    src={item.img}
+                    onClick={() => {
+                      navigate(`/product/${item.id}`);
+                    }}
+                  />
                 </CardBody>
                 <CardFooter className="text-small text-left flex flex-col gap-1 items-start ">
-                  <b className=" ">{item.title}</b>
+                  <b
+                    className=" cursor-pointer "
+                    onClick={() => {
+                      navigate(`/product/${item.id}`);
+                    }}
+                  >
+                    {item.title}
+                  </b>
                   <div className="flex items-center gap-2">
-                    {" "}
                     {item.star ? <ImStarFull color="gold" /> : <ImStarEmpty />}
                     <p>{item.star}</p>
                     <b>•</b>
@@ -126,6 +76,7 @@ export default function FlashSale() {
                     variant="bordered"
                     radius="none"
                     className="text-secondary w-full mt-2  hover:bg-secondary hover:text-white "
+                    onClick={() => handlePress(item)}
                   >
                     <BiCart />
                     Add to cart
