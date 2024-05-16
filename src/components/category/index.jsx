@@ -61,7 +61,7 @@ export default function Category() {
         {categories.map((category, index) => (
           <div
             key={index}
-            className="bg-neutral text-default-600 hover:bg-secondary hover:text-white cursor-pointer ease-in-out duration-250 p-6 border border-default-300 rounded-lg shadow-md flex items-center gap-6 "
+            className="bg-neutral text-default-600 hover:bg-secondary hover:text-white cursor-pointer ease-in-out duration-250 p-6 border border-default-300  shadow-md flex items-center gap-6 "
           >
             <div className="w-[3em] h-[3em] ">
               <img src={category.img} alt="" className="w-full h-full object-contain " />

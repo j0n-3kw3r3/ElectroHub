@@ -21,9 +21,11 @@ import {
 import { useState } from "react";
 import { BiFilter, BiMenu, BiSearch, BiX } from "react-icons/bi";
 import { FiBell, FiMail, FiMessageSquare, FiShoppingCart } from "react-icons/fi";
+import truck from "../../../assets/image/truck.png";
 
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const menuItems = [
     "Home",
     "About us",
@@ -62,7 +64,7 @@ export default function Nav() {
 
   return (
     <div>
-      <Navbar disableAnimation className="md:py-2  ">
+      <Navbar disableAnimation className="md:py-2">
         <NavbarContent className="md:hidden sm:flex gap-4">
           <NavbarMenuToggle
             icon={isMenuOpen ? <BiX /> : <BiMenu />}
@@ -70,9 +72,26 @@ export default function Nav() {
             className=" text-4xl cursor-pointer "
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           />
-          <NavbarBrand>
-            <p className="font-bold text-secondary ">Electro Hub.</p>
-          </NavbarBrand>
+          {!isSearchOpen ? (
+            <NavbarBrand>
+              <p className="font-bold text-secondary ">Electro Hub.</p>
+            </NavbarBrand>
+          ) : (
+            <Input
+              classNames={{
+                base: " w-[10em] h-10 ",
+                mainWrapper: "h-full",
+                input: "text-small",
+                inputWrapper: "h-full font-normal text-default-500 bg-white dark:bg-default-500/20",
+              }}
+              variant="bordered"
+              placeholder="Search product..."
+              radius="none"
+              size="sm"
+              startContent={<BiSearch size={18} />}
+              type="search"
+            />
+          )}
         </NavbarContent>
 
         <NavbarContent className="sm:flex gap-4" justify="start">
@@ -98,9 +117,11 @@ export default function Nav() {
         </NavbarContent>
 
         <NavbarContent as="div" className="items-center w-fit md:gap-3 gap-1 " justify="end">
-          <NavbarItem className=" hover:bg-default-200 rounded-full p-2 ease-in-out duration-200 flex items-center ">
-            <BiSearch size={18} className=" md:hidden flex" />
-          </NavbarItem>
+          {!isSearchOpen ? (
+            <NavbarItem className=" hover:bg-default-200 rounded-full p-2 ease-in-out duration-200 flex items-center ">
+              <BiSearch size={18} className=" md:hidden flex" onClick={() => setIsSearchOpen(true)} />
+            </NavbarItem>
+          ) : null}
           <NavbarItem className=" hover:bg-default-200 rounded-full p-2 ease-in-out duration-200 flex items-center ">
             <FiShoppingCart className="text-lg cursor-pointer " />
           </NavbarItem>
@@ -158,12 +179,12 @@ export default function Nav() {
 
       <div className=" shadow border-b border-default-300 bg-white md:px-[14%] px-[5%] py-1 flex items-center justify-between ">
         <div className="flex  items-center text-sm md:gap-20 gap-4 ">
-          <div className="border-r md:pr-10">
+          <div className="border-r border-default-400 md:pr-10">
             <Select
               placeholder="Categories"
               size="xs"
               startContent={<BiFilter size={25} />}
-              className="w-[10em] bg-opacity-0 "
+              className="w-[10em]  bg-opacity-0 "
               variant="underlined"
               color="primary"
             >
@@ -181,8 +202,14 @@ export default function Nav() {
           </div>
         </div>
 
-        <div className="flex">
-          <p className=" text-danger text-xs cursor-pointer ">Special offer</p>
+        <div className="md:flex gap-2   ">
+          <div className="md:w-[6em] w-[3em] md:relative absolute md:right-0 right-6 ">
+            <img src={truck} alt="" className="w-full h-full " />
+          </div>
+          <div className="w-fit">
+            <p className="text-sm text-secondary  ">Free Delivery</p>
+            <p className="text-xs">For all orders from ₦100,000</p>
+          </div>
         </div>
       </div>
     </div>
