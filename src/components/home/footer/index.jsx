@@ -1,7 +1,8 @@
 import React from "react";
 import { BsInstagram, BsLinkedin, BsX } from "react-icons/bs";
 import { FaDhl } from "react-icons/fa";
-import { GrMastercard, GrVisa } from "react-icons/gr";
+import { FaXTwitter } from "react-icons/fa6";
+import { GrVisa } from "react-icons/gr";
 import { RiMastercardFill } from "react-icons/ri";
 
 export default function Footer() {
@@ -10,7 +11,7 @@ export default function Footer() {
       <div className="md:flex   md:justify-between mt-4   ">
         <div className="flex gap-6 justify-center mb-4 ">
           <BsInstagram size={15} />
-          <BsX size={15} />
+          <FaXTwitter size={15} />
           <BsLinkedin size={15} />
         </div>
         <div>
