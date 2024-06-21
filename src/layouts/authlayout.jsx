@@ -1,14 +1,11 @@
-
-import {Outlet} from 'react-router-dom';
-import Nav from '../components/home/navbar';
-import Footer from '../components/home/footer';
+import { Outlet } from "react-router-dom";
+import Nav from "../components/home/navbar";
+import Footer from "../components/home/footer";
 
 const AuthLayout = () => {
   return (
-    <div >
-        <Nav/>
+    <div className="flex flex-col " >
       <Outlet />
-      <Footer />
     </div>
   );
 };
