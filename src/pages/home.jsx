@@ -12,6 +12,9 @@ export default function Home() {
       <Hero />
       <Category />
       <FlashSale />
+
     </div>
+
+
   );
 }
