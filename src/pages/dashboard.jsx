@@ -50,7 +50,7 @@ function Dashboard() {
 
   return (
     <div className="flex h-screen">
-      <aside className="w-64 bg-darkbg text-gray-200 p-5">
+      <aside className="w-64 shadow border-r text-default-800 p-5">
         <div className="mb-10">
           <img src={logo} alt="Logo" className="w-36 h-auto mx-auto" />
         </div>
@@ -63,11 +63,11 @@ function Dashboard() {
           ].map((item) => (
             <div
               key={item.name}
-              className={` items-center cursor-pointer p-4 my-2 rounded-md text-sm font-medium ${
+              className={`${
                 activeTab.includes(item.name) || (item.name === "Users" && showUsersDropdown)
-                  ? "bg-secondary"
-                  : "hover:bg-primary"
-              }`}
+                  ? "bg-primary text-white "
+                  : "hover:bg-primary/80 hover:text-white "
+              } items-center cursor-pointer p-4 my-2 rounded  text-sm font-medium  `}
               onClick={() => {
                 setActiveTab(item.name);
                 if (item.name === "Users") {
@@ -83,10 +83,12 @@ function Dashboard() {
               </div>
               <div className="">
                 {item.name === "Users" && (
-                  <ul className={`mt-2 pl-4 ${showUsersDropdown ? "block" : "hidden"}`}>
+                  <ul className={`mt-2  ${showUsersDropdown ? "block" : "hidden"}`}>
                     <li
-                      className={`cursor-pointer p-2 my-1 rounded-md flex gap-2 items-center text-sm font-medium hover:bg-primary ${
-                        usersSubTab === "Merchants" ? "hover:bg-primary" : "bg-secondary"
+                      className={`cursor-pointer p-2 my-1 rounded flex gap-2 items-center text-sm font-medium  ${
+                        usersSubTab === "Merchants"
+                          ? "hover:bg-primary bg-primary hover:text-white "
+                          : " bg-secondary text-white "
                       }`}
                       onClick={() => setUsersSubTab("Merchants")}
                     >
@@ -94,8 +96,8 @@ function Dashboard() {
                       Merchants
                     </li>
                     <li
-                      className={`cursor-pointer flex p-2 my-1 items-center gap-2 rounded-md text-sm font-medium hover:bg-primary ${
-                        usersSubTab !== "Customers" ? "hover:bg-primary" : "bg-secondary"
+                      className={`cursor-pointer flex p-2 my-1 rounded items-center gap-2  text-sm font-medium hover:bg-primary ${
+                        usersSubTab === "Customers" ? "hover:bg-primary bg-primary " : "bg-secondary "
                       }`}
                       onClick={() => setUsersSubTab("Customers")}
                     >

@@ -20,17 +20,17 @@ export function DashbordProducts() {
     <div className="p-4">
       <div className="flex justify-between mb-4">
         <button
-          className={`px-4 py-2 flex items-center justify-center gap-2 rounded-md transition-colors duration-200 ${
+          className={`px-4 py-2 flex items-center justify-center gap-2 rounded transition-colors duration-200 ${
             productSubTab === "View Products" ? "bg-primary text-white" : "bg-gray-200 text-gray-800"
-          } hover:bg-primary/80 hover:text-white`}
+          } hover:bg-primary/90 hover:text-white`}
           onClick={() => setProductSubTab("View Products")}
         >
           <EyeIcon className="size-4" /> View Products
         </button>
         <button
-          className={`px-4 py-2 flex items-center justify-center gap-2 rounded-md transition-colors duration-200 ${
+          className={`px-4 py-2 flex items-center justify-center gap-2 rounded transition-colors duration-200 ${
             productSubTab === "Create Product" ? "bg-primary text-white" : "bg-gray-200 text-gray-800"
-          } hover:bg-primary/80 hover:text-white`}
+          } hover:bg-primary/90 hover:text-white`}
           onClick={() => setProductSubTab("Create Product")}
         >
           <PlusIcon className="size-4" /> Create Product

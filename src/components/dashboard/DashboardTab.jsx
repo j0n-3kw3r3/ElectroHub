@@ -46,19 +46,19 @@ export function DashboardTab() {
   return (
     <div className="p-4">
       <div className="grid grid-cols-4 gap-4">
-        <div className="bg-gray-800 text-white p-6 rounded-lg shadow">
+        <div className="bg-primary text-white p-6 rounded-lg shadow">
           <h2 className="text-sm uppercase ">Total Income</h2>
           <p className="text-3xl">{formatCurrency(parseInt(data.totalIncome))}</p>
         </div>
-        <div className="bg-gray-800 text-white p-6 rounded-lg shadow">
+        <div className="bg-primary text-white p-6 rounded-lg shadow">
           <h2 className="text-sm uppercase ">Total Products</h2>
           <p className="text-3xl">{data.productsCount}</p>
         </div>
-        <div className="bg-gray-800 text-white p-6 rounded-lg shadow">
+        <div className="bg-primary text-white p-6 rounded-lg shadow">
           <h2 className="text-sm uppercase ">Total Orders</h2>
           <p className="text-3xl">{data.ordersCount}</p>
         </div>
-        <div className="bg-gray-800 text-white p-6 rounded-lg shadow">
+        <div className="bg-primary text-white p-6 rounded-lg shadow">
           <h2 className="text-sm uppercase ">Total Users</h2>
           <p className="text-3xl">{data.usersCount}</p>
         </div>

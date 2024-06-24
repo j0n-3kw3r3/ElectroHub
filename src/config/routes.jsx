@@ -5,14 +5,13 @@ import Product from "../pages/product";
 import Signup from "../pages/signup";
 
 const authRoutes = [
-{path: '/login', element: <Login />},
-{path: '/signup', element: <Signup />},
-  ];
+  { path: "/login", element: <Login /> },
+  { path: "/signup", element: <Signup /> },
+];
 
-  const inAppRoutes = [
-    { path: "/", element: <Home /> },
-    { path: "/dashboard", element: <Dashboard /> },
-
+const inAppRoutes = [
+  { path: "/", element: <Home /> },
+  { path: "/dashboard", element: <Dashboard /> },
   { path: "/product/:id", element: <Product /> },
 ];
 export { authRoutes, inAppRoutes };
