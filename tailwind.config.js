@@ -4,18 +4,19 @@ const { nextui } = require("@nextui-org/react");
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    colors: {
-      primary: "#453081",
-      secondary: "#060607",
-      neutral: "#EDEDED",
-      success: "#00D68F",
-      error: "#FF3D71",
-      warning: "#FFAA00",
-      white: "#FFFFFF",
-      black: "#000000",
+    extend: {
+      colors: {
+        primary: "#7628C5",
+        secondary: "#FA7921",
+        black: "#001011",
+        darkbg: "#0F0F0F",
+        neutral: "#EDEDED",
+        success: "#00D68F",
+        error: "#FF3D71",
+        warning: "#FFAA00",
+        white: "#FFFFFF",
+      },
     },
-
-    extend: {},
   },
   darkMode: "class",
   plugins: [nextui()],

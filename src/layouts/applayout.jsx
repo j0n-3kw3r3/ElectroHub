@@ -1,17 +1,21 @@
-
-import {Outlet} from 'react-router-dom';
-import Nav from '../components/home/navbar';
-import ProtectedRoute from '../config/protectedRoute';
-import Footer from '../components/home/footer';
+import { Outlet } from "react-router-dom";
+import Nav from "../components/home/navbar";
+import ProtectedRoute from "../config/protectedRoute";
+import Footer from "../components/home/footer";
+import { useState } from "react";
 
 const Applayout = () => {
+  const [darkMode, setDarkMode] = useState(false);
+  const darkModdeToggle = () => {
+    setDarkMode(!darkMode)
+  }
   return (
     // <ProtectedRoute>
-      <div >
-        <Nav />
+    <div className={`flex flex-col ${darkMode && "dark"} `}>
+      <Nav onClick={darkModdeToggle} darkMode={darkMode} />
       <Outlet />
       <Footer />
-      </div>
+    </div>
     // </ProtectedRoute>
   );
 };
