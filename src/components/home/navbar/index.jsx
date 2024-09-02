@@ -18,7 +18,7 @@ import {
   Select,
   SelectItem,
 } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import truck from "../../../assets/image/truck.png";
 import logo from "../../../assets/image/logo.svg";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,6 +28,7 @@ import {
   AdjustmentsHorizontalIcon,
   Bars3Icon,
   BellIcon,
+  HeartIcon,
   MagnifyingGlassIcon,
   MinusIcon,
   MoonIcon,
@@ -38,6 +39,9 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
+import { loginSuccess, logout } from "../../../redux/auth";
 
 export default function Nav({ onClick, darkMode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -46,6 +50,7 @@ export default function Nav({ onClick, darkMode }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.auth);
   const menuItems = [
     "Home",
     "About us",
@@ -58,7 +63,9 @@ export default function Nav({ onClick, darkMode }) {
     "Log Out",
   ];
 
-  const animals = [
+  const { loginWithRedirect, isAuthenticated, logout: logoutAuth0, getAccessTokenSilently } = useAuth0();
+
+  const categorys = [
     { label: "Capacitor", value: "Capacitor", description: "" },
     { label: "Resistor", value: "Resistor", description: "" },
     { label: "Inductor", value: "Inductor", description: "" },
@@ -100,6 +107,47 @@ export default function Nav({ onClick, darkMode }) {
     dispatch(clearCart());
   };
 
+  useEffect(() => {
+    loginSuccessFN();
+  }, []);
+
+  const logoutSuccess = () => {
+    logoutAuth0();
+    dispatch(logout());
+  };
+
+  const loginSuccessFN = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+      await axios
+        .get(`${import.meta.env.VITE_URL}/auth/login/success`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          const data = res.data;
+          const store = {
+            accessToken: data.token,
+            uuid: data.user._id,
+            email: data.user.email,
+            picture: data.user.profilePic,
+            role: data.user.role,
+            isAuthenticated,
+            name: data.user.name,
+          };
+
+          dispatch(loginSuccess(store));
+        });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleLogin = async () => {
+    loginWithRedirect();
+  };
+
   return (
     <>
       <Navbar className="md:py-2 dark:bg-darkbg text-default-600 " position="sticky">
@@ -132,7 +180,7 @@ export default function Nav({ onClick, darkMode }) {
           )}
         </NavbarContent>
 
-        <NavbarContent className="sm:flex gap-4" justify="start">
+        <NavbarContent className="sm:flex gap-4 hidden " justify="start">
           <NavbarBrand>
             <img src={logo} alt="" className=" h-8  mr-1 block " />
           </NavbarBrand>
@@ -195,26 +243,32 @@ export default function Nav({ onClick, darkMode }) {
                 // isBordered
                 as="button"
                 className="transition-transform"
-                color="primary"
-                name="Jason Hughes"
+                color="neutral"
+                showFallback
+                name={user?.name}
                 size="sm"
-                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                src={user?.picture}
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
-              <DropdownItem key="profile" className="h-14 gap-2">
-                <p className="font-semibold">Signed in as</p>
-                <p className="font-semibold">zoey@example.com</p>
-              </DropdownItem>
-              <DropdownItem key="settings">My Settings</DropdownItem>
-              <DropdownItem key="team_settings">Team Settings</DropdownItem>
-              <DropdownItem key="analytics">Analytics</DropdownItem>
-              <DropdownItem key="system">System</DropdownItem>
-              <DropdownItem key="configurations">Configurations</DropdownItem>
-              <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-              <DropdownItem key="logout" color="danger">
-                Log Out
-              </DropdownItem>
+             
+                <DropdownItem key="profile" className="h-14 gap-2">
+                  <p className="font-semibold">Signed in as</p>
+                  <p className="font-semibold">{user?.email}</p>
+                </DropdownItem>
+             
+             <DropdownItem key="settings">My Account</DropdownItem>
+              <DropdownItem key="settings">Orders</DropdownItem>
+              <DropdownItem key="help_and_feedback">Saved Items</DropdownItem>
+              {isAuthenticated ? (
+                <DropdownItem key="logout" color="danger" onClick={logoutSuccess}>
+                  Log Out
+                </DropdownItem>
+              ) : (
+                <DropdownItem key="logout" onClick={handleLogin}>
+                  Log In
+                </DropdownItem>
+              )}
             </DropdownMenu>
           </Dropdown>
         </NavbarContent>
@@ -227,6 +281,11 @@ export default function Nav({ onClick, darkMode }) {
                 color={index === 2 ? "warning" : index === menuItems.length - 1 ? "danger" : "foreground"}
                 href="#"
                 size="lg"
+                onClick={() => {
+                  if (item === "Log Out") {
+                    logoutSuccess();
+                  }
+                }}
               >
                 {item}
               </Link>
@@ -235,7 +294,7 @@ export default function Nav({ onClick, darkMode }) {
         </NavbarMenu>
       </Navbar>
 
-      <div className=" shadow border-b border-default-300 bg-white dark:bg-darkbg text-default-600 md:px-[14%] px-[5%] py-1 flex items-center justify-between ">
+      <div className=" shadow border-b border-default-300 bg-white dark:bg-darkbg text-default-600 md:px-[14%] px-[6%] py-1 flex items-center justify-between ">
         <div className="flex  items-center text-sm md:gap-20 gap-4 ">
           <div className="border-r border-default-400 md:pr-10">
             <Select
@@ -246,9 +305,9 @@ export default function Nav({ onClick, darkMode }) {
               variant="underlined"
               color="primary"
             >
-              {animals.map((animal) => (
-                <SelectItem key={animal.value} value={animal.value}>
-                  {animal.label}
+              {categorys.map((item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  {item.label}
                 </SelectItem>
               ))}
             </Select>
@@ -260,7 +319,7 @@ export default function Nav({ onClick, darkMode }) {
           </div>
         </div>
 
-        <div className="md:flex gap-2   ">
+        <div className="md:flex gap-2 cursor-default">
           <div className="md:w-[6em] w-[3em] md:relative absolute md:right-0 right-6 ">
             <img src={truck} alt="" className="w-full h-full " />
           </div>
@@ -288,7 +347,7 @@ export default function Nav({ onClick, darkMode }) {
 
                 {cartItems.cartItems &&
                   cartItems.cartItems.map((item, index) => (
-                    <div key={index} className="border-b border-default-600 flex  items-center gap-4 p-4 ">
+                    <div key={index} className="border-b border-default-600 flex items-center gap-4 p-4 ">
                       <div className="flex flex-grow gap-4 ">
                         <div className="w-[60px] h-[50px] bg-neutral rounded overflow-hidden border border-default-200 ">
                           <img src={item?.img[0]} alt="" className=" w-full h-full object-contain " />
@@ -347,4 +406,3 @@ export default function Nav({ onClick, darkMode }) {
     </>
   );
 }
-

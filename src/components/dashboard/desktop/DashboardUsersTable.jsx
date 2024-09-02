@@ -1,11 +1,30 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 export function DashboardUsersTable() {
-  const usersData = [
-    { id: 1, name: "John Doe", email: "john@example.com", role: "Administrator" },
-    { id: 2, name: "Jane Doe", email: "jane@example.com", role: "User" },
-    // Add more users as needed
-  ];
+  const auth = useSelector((state) => state.auth);
+  const [users, setUsers] = useState([]);
+  const getUsers = async () => {
+    try {
+      await axios
+        .get(`${import.meta.env.VITE_URL}/auth`, {
+          headers: {
+            authorization: `Bearer ${auth.accessToken}`,
+          },
+        })
+        .then((res) => {
+          setUsers(res?.data);
+        });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+ ;
 
   return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
@@ -24,7 +43,7 @@ export function DashboardUsersTable() {
           </tr>
         </thead>
         <tbody>
-          {usersData.map((user, index) => (
+          {users.map((user, index) => (
             <tr key={user.id} className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"} hover:bg-gray-100`}>
               <td className="py-4 px-6">{user.name}</td>
               <td className="py-4 px-6">{user.email}</td>

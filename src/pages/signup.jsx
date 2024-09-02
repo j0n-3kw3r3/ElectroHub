@@ -18,6 +18,9 @@ function Signup() {
     console.log(`Logging in with username: ${username} and password: ${password}`);
   };
 
+    const googleAuth = () => {
+      window.open(`${import.meta.env.VITE_URL}/auth/google`, "_self");
+    };
   return (
     <div className=" bg-[#0F0F0F] flex h-[100vh] bg-[bg] text-white w-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative ">
       <img src={bg} alt="" className=" absolute w-full object-contain z-0 " />
@@ -90,7 +93,7 @@ function Signup() {
             <div className="border-b border-default-500 w-full"></div>
           </div>
           <div className="flex justify-center cursor-pointer">
-            <div className=" bg-[#252525] rounded px-10 py-1 ">
+            <div className=" bg-[#252525] rounded px-10 py-1 " onClick={googleAuth}>
               <img src={google} alt="" className=" w-6 h-6" />
             </div>
           </div>

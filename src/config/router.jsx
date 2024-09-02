@@ -3,6 +3,7 @@ import {authRoutes, inAppRoutes} from './routes';
 import AuthLayout from '../layouts/authlayout';
 import Applayout from '../layouts/applayout';
 import Page404 from '../pages/page404';
+import Dashboard from '../pages/dashboard';
 
 const renderRoutes = (layout, routes) => (
   <Routes>
@@ -20,6 +21,7 @@ const RouterComponent = () => (
     <Routes>
       <Route path="auth/*" element={renderRoutes(<AuthLayout />, authRoutes)} />
       <Route path="/*" element={renderRoutes(<Applayout />, inAppRoutes)} />
+      <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
   </Router>
 );

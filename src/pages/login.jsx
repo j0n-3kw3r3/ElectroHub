@@ -12,14 +12,10 @@ function Login() {
   const toggleVisibility = () => setIsVisible(!isVisible);
   const navigate = useNavigate();
 
-  const handleLogin = (event) => {
-    event.preventDefault();
-    // Handle login logic here
-    console.log(`Logging in with username: ${username} and password: ${password}`);
-  };
-
-  return (
-    <div className="bg-[#0F0F0F] flex h-[100vh] bg-[bg] text-white w-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative ">
+ 
+  
+    return (
+    <div className="bg-[#0F0F0F] flex h-[100vh] bg-[bg] text-default-300 w-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative ">
       <img src={bg} alt="" className=" absolute w-full object-contain z-0 " />
       <div className="max-w-sm rounded-lg w-full bg-[#191919] z-20 ">
         <div>
@@ -36,7 +32,7 @@ function Login() {
             </p>
           </div>
         </div>
-        <form className="mt-8 p-6 space-y-4" onSubmit={handleLogin}>
+        <form className="mt-8 p-6 space-y-4" >
           <div className="rounded-md shadow-sm text-default-400 space-y-4">
             <div className="border flex w-full rounded p-2 items-center gap-3 ">
               <EnvelopeIcon className="size-4 text-default-400 pointer-events-none flex-shrink-0" />
@@ -78,7 +74,7 @@ function Login() {
           <div>
             <Button
               type="submit"
-              className=" w-full flex text-white  shadow-md text-sm font-medium rounded-md  bg-primary "
+              className=" w-full flex text-default-300  shadow-md text-sm font-medium rounded-md  bg-primary "
             >
               Login
             </Button>
@@ -90,7 +86,7 @@ function Login() {
             <div className="border-b border-default-500 w-full"></div>
           </div>
           <div className="flex justify-center cursor-pointer">
-            <div className=" bg-[#252525] rounded px-10 py-1 ">
+            <div className=" bg-[#252525] rounded px-10 py-1 " >
               <img src={google} alt="" className=" w-6 h-6" />
             </div>
           </div>

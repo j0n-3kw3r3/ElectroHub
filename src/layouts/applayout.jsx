@@ -7,8 +7,8 @@ import { useState } from "react";
 const Applayout = () => {
   const [darkMode, setDarkMode] = useState(false);
   const darkModdeToggle = () => {
-    setDarkMode(!darkMode)
-  }
+    setDarkMode(!darkMode);
+  };
   return (
     // <ProtectedRoute>
     <div className={`flex flex-col ${darkMode && "dark"} `}>
