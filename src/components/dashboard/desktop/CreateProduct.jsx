@@ -17,7 +17,7 @@ export const CreateProduct = () => {
       await axios
         .get(`${import.meta.env.VITE_URL}/category`, {
           headers: {
-            authorization: `Bearer ${user.accessToken}`,
+            authorization: `Bearer ${user.token}`,
           },
         })
         .then((res) => {
@@ -32,7 +32,7 @@ export const CreateProduct = () => {
       await axios
         .get(`${import.meta.env.VITE_URL}/subCategory`, {
           headers: {
-            authorization: `Bearer ${user.accessToken}`,
+            authorization: `Bearer ${user.token}`,
           },
         })
         .then((res) => {
@@ -70,7 +70,7 @@ export const CreateProduct = () => {
   };
 
   const handleSubmit = async (event) => {
-    setIsLoading(true);
+    // setIsLoading(true);
     event.preventDefault();
     const formData = new FormData();
     const fields = ["name", "price", "discount", "description", "quantity", "category", "subCategory"];
@@ -82,26 +82,28 @@ export const CreateProduct = () => {
       formData.append("images", files[i]);
     }
 
-    try {
-        await axios
-        .post(`${import.meta.env.VITE_URL}/products`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            authorization: `Bearer ${user.accessToken}`,
-          },
-        })
-        .then((res) => {
-          setIsLoading(false);
-          toast.success("Product created successfully");
-          setSelectedImages([]);
-          setData({});
-        });
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to create product");
-    }finally {
-      setIsLoading(false);
-    }
+    console.log(files, fields);
+
+    // try {
+    //     await axios
+    //     .post(`${import.meta.env.VITE_URL}/products`, formData, {
+    //       headers: {
+    //         "Content-Type": "multipart/form-data",
+    //         authorization: `Bearer ${user.token}`,
+    //       },
+    //     })
+    //     .then((res) => {
+    //       setIsLoading(false);
+    //       toast.success("Product created successfully");
+    //       setSelectedImages([]);
+    //       setData({});
+    //     });
+    // } catch (error) {
+    //   console.error(error);
+    //   toast.error("Failed to create product");
+    // }finally {
+    //   setIsLoading(false);
+    // }
   };
 
   return (

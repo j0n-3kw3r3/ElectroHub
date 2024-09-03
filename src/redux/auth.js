@@ -5,72 +5,124 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     isAuthenticated: false,
-    role: null,
-    picture: null,
+    token: null,
     isEmailVerified: false,
-    accessToken: null,
+    role: null,
+    profilePicture: null,
     uuid: null,
     name: null,
     email: null,
+    address: null,
+    phoneNumber: null,
+    likes: null,
+    dateOfBirth: null,
+    wishlist: null,
+    cart: null,
   },
   reducers: {
     loginSuccess: (state, action) => {
       let payload = action.payload;
+
       state.isAuthenticated = true;
-      state.accessToken = payload.accessToken;
+      state.token = payload?.token;
       state.email = payload.email;
       state.role = payload.role;
       state.uuid = payload.uuid;
-      state.picture = payload.picture;
+      state.profilePicture = payload.profilePicture;
       state.name = payload.name;
+      state.phoneNumber = payload.phoneNumber;
+      state.isEmailVerified = payload.isEmailVerified;
+      state.address = payload.address;
+      state.likes = payload.likes;
+      state.dateOfBirth = payload.dateOfBirth;
+      state.wishlist = payload.wishlist;
+      state.cart = payload.cart;
+      state.isEmailVerified = payload.isEmailVerified;
 
       storeBusinessAuthInfo(state);
     },
 
     loginFailed: (state) => {
       state.isAuthenticated = false;
-      state.accessToken = null;
+      state.token = null;
       state.email = null;
-      state.uuid = null;
       state.role = null;
+      state.uuid = null;
+      state.profilePicture = null;
       state.name = null;
+      state.phoneNumber = null;
+      state.isEmailVerified = null;
+      state.address = null;
+      state.likes = null;
+      state.dateOfBirth = null;
+      state.wishlist = null;
+      state.cart = null;
+      state.isEmailVerified = false;
     },
 
     registerSuccess: (state, action) => {
       let payload = action.payload;
 
       state.isAuthenticated = true;
-      state.accessToken = payload.accessToken;
+      state.token = payload?.token;
       state.email = payload.email;
       state.role = payload.role;
       state.uuid = payload.uuid;
-      state.picture = payload.picture;
+      state.profilePicture = payload.profilePicture;
       state.name = payload.name;
+      state.phoneNumber = payload.phoneNumber;
+      state.isEmailVerified = payload.isEmailVerified;
+      state.address = payload.address;
+      state.likes = payload.likes;
+      state.dateOfBirth = payload.dateOfBirth;
+      state.wishlist = payload.wishlist;
+      state.cart = payload.cart;
+      state.isEmailVerified = payload.isEmailVerified;
 
       storeBusinessAuthInfo(state);
     },
 
     registerFailed: (state) => {
       state.isAuthenticated = false;
-      state.accessToken = null;
+      state.token = null;
       state.email = null;
+      state.role = null;
       state.uuid = null;
+      state.profilePicture = null;
       state.name = null;
+      state.phoneNumber = null;
+      state.isEmailVerified = null;
+      state.address = null;
+      state.likes = null;
+      state.dateOfBirth = null;
+      state.wishlist = null;
+      state.cart = null;
+      state.isEmailVerified = false;
     },
 
     logout: (state) => {
       state.isAuthenticated = false;
-      state.accessToken = null;
-      state.name = null;
+      state.token = null;
       state.email = null;
       state.role = null;
       state.uuid = null;
+      state.profilePicture = null;
+      state.name = null;
+      state.phoneNumber = null;
+      state.isEmailVerified = null;
+      state.address = null;
+      state.likes = null;
+      state.dateOfBirth = null;
+      state.wishlist = null;
+      state.cart = null;
+      state.isEmailVerified = false;
 
       clearBusinessAuthInfo();
     },
   },
 });
 
-export const { logout, loginSuccess, loginFailed, registerFailed, registerSuccess, updatepicture } = authSlice.actions;
+export const { logout, loginSuccess, loginFailed, registerFailed, registerSuccess, updateprofilePicture } =
+  authSlice.actions;
 
 export default authSlice.reducer;

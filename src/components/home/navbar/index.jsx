@@ -21,9 +21,7 @@ import {
 import { useEffect, useState } from "react";
 import truck from "../../../assets/image/truck.png";
 import logo from "../../../assets/image/logo.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { addToCart, clearCart, deleteFromCart } from "../../../redux/cartSlice";
-import { formatCurrency } from "../../../utils/formatter";
+import { useDispatch, useSelector } from "react-redux"; 
 import {
   AdjustmentsHorizontalIcon,
   Bars3Icon,
@@ -40,8 +38,9 @@ import {
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
-import { loginSuccess, logout } from "../../../redux/auth";
+import {  logout } from "../../../redux/auth";
+import CartModal from "../../CartModal";
+import { toast } from "react-toastify";
 
 export default function Nav({ onClick, darkMode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -50,7 +49,7 @@ export default function Nav({ onClick, darkMode }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart);
-  const user = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth); 
   const menuItems = [
     "Home",
     "About us",
@@ -63,7 +62,6 @@ export default function Nav({ onClick, darkMode }) {
     "Log Out",
   ];
 
-  const { loginWithRedirect, isAuthenticated, logout: logoutAuth0, getAccessTokenSilently } = useAuth0();
 
   const categorys = [
     { label: "Capacitor", value: "Capacitor", description: "" },
@@ -93,59 +91,19 @@ export default function Nav({ onClick, darkMode }) {
     setIsCartOpen(!isCartOpen);
   };
 
-  const handleAdd = (data) => {
-    if (data) {
-      dispatch(addToCart(data));
-    }
-  };
-  const handleremove = (data) => {
-    if (data) {
-      dispatch(deleteFromCart(data));
-    }
-  };
-  const handleClear = () => {
-    dispatch(clearCart());
-  };
 
-  useEffect(() => {
-    loginSuccessFN();
-  }, []);
 
-  const logoutSuccess = () => {
-    logoutAuth0();
+  const logoutSuccess = () => {    
     dispatch(logout());
+    toast.success("logged out successfully")
+
   };
 
-  const loginSuccessFN = async () => {
-    try {
-      const token = await getAccessTokenSilently();
-      await axios
-        .get(`${import.meta.env.VITE_URL}/auth/login/success`, {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => {
-          const data = res.data;
-          const store = {
-            accessToken: data.token,
-            uuid: data.user._id,
-            email: data.user.email,
-            picture: data.user.profilePic,
-            role: data.user.role,
-            isAuthenticated,
-            name: data.user.name,
-          };
+ 
 
-          dispatch(loginSuccess(store));
-        });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const handleLogin = async () => {
-    loginWithRedirect();
+  const handleLogin = () => {
+   
+    navigate("/auth/login");
   };
 
   return (
@@ -251,16 +209,15 @@ export default function Nav({ onClick, darkMode }) {
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
-             
-                <DropdownItem key="profile" className="h-14 gap-2">
-                  <p className="font-semibold">Signed in as</p>
-                  <p className="font-semibold">{user?.email}</p>
-                </DropdownItem>
-             
-             <DropdownItem key="settings">My Account</DropdownItem>
+              <DropdownItem key="profile" className="h-14 gap-2">
+                <p className="font-semibold">Signed in as</p>
+                <p className="font-semibold">{user?.email}</p>
+              </DropdownItem>
+
+              <DropdownItem key="settings">My Account</DropdownItem>
               <DropdownItem key="settings">Orders</DropdownItem>
               <DropdownItem key="help_and_feedback">Saved Items</DropdownItem>
-              {isAuthenticated ? (
+              {user.isAuthenticated ? (
                 <DropdownItem key="logout" color="danger" onClick={logoutSuccess}>
                   Log Out
                 </DropdownItem>
@@ -329,80 +286,12 @@ export default function Nav({ onClick, darkMode }) {
           </div>
         </div>
 
-        {isCartOpen && (
-          <div
-            className="fixed  top-0  left-0 w-full h-full bg-[#1f1f1f8c] z-50 backdrop-blur-[2px]  "
-            onClick={handleCart}
-          >
-            <div
-              onClick={(e) => e.stopPropagation()}
-              className="  bg-white dark:bg-darkbg h-full absolute shadow-xl flex flex-col right-0 top-0 transition-transform translate-x-0 duration-[800s] delay-300 ease-in-out "
-            >
-              <div className=" w-full flex-grow overflow-y-auto  ">
-                <div className="flex  top-0  relative items-center justify-between text-primary p-5 border-b shadow-md border-primary">
-                  <h1 className=" font-semibold">My Cart</h1>
-
-                  <XMarkIcon className="size-4 absolute top-5 right-5 cursor-pointer" onClick={handleCart} />
-                </div>
-
-                {cartItems.cartItems &&
-                  cartItems.cartItems.map((item, index) => (
-                    <div key={index} className="border-b border-default-600 flex items-center gap-4 p-4 ">
-                      <div className="flex flex-grow gap-4 ">
-                        <div className="w-[60px] h-[50px] bg-neutral rounded overflow-hidden border border-default-200 ">
-                          <img src={item?.img[0]} alt="" className=" w-full h-full object-contain " />
-                        </div>
-                        <div className="flex-grow text-sm">
-                          <div className="truncate  text-ellipsis overflow-hidden w-[200px] text-default-500  ">
-                            {item?.title}
-                          </div>
-                          <div className="flex gap-2 items-center">
-                            <p className=" ">{formatCurrency(parseInt(item.price))}</p>
-                            <p className="text-danger text-xs line-through ">
-                              {formatCurrency(parseInt(item.discount))}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between ">
-                        <div className="flex items-center gap-2  ">
-                          <button className="text-primary bg-transparent border border-primary rounded-full  hover:bg-primary hover:text-white">
-                            <PlusIcon className="size-4" onClick={() => handleAdd(item)} />
-                          </button>
-                          <p className="text-sm">{item?.cartQuantity}</p>
-                          <button className="text-primary bg-transparent border border-primary rounded-full  hover:bg-primary hover:text-white">
-                            <MinusIcon className="size-4" onClick={() => handleremove(item.id)} />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-
-              <div className="  space-y-2 p-4 pb-0 border-t shadow-lg border-primary">
-                <div className=" w-[40%]">
-                  <p className=" text-xs">Subtotal:</p>
-                  <h1 className="font-bold">{formatCurrency(parseInt(cartItems?.cartTotalAmount))}</h1>
-                </div>
-                <div className="">
-                  <Button
-                    className=" w-full bg-primary rounded-none text-white border   font-semibold "
-                    onClick={() => {
-                      navigate("/auth/login");
-                    }}
-                  >
-                    <ShoppingBagIcon className="size-4" />
-                    Checkout
-                  </Button>
-                  <Button variant="fade" className=" w-full  font-semibold " onClick={handleClear}>
-                    Clear
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+       <CartModal   isCartOpen={isCartOpen} handleCart={handleCart}     cartItems={cartItems}    />
+      
       </div>
     </>
   );
 }
+
+ 
+  

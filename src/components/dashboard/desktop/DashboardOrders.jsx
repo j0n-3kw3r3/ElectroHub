@@ -24,7 +24,7 @@ export function DashboardOrders() {
       await axios
         .get(`${import.meta.env.VITE_URL}/orders`, {
           headers: {
-            authorization: `Bearer ${user.accessToken}`,
+            authorization: `Bearer ${user.token}`,
           },
         })
         .then((res) => {

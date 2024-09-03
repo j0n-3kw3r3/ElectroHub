@@ -18,7 +18,7 @@ export function DashboardTab() {
       await axios
         .get(`${import.meta.env.VITE_URL}/matrics`, {
           headers: {
-            authorization: `Bearer ${user.accessToken}`,
+            authorization: `Bearer ${user.token}`,
           },
         })
         .then((res) => {
@@ -28,7 +28,6 @@ export function DashboardTab() {
             ordersCount: res.data.totalOrders,
             usersCount: res.data.totalUsers,
           });
-          console.log(res);
         });
     } catch (error) {
       console.log(error.message);
@@ -40,21 +39,21 @@ export function DashboardTab() {
   }, []);
 
   return (
-    <div className="p-4">
-      <div className="grid grid-cols-4 gap-4">
-        <div className="md:bg-primary bg-white  md:text-white text-primary w-[250px] p-6 rounded-lg shadow">
+    <div className="">
+      <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-4">
+        <div className="md:bg-primary bg-white  md:text-white text-primary  p-6 rounded-lg shadow">
           <h2 className="text-sm uppercase ">Total Income</h2>
           <p className="text-3xl">{formatCurrency(parseInt(data.totalIncome))}</p>
         </div>
-        <div className="md:bg-primary bg-white  md:text-white text-primary w-[250px] p-6 rounded-lg shadow">
+        <div className="md:bg-primary bg-white  md:text-white text-primary  p-6 rounded-lg shadow">
           <h2 className="text-sm uppercase ">Total Products</h2>
           <p className="text-3xl">{data.productsCount}</p>
         </div>
-        <div className="md:bg-primary bg-white  md:text-white text-primary w-[250px] p-6 rounded-lg shadow">
+        <div className="md:bg-primary bg-white  md:text-white text-primary  p-6 rounded-lg shadow">
           <h2 className="text-sm uppercase ">Total Orders</h2>
           <p className="text-3xl">{data.ordersCount}</p>
         </div>
-        <div className="md:bg-primary bg-white  md:text-white text-primary w-[250px] p-6 rounded-lg shadow">
+        <div className="md:bg-primary bg-white  md:text-white text-primary  p-6 rounded-lg shadow">
           <h2 className="text-sm uppercase ">Total Users</h2>
           <p className="text-3xl">{data.usersCount}</p>
         </div>

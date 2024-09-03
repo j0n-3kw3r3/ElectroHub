@@ -14,7 +14,7 @@ export default function MobileOverview() {
                   </div>
               <Avatar/>
               </div>
-              <div className="w-[100%] overflow-x-auto ">
+              <div className="w-[100%]  ">
                   <DashboardTab/>
               </div>
           </div>

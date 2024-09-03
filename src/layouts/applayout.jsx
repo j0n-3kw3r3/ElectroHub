@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import Nav from "../components/home/navbar";
-import ProtectedRoute from "../config/protectedRoute";
 import Footer from "../components/home/footer";
 import { useState } from "react";
 

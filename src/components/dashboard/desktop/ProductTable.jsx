@@ -32,7 +32,7 @@ export const ProductTable = () => {
       await axios
         .get(`${import.meta.env.VITE_URL}/products`, {
           headers: {
-            authorization: `Bearer ${user.accessToken}`,
+            authorization: `Bearer ${user.token}`,
           },
         })
         .then((res) => {
@@ -47,7 +47,7 @@ export const ProductTable = () => {
       await axios
         .delete(`${import.meta.env.VITE_URL}/products/delete/${id}`, {
           headers: {
-            authorization: `Bearer ${user.accessToken}`,
+            authorization: `Bearer ${user.token}`,
           },
         })
         .then((res) => {
