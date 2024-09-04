@@ -38,3 +38,8 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #453081; 
 }
+
+.option:hover {
+  background-color: #453081;
+  color: green;
+}

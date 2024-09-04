@@ -11,7 +11,7 @@ export function DashbordProducts() {
       case "View Products":
         return <ProductTable />;
       case "Create Product":
-        return <CreateProduct />;
+        return <CreateProduct setProductSubTab={setProductSubTab} />;
       default:
         return <div>Here are your products</div>;
     }

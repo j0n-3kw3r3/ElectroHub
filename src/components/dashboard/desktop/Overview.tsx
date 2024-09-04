@@ -7,6 +7,7 @@ import { DashboardTab } from "./DashboardTab";
 import { DashboardOrders } from "./DashboardOrders";
 import { Header } from "./DashboardHeader";
 import { DashboardMerchantsTable } from "./DashboardMerchantTable";
+import { Link } from "react-router-dom";
 
 import {
   BuildingStorefrontIcon,
@@ -51,9 +52,11 @@ function Overview() {
   return (
     <div className="flex h-screen">
       <aside className="w-64 shadow border-r text-default-800 p-5">
-        <div className="mb-10">
-          <img src={logo} alt="Logo" className="w-36 h-auto mx-auto" />
-        </div>
+        <Link to="/" className="  ">
+          <div className="flex mb-20 mt-10 space-x-2 items-center ">
+            <img src={logo} alt="Logo" className="w-10 h-auto " />           <h1 className=" text-primary font-bold  text-xl ">Electro hub</h1>
+          </div>
+        </Link>
         <div>
           {[
             { name: "Dashboard Overview", icon: <Squares2X2Icon className="size-4 " /> },

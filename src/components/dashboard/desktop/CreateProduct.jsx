@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { Button } from "@nextui-org/button";
 
 // Product management component
-export const CreateProduct = () => {
+export const CreateProduct = ({setProductSubTab}) => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [data, setData] = useState({});
   const user = useSelector((state) => state.auth);
@@ -70,10 +70,10 @@ export const CreateProduct = () => {
   };
 
   const handleSubmit = async (event) => {
-    // setIsLoading(true);
+    setIsLoading(true);
     event.preventDefault();
     const formData = new FormData();
-    const fields = ["name", "price", "discount", "description", "quantity", "category", "subCategory"];
+    const fields = ["name", "price", "discount", "description", "quantity", "category", "isFeatured", "subCategory"];
 
     fields.forEach((field) => formData.append(field, data[field]));
 
@@ -82,28 +82,28 @@ export const CreateProduct = () => {
       formData.append("images", files[i]);
     }
 
-    console.log(files, fields);
 
-    // try {
-    //     await axios
-    //     .post(`${import.meta.env.VITE_URL}/products`, formData, {
-    //       headers: {
-    //         "Content-Type": "multipart/form-data",
-    //         authorization: `Bearer ${user.token}`,
-    //       },
-    //     })
-    //     .then((res) => {
-    //       setIsLoading(false);
-    //       toast.success("Product created successfully");
-    //       setSelectedImages([]);
-    //       setData({});
-    //     });
-    // } catch (error) {
-    //   console.error(error);
-    //   toast.error("Failed to create product");
-    // }finally {
-    //   setIsLoading(false);
-    // }
+    try {
+        await axios
+        .post(`${import.meta.env.VITE_URL}/products`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            authorization: `Bearer ${user.token}`,
+          },
+        })
+        .then((res) => {
+          setIsLoading(false);
+          toast.success("Product created successfully");
+          setProductSubTab("View Products");
+          setSelectedImages([]);
+          setData({});
+        });
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to create product");
+    }finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -136,7 +136,7 @@ export const CreateProduct = () => {
           />
         </div>
         <div>
-          <label htmlFor="price" className="block font-bold text-gray-700">
+          <label htmlFor="price N" className="block font-bold text-gray-700">
             Price
           </label>
           <input
@@ -146,6 +146,24 @@ export const CreateProduct = () => {
             className="mt-1 block w-full border rounded-md shadow-sm focus:outline-none px-4 py-2"
             onChange={(e) => setData({ ...data, price: e.target.value })}
           />
+        </div>
+        <div>
+          <label htmlFor="stock" className="block text-sm font-medium text-gray-700">
+            Feature Status
+          </label>
+          <select
+            id="stock"
+            name="stock"
+            className="mt-1 block w-full border rounded-md text-sm shadow-sm focus:outline-none px-4 py-2"
+            onChange={(e) => setData({ ...data, isFeatured: e.target.value })}
+          >
+            <option className="block text-sm font-medium hover:bg-primary text-gray-700  " value={true}>
+              Feature
+            </option>
+            <option className="block text-sm font-medium hover:bg-primary text-gray-700  " value={false}>
+              Not Featured
+            </option>
+          </select>
         </div>
         <div>
           <label htmlFor="discount" className="block font-bold text-gray-700">
@@ -201,7 +219,12 @@ export const CreateProduct = () => {
             onChange={(e) => setData({ ...data, category: e.target.value })}
           >
             <option value="">Select a category</option>
-            {categories && categories?.map((category) => <option value={category?._id}>{category.name}</option>)}
+            {categories &&
+              categories?.map((category, index) => (
+                <option key={index} value={category?._id}>
+                  {category.name}
+                </option>
+              ))}
           </select>
         </div>
         {/* Sub-Category Select Dropdown */}
@@ -217,23 +240,11 @@ export const CreateProduct = () => {
           >
             <option value="">Select a sub-category</option>
             {subCategories &&
-              subCategories?.map((subCategory) => <option value={subCategory?._id}>{subCategory.name}</option>)}
-          </select>
-        </div>
-
-        {/* Stock Field - Modified to Select */}
-        <div>
-          <label htmlFor="stock" className="block font-bold text-gray-700">
-            Stock Status
-          </label>
-          <select
-            id="stock"
-            name="stock"
-            className="mt-1 block w-full border rounded-md shadow-sm focus:outline-none px-4 py-2"
-            onChange={(e) => setData({ ...data, stock: e.target.value })}
-          >
-            <option value={true}>In Stock</option>
-            <option value={false}>Out of Stock</option>
+              subCategories?.map((subCategory, index) => (
+                <option key={index} value={subCategory?._id}>
+                  {subCategory.name}
+                </option>
+              ))}
           </select>
         </div>
 

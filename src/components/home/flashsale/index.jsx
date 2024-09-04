@@ -8,7 +8,7 @@ import { products } from "../../../assets/data/product";
 import { formatCurrency } from "../../../utils/formatter";
 import { HeartIcon, ShoppingCartIcon, StarIcon } from "@heroicons/react/24/outline";
 
-export default function FlashSale() {
+export default function FlashSale({products}) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -31,7 +31,7 @@ export default function FlashSale() {
               content="new"
               className="bg-secondary text-white "
               size="sm"
-              isInvisible={!item.new}
+              isInvisible={!item?.isProductNew}
               placement="top-left"
               key={index}
             >
@@ -41,18 +41,18 @@ export default function FlashSale() {
                     <HeartIcon
                       size={20}
                       className={
-                        item.liked
+                        !item?.likes.length
                           ? "text-danger size-5 cursor-pointer hover:scale-110  "
                           : " text-danger fill-danger size-5 cursor-pointer hover:scale-110 "
                       }
                     />
                   </div>
                   <img
-                    alt={item.title}
+                    alt={item?.name}
                     className="w-full object-contain h-[10em] cursor-pointer "
-                    src={item.img[0]}
+                    src={item?.images[0]?.url}
                     onClick={() => {
-                      navigate(`/product/${item.id}`);
+                      navigate(`/product/${item?._id}`);
                     }}
                   />
                 </CardBody>
@@ -60,19 +60,19 @@ export default function FlashSale() {
                   <b
                     className=" cursor-pointer "
                     onClick={() => {
-                      navigate(`/product/${item.id}`);
+                      navigate(`/product/${item_.id}`);
                     }}
                   >
-                    {item.title}
+                    {item?.name}
                   </b>
                   <div className="flex items-center gap-2">
-                    <StarIcon className={item.star ? "size-4 fill-[gold] " : "size-4"} color="gold" />
+                    <StarIcon className={item?.star ? "size-4 fill-[gold] " : "size-4"} color="gold" />
                     <b>•</b>
                     <p className="text-default-300 text-xs">500+ sold</p>
                   </div>
                   <div className="flex gap-2 items-center">
-                    <p className="text-default-500 ">{formatCurrency(parseInt(item.price))}</p>
-                    <p className="text-danger text-xs line-through ">{formatCurrency(parseInt(item.discount))}</p>
+                    <p className="text-default-500 ">{formatCurrency(parseInt(item?.price))}</p>
+                    <p className="text-danger text-xs line-through ">{formatCurrency(parseInt(item?.discount))}</p>
                   </div>
                   <Button
                     size="sm"

@@ -13,7 +13,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
-  
 } from "@nextui-org/react";
 import { EditProduct } from "./EditProduct";
 import { useSelector } from "react-redux";
@@ -22,10 +21,10 @@ import axios from "axios";
 //  products data table function
 export const ProductTable = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  
 
   const user = useSelector((state) => state.auth);
   const [products, setProducts] = useState([]);
+  const [productId, setProductId] = useState();
   const [isModal, setIsModal] = useState();
   const getProduct = async () => {
     try {
@@ -58,7 +57,6 @@ export const ProductTable = () => {
       console.log(error.message);
     }
   };
-
 
   useEffect(() => {
     getProduct();
@@ -98,11 +96,11 @@ export const ProductTable = () => {
               {products?.map((product) => (
                 <>
                   <tr key={product._id} className="border-b odd:bg-white even:bg-gray-50 hover:bg-gray-100">
-                    <td className="py-4 px-6">
-                      <img src={product?.images[0]?.url} alt="" className="w-20 aspect-square object-cover" />
+                    <td className="py-4 px-6 rounded ">
+                      <img src={product?.images[0]?.url} alt="" className="w-20 rounded aspect-square object-cover" />
                       {/* Display product image */}
                     </td>
-                    <td className="py-4 px-6">{product?.title}</td>
+                    <td className="py-4 px-6">{product?.name}</td>
                     <td className="py-4 px-6">${product?.price}</td>
                     <td className="py-4 px-6">${product?.discount}</td>
                     <td className="py-4 px-6">{product?.star}</td>
@@ -133,6 +131,7 @@ export const ProductTable = () => {
                             onPress={onOpen}
                             onClick={() => {
                               setIsModal("edit");
+                              setProductId(product);
                             }}
                           >
                             Edit Product
@@ -143,6 +142,7 @@ export const ProductTable = () => {
                             className="text-danger"
                             onClick={() => {
                               setIsModal("delete");
+                              setProductId(product);
                             }}
                             color="danger"
                             shortcut="⌘⇧D"
@@ -155,33 +155,6 @@ export const ProductTable = () => {
                       </Dropdown>
                     </td>
                   </tr>
-                  {isModal === "edit" && <EditProduct isOpen={isOpen} onOpenChange={onOpenChange} />}
-
-                  {isModal === "delete" && (
-                    <Modal isOpen={isOpen} backdrop="blur" onOpenChange={onOpenChange}>
-                      <ModalContent>
-                        {(onClose) => (
-                          <>
-                            <ModalHeader className="flex flex-col gap-1">Delete</ModalHeader>
-                            <ModalBody>
-                              <p>Are sure you want to delete this product</p>
-                            </ModalBody>
-                            <ModalFooter>
-                              <Button color="danger" variant="light" onPress={onClose}>
-                                Close
-                              </Button>
-                              <Button color="primary" onPress={onClose} onClick={() => {
-                                deleteProduct(product._id)
-                              }
-                              } >
-                                Delete
-                              </Button>
-                            </ModalFooter>
-                          </>
-                        )}
-                      </ModalContent>
-                    </Modal>
-                  )}
                 </>
               ))}
             </tbody>
@@ -190,6 +163,38 @@ export const ProductTable = () => {
           <div className=" py-4 mx-auto w-full text-gray-500 text-center ">Empty Product.</div>
         )}
       </div>
+
+      {isModal === "edit" && <EditProduct isOpen={isOpen} onOpenChange={onOpenChange} product={productId} />}
+
+      {/* delete modal */}
+      {isModal === "delete" && (
+        <Modal isOpen={isOpen} backdrop="blur" onOpenChange={onOpenChange}>
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1">Delete</ModalHeader>
+                <ModalBody>
+                  <p>Are sure you want to delete this product</p>
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="danger" variant="light" onPress={onClose}>
+                    Close
+                  </Button>
+                  <Button
+                    color="primary"
+                    onPress={onClose}
+                    onClick={() => {
+                      deleteProduct(productId?._id);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
+      )}
     </>
   );
 };

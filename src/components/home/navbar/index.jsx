@@ -118,7 +118,8 @@ export default function Nav({ onClick, darkMode }) {
           />
           {!isSearchOpen ? (
             <NavbarBrand>
-              <img src={logo} alt="" className=" h-20" />
+              <img src={logo} alt="" className=" h-6" />
+              
             </NavbarBrand>
           ) : (
             <Input
@@ -141,6 +142,7 @@ export default function Nav({ onClick, darkMode }) {
         <NavbarContent className="sm:flex gap-4 hidden " justify="start">
           <NavbarBrand>
             <img src={logo} alt="" className=" h-8  mr-1 block " />
+            <h1 className=" text-primary font-bold ">Electro hub</h1>
           </NavbarBrand>
         </NavbarContent>
         <NavbarContent justify="center" className="w-[30em] hidden md:flex ">
