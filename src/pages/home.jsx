@@ -6,28 +6,34 @@ import Category from "../components/home/category";
 import Footer from "../components/home/footer";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import SectionOne from "../components/home/sectionone";
+import Testimonial from "../components/home/testimonial";
+import NewArival from "../components/home/newarival";
+import { useSelector } from "react-redux";
+import { useQuery } from "@tanstack/react-query";
+import { fetchProductsEP } from "../services";
 
 export default function Home() {
-  const [products, setProducts] = useState([]);
-  const getProduct = async () => {
-    try {
-      await axios.get(`${import.meta.env.VITE_URL}/products`).then((res) => {
-        setProducts(res?.data);
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-  useEffect(() => {
-    getProduct();
-  }, []);
+  const user = useSelector((state) => state.auth);
+
+  const { isPending, error, data } = useQuery({
+    queryKey: ["products"],
+    queryFn: fetchProductsEP,
+  });
+  if (isPending) return "Loading...";
+
+  if (error) return "An error has occurred: " + error.message;
 
   return (
     <div className=" dark:bg-darkbg">
       {/* <Nav /> */}
       <Hero />
+
+      <SectionOne />
+      {data.length > 0 && <NewArival products={data} userId={user.id} />}
       <Category />
-      <FlashSale products={products} />
+      {data.length > 0 && <FlashSale products={data} userId={user.id} />}
+      <Testimonial />
     </div>
   );
 }

@@ -9,7 +9,7 @@ const authSlice = createSlice({
     isEmailVerified: false,
     role: null,
     profilePicture: null,
-    uuid: null,
+    id: null,
     name: null,
     email: null,
     address: null,
@@ -27,7 +27,7 @@ const authSlice = createSlice({
       state.token = payload?.token;
       state.email = payload.email;
       state.role = payload.role;
-      state.uuid = payload.uuid;
+      state.id = payload.id;
       state.profilePicture = payload.profilePicture;
       state.name = payload.name;
       state.phoneNumber = payload.phoneNumber;
@@ -47,7 +47,7 @@ const authSlice = createSlice({
       state.token = null;
       state.email = null;
       state.role = null;
-      state.uuid = null;
+      state.id = null;
       state.profilePicture = null;
       state.name = null;
       state.phoneNumber = null;
@@ -67,7 +67,7 @@ const authSlice = createSlice({
       state.token = payload?.token;
       state.email = payload.email;
       state.role = payload.role;
-      state.uuid = payload.uuid;
+      state.id = payload.id;
       state.profilePicture = payload.profilePicture;
       state.name = payload.name;
       state.phoneNumber = payload.phoneNumber;
@@ -87,7 +87,7 @@ const authSlice = createSlice({
       state.token = null;
       state.email = null;
       state.role = null;
-      state.uuid = null;
+      state.id = null;
       state.profilePicture = null;
       state.name = null;
       state.phoneNumber = null;
@@ -105,7 +105,7 @@ const authSlice = createSlice({
       state.token = null;
       state.email = null;
       state.role = null;
-      state.uuid = null;
+      state.id = null;
       state.profilePicture = null;
       state.name = null;
       state.phoneNumber = null;

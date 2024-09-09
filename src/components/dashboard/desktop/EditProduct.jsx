@@ -1,47 +1,24 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateProductsEP } from "../../../services";
 
 export function EditProduct({ isOpen, onOpenChange, product }) {
   const [selectedImages, setSelectedImages] = useState([]);
   const [data, setData] = useState({});
-  const user = useSelector((state) => state.auth);
-  const [subCategories, setSubCategories] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const queryClient = useQueryClient(); // Get the query client instance
 
-  const getCategory = async () => {
-    try {
-      await axios
-        .get(`${import.meta.env.VITE_URL}/category`, {
-          headers: {
-            authorization: `Bearer ${user.token}`,
-          },
-        })
-        .then((res) => {
-          setCategories(res?.data);
-        });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-  const getSubCategory = async () => {
-    try {
-      await axios
-        .get(`${import.meta.env.VITE_URL}/subCategory`, {
-          headers: {
-            authorization: `Bearer ${user.token}`,
-          },
-        })
-        .then((res) => {
-          setSubCategories(res?.data);
-        });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  const { data: subCategories } = useQuery({
+    queryKey: ["subCategories"],
+    queryFn: fetchSubCategoriesEP,
+    staleTime: 20 * 1000,
+  });
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategoriesEP,
+    staleTime: 20 * 1000,
+  });
 
   useEffect(() => {
     getSubCategory();
@@ -70,6 +47,21 @@ export function EditProduct({ isOpen, onOpenChange, product }) {
     event.stopPropagation();
   };
 
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: ({ formData, id }) => updateProductsEP(formData, id), // Accept both formData and id
+    onSuccess: () => {
+      toast.success("Product updated successfully");
+      setSelectedImages([]);
+      setData({});
+      // Refetch the products query after a successful mutation
+      queryClient.invalidateQueries("products");
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error("Failed to update product");
+    },
+  });
+
   const handleSubmit = async () => {
     setIsLoading(true);
     const formData = new FormData();
@@ -86,31 +78,17 @@ export function EditProduct({ isOpen, onOpenChange, product }) {
     data?.isFeatured && formData.append("isFeatured", data?.isFeatured);
 
     const files = document.getElementById("images").files;
-    for (let i = 0; i < files.length; i++) {
-      formData.append("images", files[i]);
+    if (files && files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        formData.append("images", files[i]);
+      }
     }
 
     try {
-      await axios
-        .put(`${import.meta.env.VITE_URL}/products/${product._id}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            authorization: `Bearer ${user.token}`,
-          },
-        })
-        .then((res) => {
-          if (res) {
-            setIsLoading(false);
-            toast.success("Product Updated successfully");
-            setSelectedImages([]);
-            setData();
-          }
-        });
+      await mutateAsync({ formData, id: product._id });
     } catch (error) {
       console.error(error);
       toast.error("Failed to Update product");
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -312,6 +290,7 @@ export function EditProduct({ isOpen, onOpenChange, product }) {
                 </button>
                 <button
                   type="submit"
+                  isLoading={isPending}
                   className="py-2 px-4 bg-primary/90 hover:bg-primary rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   onClick={handleSubmit}
                 >

@@ -1,52 +1,25 @@
 import React, { useState, useCallback, useEffect } from "react";
-import axios from "axios";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Button } from "@nextui-org/button";
+import { createProductsEP, fetchCategoriesEP, fetchSubCategoriesEP } from "../../../services";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 // Product management component
-export const CreateProduct = ({setProductSubTab}) => {
+export const CreateProduct = ({ setProductSubTab }) => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [data, setData] = useState({});
-  const user = useSelector((state) => state.auth);
-  const [categories, setCategories] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [subCategories, setSubCategories] = useState([]);
-  const getCategory = async () => {
-    try {
-      await axios
-        .get(`${import.meta.env.VITE_URL}/category`, {
-          headers: {
-            authorization: `Bearer ${user.token}`,
-          },
-        })
-        .then((res) => {
-          setCategories(res?.data);
-        });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-  const getSubCategory = async () => {
-    try {
-      await axios
-        .get(`${import.meta.env.VITE_URL}/subCategory`, {
-          headers: {
-            authorization: `Bearer ${user.token}`,
-          },
-        })
-        .then((res) => {
-          setSubCategories(res?.data);
-        });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
-  useEffect(() => {
-    getSubCategory();
-    getCategory();
-  }, []);
+
+  const { data: subCategories } = useQuery({
+    queryKey: ["subCategories"],
+    queryFn: fetchSubCategoriesEP,
+    staleTime: 20 * 1000,
+  });
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategoriesEP,
+    staleTime: 20 * 1000,
+  });
 
   const handleImageChange = (event) => {
     if (event.target.files) {
@@ -69,11 +42,27 @@ export const CreateProduct = ({setProductSubTab}) => {
     event.stopPropagation();
   };
 
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: createProductsEP,
+    onSuccess: () => {
+      toast.success("Product created successfully");
+      setProductSubTab("View Products");
+      setSelectedImages([]);
+      setData({});
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error("Failed to create product");
+    },
+  });
+
   const handleSubmit = async (event) => {
     setIsLoading(true);
     event.preventDefault();
     const formData = new FormData();
-    const fields = ["name", "price", "discount", "description", "quantity", "category", "isFeatured", "subCategory"];
+    const fields = ["name", "price", "discount", "description", "quantity", "category", "subCategory"];
+
+    data?.isFeatured && fields.concat(data.isFeatured);
 
     fields.forEach((field) => formData.append(field, data[field]));
 
@@ -82,26 +71,11 @@ export const CreateProduct = ({setProductSubTab}) => {
       formData.append("images", files[i]);
     }
 
-
     try {
-        await axios
-        .post(`${import.meta.env.VITE_URL}/products`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            authorization: `Bearer ${user.token}`,
-          },
-        })
-        .then((res) => {
-          setIsLoading(false);
-          toast.success("Product created successfully");
-          setProductSubTab("View Products");
-          setSelectedImages([]);
-          setData({});
-        });
+      await mutateAsync(formData);
     } catch (error) {
       console.error(error);
-      toast.error("Failed to create product");
-    }finally {
+    } finally {
       setIsLoading(false);
     }
   };
@@ -154,6 +128,7 @@ export const CreateProduct = ({setProductSubTab}) => {
           <select
             id="stock"
             name="stock"
+            defaultValue={false}
             className="mt-1 block w-full border rounded-md text-sm shadow-sm focus:outline-none px-4 py-2"
             onChange={(e) => setData({ ...data, isFeatured: e.target.value })}
           >
@@ -249,7 +224,7 @@ export const CreateProduct = ({setProductSubTab}) => {
         </div>
 
         <Button
-          isLoading={isLoading}
+          isLoading={isPending}
           className="mt-4 w-full bg-primary hover:bg-primary/90 text-white font-bold py-2 px-4 rounded-md shadow-lg focus:outline-none focus:shadow-outline"
           onClick={handleSubmit}
         >

@@ -8,7 +8,11 @@ import { store } from "./redux/store";
 import { getBusinessAuthInfo, getCartInfo } from "./utils/local_storage.js";
 import { loginFailed, loginSuccess } from "./redux/auth.js";
 import { clearCart, storeCart } from "./redux/cartSlice.js";
-import { Auth0Provider } from "@auth0/auth0-react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
+// Create a client
+const queryClient = new QueryClient();
 
 let catInfo = getCartInfo();
 if (catInfo && Object.keys(catInfo).length) {
@@ -27,20 +31,12 @@ if (businessAuthInfo && Object.keys(businessAuthInfo).length) {
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <NextUIProvider>
-      <Auth0Provider
-        domain={import.meta.env.VITE_AUTH0_DOMAIN}
-        clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
-        authorizationParams={{
-          redirect_uri: window.location.origin,
-          audience:`http://localhost:8000`,
-          scope:"openId profile email",
-        }}
-      
-      >
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
         <Provider store={store}>
           <App />
         </Provider>
-      </Auth0Provider>
+      </QueryClientProvider>
     </NextUIProvider>
   </React.StrictMode>
 );

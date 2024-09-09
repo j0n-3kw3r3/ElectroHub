@@ -1,4 +1,4 @@
-import { EyeIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { EyeIcon,  PlusIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 import { ProductTable } from "./ProductTable";
 import { CreateProduct } from "./CreateProduct";
@@ -16,8 +16,13 @@ export function DashbordProducts() {
         return <div>Here are your products</div>;
     }
   };
+
+
+  
   return (
-    <div className="p-4">
+    <div className="p-4 space-y-4  ">
+
+  
       <div className="flex justify-between mb-4">
         <button
           className={`px-4 py-2 flex items-center justify-center gap-2 rounded transition-colors duration-200 ${

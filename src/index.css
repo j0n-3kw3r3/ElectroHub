@@ -43,3 +43,16 @@ body {
   background-color: #453081;
   color: green;
 }
+
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+  0% { transform: translateX(100%); }
+
+}
+
+.marquee {
+  animation: marquee 60s linear infinite;
+transition-duration: 1s;
+}

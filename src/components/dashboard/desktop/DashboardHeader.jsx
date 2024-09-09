@@ -13,15 +13,7 @@ export const Header = () => {
         <span className="text-xl font-bold">Admin Dashboard</span>
       </div>
       <div className="flex items-center space-x-4 ">
-        <div className="flex items-center  p-1 px-3 rounded border  text-default-600 placeholder-default-600/70  ">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="focus:outline-none border-none transition text-sm duration-150 ease-in-out"
-            style={{ backdropFilter: "blur(5px)" }}
-          />
-          <MagnifyingGlassIcon className="size-4 cursor-pointer " />
-        </div>
+      
         {/* Search Bar */}
           <Badge content="" shape="circle" color="danger" size="sm" placement="top-right">
             <BellIcon className="size-5" />

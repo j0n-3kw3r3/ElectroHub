@@ -58,7 +58,7 @@ export default function CartModal({
               <div key={index} className="border-b border-default-600 flex items-center gap-4 p-4 ">
                 <div className="flex flex-grow gap-4 ">
                   <div className="w-[60px] h-[50px] bg-neutral rounded overflow-hidden border border-default-200 ">
-                    <img src={item?.img[0]} alt="" className=" w-full h-full object-contain " />
+                    <img src={item?.images[0].url} alt="" className=" w-full h-full object-contain " />
                   </div>
                   <div className="flex-grow text-sm">
                     <div className="truncate  text-ellipsis overflow-hidden w-[200px] text-default-500  ">

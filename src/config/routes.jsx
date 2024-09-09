@@ -12,6 +12,5 @@ const authRoutes = [
 const inAppRoutes = [
   { path: "/", element: <Home /> },
   { path: "/product/:id", element: <Product /> },
-  // { path: "/dashboard", element: <Dashboard /> },
 ];
 export { authRoutes, inAppRoutes };
