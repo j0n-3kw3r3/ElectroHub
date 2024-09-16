@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../../redux/cartSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { products } from "../../../assets/data/product";
 import { formatCurrency } from "../../../utils/formatter";
 import { HeartIcon, ShoppingCartIcon, StarIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
@@ -12,9 +11,7 @@ import axios from "axios";
 export default function FlashSale({ products, userId }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isLiked, setIsLiked] = useState(false);
-   const [likes, setLikes] = useState({});
-
+  const [likes, setLikes] = useState({});
 
   const handlePress = (data) => {
     console.log(data);
@@ -32,21 +29,14 @@ export default function FlashSale({ products, userId }) {
   //  toggle like
   const handleLike = (data) => {
     if (data) {
-      axios.post(`${import.meta.env.VITE_URL}/like/${data._id}/${userId}`)
-      .then((res) => {
-        // setIsLiked(!isLiked)
-           setLikes((prevLikes) => ({
-             ...prevLikes,
-             [data._id]: !prevLikes[data._id],
-           }));
-      }
-      )
+      axios.post(`${import.meta.env.VITE_URL}/like/${data._id}/${userId}`).then((res) => {
+        setLikes((prevLikes) => ({
+          ...prevLikes,
+          id: data._id,
+        }));
+      });
     }
   };
-
-  console.log(likes);
-
-
 
   return (
     <div className=" my-5 md:mx-[10%] p-5 text-default-600">
@@ -58,6 +48,7 @@ export default function FlashSale({ products, userId }) {
             const likedUser = item.likes.map((like) => {
               return like?.user;
             });
+
             if (likedUser.includes(userId)) {
               liked = true;
             }
@@ -69,7 +60,7 @@ export default function FlashSale({ products, userId }) {
                     <HeartIcon
                       size={20}
                       className={
-                        likes[item._id] || liked
+                        liked
                           ? "text-danger fill-danger size-5 cursor-pointer hover:scale-110"
                           : "text-danger size-5 cursor-pointer hover:scale-110"
                       }

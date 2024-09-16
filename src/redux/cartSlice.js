@@ -20,7 +20,7 @@ const cartSlice = createSlice({
       storeCartInfo(state);
     },
     addToCart: (state, action) => {
-      const itemIndex = state.cartItems.findIndex((item) => item.id === action.payload.id);
+      const itemIndex = state.cartItems.findIndex((item) => item._id === action.payload._id);
       if (itemIndex >= 0) {
         state.cartItems[itemIndex].cartQuantity += 1;
         state.cartTotalQuantity += 1;
@@ -34,13 +34,13 @@ const cartSlice = createSlice({
       storeCartInfo(state);
     },
     deleteFromCart: (state, action) => {
-      const itemIndex = state.cartItems.findIndex((item) => item.id === action.payload);
+      const itemIndex = state.cartItems.findIndex((item) => item._id === action.payload);
       if (itemIndex >= 0) {
         const cartQuantity = state.cartItems[itemIndex].cartQuantity;
         if (cartQuantity <= 1) {
           state.cartTotalQuantity -= 1;
           state.cartTotalAmount -= state.cartItems[itemIndex].price;
-          state.cartItems = state.cartItems.filter((item) => item.id !== action.payload);
+          state.cartItems = state.cartItems.filter((item) => item._id !== action.payload);
         } else {
           state.cartTotalQuantity -= 1;
           state.cartTotalAmount -= state.cartItems[itemIndex].price;

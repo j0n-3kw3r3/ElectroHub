@@ -4,8 +4,9 @@ import AuthLayout from "../layouts/authlayout";
 import Applayout from "../layouts/applayout";
 import Page404 from "../pages/page404";
 import Dashboard from "../pages/dashboard";
+import Checkout from "../pages/checkout";
 
-const renderRoutes = (layout, routes, admin) => (
+const renderRoutes = (layout, routes, user) => (
   <Routes>
     <Route element={layout}>
       {routes.map(({ path, element }) => (
@@ -14,16 +15,17 @@ const renderRoutes = (layout, routes, admin) => (
     </Route>
     <Route path="*" element={<Page404 />} />
    
-    <Route path="/dashboard" element={admin !== "admin" ? <Navigate to="/" replace={true} /> : <Dashboard />} />
+    <Route path="/dashboard" element={user?.role !== "admin" ? <Navigate to="/" replace={true} /> : <Dashboard />} />
+    <Route path="/checkout" element={user?.id ? <Checkout/> :<Navigate to="/auth/login" replace={true} />} />
   </Routes>
 );
 
-const RouterComponent = ({ admin }) => {
+const RouterComponent = ({ user }) => {
   return (
     <Router>
       <Routes>
         <Route path="auth/*" element={renderRoutes(<AuthLayout />, authRoutes)} />
-        <Route path="/*" element={renderRoutes(<Applayout />, inAppRoutes, admin)} />
+        <Route path="/*" element={renderRoutes(<Applayout />, inAppRoutes, user)} />
        
       </Routes>
     </Router>

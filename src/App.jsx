@@ -6,11 +6,11 @@ import { useSelector } from "react-redux";
 
 export default function App() {
   
-  const admin = useSelector((state) => state.auth.role); 
+  const user = useSelector((state) => state.auth); 
   return (
     <>
       <ToastContainer position="bottom-center" />
-      <RouterComponent admin={admin} />
+      <RouterComponent user={user} />
     </>
   );
 }

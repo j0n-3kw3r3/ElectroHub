@@ -1,41 +1,29 @@
-import {
-  Button,
-} from "@nextui-org/react";
-import { useDispatch } from "react-redux";
+import { Button } from "@nextui-org/react";
+import { useDispatch, useSelector } from "react-redux";
 import { formatCurrency } from "../utils/formatter";
-import {
-  MinusIcon,
-  PlusIcon,
-  ShoppingBagIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { MinusIcon, PlusIcon, ShoppingBagIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { addToCart, clearCart, deleteFromCart } from "../redux/cartSlice";
+import { toast } from "react-toastify";
 
-export default function CartModal({
-  isCartOpen,
-  handleCart,
-  cartItems,
-}) {
-    
+export default function CartModal({ isCartOpen, handleCart, cartItems }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth);
 
-
-      const handleAdd = (data) => {
-        if (data) {
-          dispatch(addToCart(data));
-        }
-      };
-      const handleremove = (data) => {
-        if (data) {
-          dispatch(deleteFromCart(data));
-        }
-      };
-      const handleClear = () => {
-        dispatch(clearCart());
-      };
-
+  const handleAdd = (data) => {
+    if (data) {
+      dispatch(addToCart(data));
+    }
+  };
+  const handleremove = (data) => {
+    if (data) {
+      dispatch(deleteFromCart(data));
+    }
+  };
+  const handleClear = () => {
+    dispatch(clearCart());
+  };
 
   return (
     <div
@@ -44,7 +32,7 @@ export default function CartModal({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="  bg-white dark:bg-darkbg h-full absolute shadow-xl flex flex-col right-0 top-0 transition-transform translate-x-0 duration-[800s] delay-300 ease-in-out "
+        className="  bg-white dark:bg-darkbg h-full w-[400px] absolute shadow-xl flex flex-col right-0 top-0 transition-transform translate-x-0 duration-[800s] delay-300 ease-in-out "
       >
         <div className=" w-full flex-grow overflow-y-auto  ">
           <div className="flex  top-0  relative items-center justify-between text-primary p-5 border-b shadow-md border-primary">
@@ -53,7 +41,7 @@ export default function CartModal({
             <XMarkIcon className="size-4 absolute top-5 right-5 cursor-pointer" onClick={handleCart} />
           </div>
 
-          {cartItems.cartItems &&
+          {cartItems.cartItems.length > 0 ? (
             cartItems.cartItems.map((item, index) => (
               <div key={index} className="border-b border-default-600 flex items-center gap-4 p-4 ">
                 <div className="flex flex-grow gap-4 ">
@@ -62,7 +50,7 @@ export default function CartModal({
                   </div>
                   <div className="flex-grow text-sm">
                     <div className="truncate  text-ellipsis overflow-hidden w-[200px] text-default-500  ">
-                      {item?.title}
+                      {item?.name}
                     </div>
                     <div className="flex gap-2 items-center">
                       <p className=" ">{formatCurrency(parseInt(item.price))}</p>
@@ -82,9 +70,13 @@ export default function CartModal({
                   </div>
                 </div>
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="flex items-center justify-center h-72 ">
+              <p className="text-default-500">No items in cart</p>
+            </div>
+          )}
         </div>
-
         <div className="  space-y-2 p-4 pb-0 border-t shadow-lg border-primary">
           <div className=" w-[40%]">
             <p className=" text-xs">Subtotal:</p>
@@ -94,7 +86,11 @@ export default function CartModal({
             <Button
               className=" w-full bg-primary rounded-none text-white border   font-semibold "
               onClick={() => {
-                if (!user.isAuthenticated) navigate("/auth/login");
+                if (!user?.id) {
+                  toast.error("Please login to continue");
+                } else if (cartItems.cartItems.length > 0) {
+                  navigate("/checkout");
+                }
               }}
             >
               <ShoppingBagIcon className="size-4" />
