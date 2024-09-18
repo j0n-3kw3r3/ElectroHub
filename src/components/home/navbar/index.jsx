@@ -25,6 +25,7 @@ import {
   Bars3Icon,
   BellIcon, 
   MagnifyingGlassIcon, 
+  MoonIcon, 
   ShoppingCartIcon,
   SunIcon,
   XMarkIcon,
