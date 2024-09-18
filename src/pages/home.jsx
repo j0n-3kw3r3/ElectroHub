@@ -20,7 +20,7 @@ export default function Home() {
     queryKey: ["products"],
     queryFn: fetchProductsEP,
   });
-  if (isPending) return "Loading...";
+  // if (isPending) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
 
@@ -30,9 +30,9 @@ export default function Home() {
       <Hero />
 
       <SectionOne />
-      {data.length > 0 && <NewArival products={data} userId={user.id} />}
+      {data?.length > 0 && <NewArival products={data} userId={user.id} />}
       <Category />
-      {data.length > 0 && <FlashSale products={data} userId={user.id} />}
+      {data?.length > 0 && <FlashSale products={data} userId={user.id} />}
       <Testimonial />
     </div>
   );

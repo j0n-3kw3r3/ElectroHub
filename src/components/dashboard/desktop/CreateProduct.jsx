@@ -57,7 +57,6 @@ export const CreateProduct = ({ setProductSubTab }) => {
   });
 
   const handleSubmit = async (event) => {
-    setIsLoading(true);
     event.preventDefault();
     const formData = new FormData();
     const fields = ["name", "price", "discount", "description", "quantity", "category", "subCategory"];
@@ -75,8 +74,6 @@ export const CreateProduct = ({ setProductSubTab }) => {
       await mutateAsync(formData);
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsLoading(false);
     }
   };
 

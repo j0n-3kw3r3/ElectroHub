@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
 import { toast } from "react-toastify";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateProductsEP } from "../../../services";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { fetchCategoriesEP, fetchSubCategoriesEP, updateProductsEP } from "../../../services";
 
 export function EditProduct({ isOpen, onOpenChange, product }) {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -20,11 +20,6 @@ export function EditProduct({ isOpen, onOpenChange, product }) {
     staleTime: 20 * 1000,
   });
 
-  useEffect(() => {
-    getSubCategory();
-    getCategory();
-    setData();
-  }, []);
 
   const handleImageChange = (event) => {
     if (event.target.files) {
@@ -63,7 +58,6 @@ export function EditProduct({ isOpen, onOpenChange, product }) {
   });
 
   const handleSubmit = async () => {
-    setIsLoading(true);
     const formData = new FormData();
     data?.name && formData.append("name", data?.name);
     data?.price && formData.append("price", data?.price);

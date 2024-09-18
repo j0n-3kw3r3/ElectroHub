@@ -64,14 +64,14 @@ export function DashboardUsersTable() {
             {filtersUsers.length > 0
               ? filtersUsers.map((user, index) => (
                   <tr key={user?._id} className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"} hover:bg-gray-100`}>
-                    <td className="py-4 px-6">{user.name}</td>
+                  <td className="py-4 px-6">{user?.firstname} {user?.lastname }</td>
                     <td className="py-4 px-6">{user.email}</td>
                     <td className="py-4 px-6">{user.role}</td>
                   </tr>
                 ))
               : users.map((user, index) => (
                   <tr key={user?._id} className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"} hover:bg-gray-100`}>
-                    <td className="py-4 px-6">{user.name}</td>
+                  <td className="py-4 px-6">{user?.firstname} {user?.lastname }</td>
                     <td className="py-4 px-6">{user.email}</td>
                     <td className="py-4 px-6">{user.role}</td>
                   </tr>

@@ -12,14 +12,24 @@ import { toast } from "react-toastify";
 import delivery from "../assets/image/carbon_delivery.svg";
 import returnicon from "../assets/image/return.svg";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/modal";
+import { fetchProductsEP } from "../services";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Product() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   let id = useParams().id;
   const [displayImage, setDisplayImage] = useState();
-  const product = products?.find((product) => product?.id.toString() === id.toString());
+
+     const {
+       isPending,
+       error,
+       data: products,
+     } = useQuery({
+       queryKey: ["products"],
+       queryFn: fetchProductsEP,
+     });
+  const product = products?.find((product) => product?._id.toString() === id.toString());
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart);
   const item = cartItems.cartItems.find((item) => toString(item.id) === toString(id));
 
@@ -41,21 +51,23 @@ export default function Product() {
     }
   };
   useEffect(() => {
-    setDisplayImage(product?.img[0]);
+    setDisplayImage(product?.images[1]?.url);
   }, [product]);
 
+  if(isPending)  return <>Loading...</>
+  
   return (
     <div className="px-[12%] dark:bg-darkbg text-default-600 flex py-10 gap-[27px] ">
       <div className="w-[70%] h-full flex space-x-4  ">
         <div className="w-[20%] space-y-4 rounded overflow-hidden ">
-          {product?.img.map((img, index) => (
+          {product?.images.map((img, index) => (
             <img
               key={index}
-              src={img}
+              src={img.url}
               alt=""
               className=" w-[8rem] object-contain cursor-pointer shadow aspect-square"
               onClick={() => {
-                setDisplayImage(img);
+                setDisplayImage(img.url);
               }}
             />
           ))}
@@ -67,7 +79,7 @@ export default function Product() {
 
       <div className="w-[50%]   py-10  relative gap-4 flex flex-col ">
         <div className="items-center flex justify-between    ">
-          <h1 className=" text-xl text-default-900 ">{product?.title}</h1>
+          <h1 className=" text-xl text-default-900 ">{product?.name}</h1>
           <ShareIcon className="size-4 cursor-pointer" />
         </div>
 

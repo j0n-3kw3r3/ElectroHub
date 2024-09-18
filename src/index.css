@@ -56,3 +56,11 @@ body {
   animation: marquee 60s linear infinite;
 transition-duration: 1s;
 }
+
+.backgroundImage{
+  background-image: url('./assets/image/aboutbackground.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: -1;
+}

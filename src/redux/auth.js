@@ -10,10 +10,11 @@ const authSlice = createSlice({
     role: null,
     profilePicture: null,
     id: null,
-    name: null,
+    firstName: null,
+    lastName: null,
     email: null,
     address: null,
-    phoneNumber: null,
+    phone: null,
     likes: null,
     dateOfBirth: null,
     wishlist: null,
@@ -29,8 +30,9 @@ const authSlice = createSlice({
       state.role = payload.role;
       state.id = payload.id;
       state.profilePicture = payload.profilePicture;
-      state.name = payload.name;
-      state.phoneNumber = payload.phoneNumber;
+      state.firstName = payload.firstName;
+      state.lastName = payload.lastName;
+      state.phone = payload.phone;
       state.isEmailVerified = payload.isEmailVerified;
       state.address = payload.address;
       state.likes = payload.likes;
@@ -49,8 +51,9 @@ const authSlice = createSlice({
       state.role = null;
       state.id = null;
       state.profilePicture = null;
-      state.name = null;
-      state.phoneNumber = null;
+      state.firstName = null;
+      state.lastName = null;
+      state.phone = null;
       state.isEmailVerified = null;
       state.address = null;
       state.likes = null;
@@ -69,8 +72,9 @@ const authSlice = createSlice({
       state.role = payload.role;
       state.id = payload.id;
       state.profilePicture = payload.profilePicture;
-      state.name = payload.name;
-      state.phoneNumber = payload.phoneNumber;
+      state.firstName = payload.firstName;
+      state.lastName = payload.lastName;
+      state.phone = payload.phone;
       state.isEmailVerified = payload.isEmailVerified;
       state.address = payload.address;
       state.likes = payload.likes;
@@ -89,8 +93,9 @@ const authSlice = createSlice({
       state.role = null;
       state.id = null;
       state.profilePicture = null;
-      state.name = null;
-      state.phoneNumber = null;
+      state.firstName = null;
+      state.lastName = null;
+      state.phone = null;
       state.isEmailVerified = null;
       state.address = null;
       state.likes = null;
@@ -107,8 +112,9 @@ const authSlice = createSlice({
       state.role = null;
       state.id = null;
       state.profilePicture = null;
-      state.name = null;
-      state.phoneNumber = null;
+      state.firstName = null;
+      state.lastName = null;
+      state.phone = null;
       state.isEmailVerified = null;
       state.address = null;
       state.likes = null;

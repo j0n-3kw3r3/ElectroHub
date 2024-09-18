@@ -5,6 +5,8 @@ import Applayout from "../layouts/applayout";
 import Page404 from "../pages/page404";
 import Dashboard from "../pages/dashboard";
 import Checkout from "../pages/checkout";
+import Profile from "../pages/profile";
+import EditProfile from "../pages/editprofile";
 
 const renderRoutes = (layout, routes, user) => (
   <Routes>
@@ -17,6 +19,8 @@ const renderRoutes = (layout, routes, user) => (
    
     <Route path="/dashboard" element={user?.role !== "admin" ? <Navigate to="/" replace={true} /> : <Dashboard />} />
     <Route path="/checkout" element={user?.id ? <Checkout/> :<Navigate to="/auth/login" replace={true} />} />
+    <Route path="/my-account" element={user?.id ? <Profile/> :<Navigate to="/auth/login" replace={true} />} />
+    <Route path="/my-account/edit" element={user?.id ? <EditProfile/> :<Navigate to="/auth/login" replace={true} />} />
   </Routes>
 );
 

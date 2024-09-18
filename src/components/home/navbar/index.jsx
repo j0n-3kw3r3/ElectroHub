@@ -5,9 +5,7 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarContent,
-  NavbarItem,
-  Link,
-  Button,
+  NavbarItem, 
   Input,
   DropdownMenu,
   Dropdown,
@@ -18,38 +16,35 @@ import {
   Select,
   SelectItem,
 } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import truck from "../../../assets/image/truck.png";
 import logo from "../../../assets/image/logo.svg";
-import { useDispatch, useSelector } from "react-redux"; 
+import { useDispatch, useSelector } from "react-redux";
 import {
   AdjustmentsHorizontalIcon,
   Bars3Icon,
-  BellIcon,
-  HeartIcon,
-  MagnifyingGlassIcon,
-  MinusIcon,
-  MoonIcon,
-  PlusIcon,
-  ShoppingBagIcon,
+  BellIcon, 
+  MagnifyingGlassIcon, 
   ShoppingCartIcon,
   SunIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import {  logout } from "../../../redux/auth";
+import { Link, useNavigate } from "react-router-dom"; 
+import { logout } from "../../../redux/auth";
 import CartModal from "../../CartModal";
 import { toast } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
+import { fetchCategoriesEP, fetchProductsEP } from "../../../services";
 
 export default function Nav({ onClick, darkMode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart);
-  const user = useSelector((state) => state.auth); 
+  const user = useSelector((state) => state.auth);
   const menuItems = [
     "Home",
     "About us",
@@ -61,50 +56,50 @@ export default function Nav({ onClick, darkMode }) {
     "Help & Feedback",
     "Log Out",
   ];
+  
 
+  const {
+    data: categories,
+  } = useQuery({
+    queryKey: ["category"],
+    queryFn: fetchCategoriesEP,
+  });
 
-  const categorys = [
-    { label: "Capacitor", value: "Capacitor", description: "" },
-    { label: "Resistor", value: "Resistor", description: "" },
-    { label: "Inductor", value: "Inductor", description: "" },
-    { label: "Transistor", value: "Transistor", description: "" },
-    { label: "Diode", value: "Diode", description: "" },
-    { label: "IC", value: "IC", description: "" },
-    { label: "Crystal", value: "Crystal", description: "" },
-    { label: "LED", value: "LED", description: "" },
-    { label: "Fuse", value: "Fuse", description: "" },
-    { label: "Switch", value: "Switch", description: "" },
-    { label: "Connector", value: "Connector", description: "" },
-    { label: "Relay", value: "Relay", description: "" },
-    { label: "Arduino", value: "Arduino", description: "" },
-    { label: "Raspberry Pi", value: "Raspberry Pi", description: "" },
-    { label: "Sensor", value: "Sensor", description: "" },
-    { label: "Module", value: "Module", description: "" },
-    { label: "Display", value: "Display", description: "" },
-    { label: "Motor", value: "Motor", description: "" },
-    { label: "Battery", value: "Battery", description: "" },
-    { label: "Tools", value: "Tools", description: "" },
-    { label: "Miscellaneous", value: "Miscellaneous", description: "" },
-  ];
+  const { isPending, error, data:products } = useQuery({
+    queryKey: ["products"],
+    queryFn: fetchProductsEP,
+  });
 
   const handleCart = () => {
     setIsCartOpen(!isCartOpen);
   };
 
-
-
-  const logoutSuccess = () => {    
+  const logoutSuccess = () => {
     dispatch(logout());
-    toast.success("logged out successfully")
-
+    toast.success("logged out successfully");
   };
-
- 
 
   const handleLogin = () => {
-   
     navigate("/auth/login");
   };
+
+
+
+  
+  const handleSearch = (event) => {
+    if (event.key === "Enter") {
+       // Check for Enter key press
+       setSearchTerm(event.target.value);
+       searchProducts(searchTerm); // Call the provided onSearch function with searchTerm
+     }
+
+  };
+  
+const searchProducts = (searchTerm) => {
+  const results = products.filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()));
+  return  navigate(`/search?query=${searchTerm}`, { state: { results} });
+  };
+  
 
   return (
     <>
@@ -118,8 +113,9 @@ export default function Nav({ onClick, darkMode }) {
           />
           {!isSearchOpen ? (
             <NavbarBrand>
-              <img src={logo} alt="" className=" h-6" />
-              
+              <Link to="/">
+                <img src={logo} alt="" className=" h-6" />
+              </Link>
             </NavbarBrand>
           ) : (
             <Input
@@ -133,6 +129,7 @@ export default function Nav({ onClick, darkMode }) {
               placeholder="Search product..."
               radius="none"
               size="sm"
+              onChange={(e) => setSearchTerm(e.target.value)}
               startContent={<MagnifyingGlassIcon className="size-4" />}
               type="search"
             />
@@ -140,10 +137,12 @@ export default function Nav({ onClick, darkMode }) {
         </NavbarContent>
 
         <NavbarContent className="sm:flex gap-4 hidden " justify="start">
-          <NavbarBrand>
-            <img src={logo} alt="" className=" h-8  mr-1 block " />
-            <h1 className=" text-primary font-bold ">Electro hub</h1>
-          </NavbarBrand>
+          <Link to="/">
+            <NavbarBrand>
+              <img src={logo} alt="" className=" h-8  mr-1 block " />
+              <h1 className=" text-primary font-bold ">Electro hub</h1>
+            </NavbarBrand>
+          </Link>
         </NavbarContent>
         <NavbarContent justify="center" className="w-[30em] hidden md:flex ">
           <Input
@@ -157,6 +156,8 @@ export default function Nav({ onClick, darkMode }) {
             placeholder="Search product..."
             radius="none"
             size="sm"
+            onKeyDown={handleSearch}
+            onChange={(e) => setSearchTerm(e.target.value)}
             startContent={<MagnifyingGlassIcon className=" size-5 " />}
             type="search"
           />
@@ -207,7 +208,7 @@ export default function Nav({ onClick, darkMode }) {
                 showFallback
                 name={user?.name}
                 size="sm"
-                src={user?.picture}
+                src={user.profilePicture ? user?.profilePicture[0]?.url : ""}
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
@@ -216,7 +217,9 @@ export default function Nav({ onClick, darkMode }) {
                 <p className="font-semibold">{user?.email}</p>
               </DropdownItem>
 
-              <DropdownItem key="settings">My Account</DropdownItem>
+              <DropdownItem key="settings">
+                <Link to="my-account">My Account</Link>
+              </DropdownItem>
               <DropdownItem key="settings">Orders</DropdownItem>
               <DropdownItem key="help_and_feedback">Saved Items</DropdownItem>
               {user.isAuthenticated ? (
@@ -264,19 +267,18 @@ export default function Nav({ onClick, darkMode }) {
               variant="underlined"
               color="primary"
             >
-              {categorys.map((item) => (
-                <SelectItem key={item.value} value={item.value}>
-                  {item.label}
+              {categories?.map((item) => (
+                <SelectItem key={item?._id} value={item?.name}>
+                  {item?.name}
                 </SelectItem>
               ))}
             </Select>
           </div>
-          <div className="flex gap-6 ">
-            <div className=" cursor-pointer hidden md:block ">Home</div>
-            <div className=" cursor-pointer hidden md:block ">About us</div>
-            <div className=" cursor-pointer hidden md:block ">Contact us</div>
-          </div>
         </div>
+          <div className="flex mx-auto gap-6 ">
+            <Link to="/about-us" className=" cursor-pointer hidden md:block ">About us</Link>
+            <Link to="/contact-us" className=" cursor-pointer hidden md:block ">Contact us</Link>
+          </div>
 
         <div className="md:flex gap-2 cursor-default">
           <div className="md:w-[6em] w-[3em] md:relative absolute md:right-0 right-6 ">
@@ -288,12 +290,8 @@ export default function Nav({ onClick, darkMode }) {
           </div>
         </div>
 
-       <CartModal   isCartOpen={isCartOpen} handleCart={handleCart}     cartItems={cartItems}    />
-      
+        <CartModal isCartOpen={isCartOpen} handleCart={handleCart} cartItems={cartItems} />
       </div>
     </>
   );
 }
-
- 
-  

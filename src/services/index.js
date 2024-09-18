@@ -4,6 +4,7 @@ import { api } from "./api";
 export const fetchProductsEP = () => api.get("/products").then((res) => res?.data);
 export const createProductsEP = (data) => api.post("/products", data).then((res) => res?.data);
 export const updateProductsEP = (data, id) => api.put(`/products/${id}`, data).then((res) => res?.data);
+export const updateUserEP = (data, id) => api.put(`/auth/${id}`, data).then((res) => res?.data);
 
 export const fetchMatricsEP = () => api.get("/matrics").then((res) => res?.data);
 export const fetchOrdersEP = () => api.get("/orders").then((res) => res?.data);

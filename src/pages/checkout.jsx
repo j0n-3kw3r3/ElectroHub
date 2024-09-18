@@ -1,4 +1,4 @@
-import { MinusIcon, PlusIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
+import { LockClosedIcon, MinusIcon, PlusIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import logo from "../assets/image/logo.svg";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,8 +21,9 @@ export default function Checkout() {
           <img src={logo} alt="" className="w-10" />
           <h1 className=" font-bold">Electrohub</h1>
         </Link>
-        <div className="">
-          <h1 className="text-lg font-bold">Checkout</h1>
+        <div className="flex space-x-2 items-center ">
+          <LockClosedIcon className="w-5" />
+          <h1 className="uppercase font-bold">Checkout</h1>
         </div>
       </div>
       <div className="  grid grid-cols-5  ">
@@ -88,9 +89,9 @@ export default function Checkout() {
             </div>{" "}
           </div>
         </div>
-        <div className="bg-gray-100 p-10 h-screen p-8 pb-32 overflow-auto scrollbar-hide col-span-2 ">
+        <div className="bg-gray-100 p-10 h-screen  pb-32 overflow-auto scrollbar-hide col-span-2 ">
           <h1 className=" font-bold text-center mb-4">Cart Summary</h1>
-          <div className=" max-w-sm mx-auto border bg-white shadow-md w-full ">
+          <div className=" max-w-sm mx-auto border rounded bg-white shadow-md w-full ">
             {cartItems?.cartItems?.map((item, index) => (
               <div key={index} className="border-b  flex items-center gap-4 p-4 ">
                 <div className="flex flex-grow gap-4 ">

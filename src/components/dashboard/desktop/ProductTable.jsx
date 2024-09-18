@@ -19,15 +19,16 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProductsEP } from "../../../services";
+import { usePagination } from "../../pagination";
 
 //  products data table function
 export const ProductTable = () => {
   const [filtersProducts, setFiltersProducts] = useState([]);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
   const user = useSelector((state) => state.auth);
   const [productId, setProductId] = useState();
   const [isModal, setIsModal] = useState();
+  const itemsPerPage = 10; // Number of items to display per page
 
   const {
     isPending,
@@ -42,8 +43,6 @@ export const ProductTable = () => {
 
   if (error) return "An error has occurred: " + error.message;
 
- 
-
   // Function filters logistics data based on search input
   const handleSearchOrder = (e) => {
     const filteredData = products.filter((item) => {
@@ -51,7 +50,7 @@ export const ProductTable = () => {
         item.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
         item.price.toString().toLowerCase().includes(e.target.value.toLowerCase()) ||
         (typeof item.inStock === "boolean" &&
-          item.inStock.toString().toLowerCase().includes(e.target.value.toLowerCase())) 
+          item.inStock.toString().toLowerCase().includes(e.target.value.toLowerCase()))
       );
     });
     setFiltersProducts(filteredData ? filteredData : products);
@@ -73,6 +72,14 @@ export const ProductTable = () => {
       console.log(error.message);
     }
   };
+
+  const { currentPage, totalPages, currentItems, handlePageChange } = usePagination(products, itemsPerPage);
+  const {
+    currentPage: currentPageFilterd,
+    totalPages: totalFilterdPages,
+    currentItems: currentFilterdItems,
+    handlePageChange: handlePageChangeFilterd,
+  } = usePagination(filtersProducts, itemsPerPage);
 
   return (
     <>
@@ -117,8 +124,8 @@ export const ProductTable = () => {
             </thead>
 
             <tbody>
-              {filtersProducts.length > 0
-                ? filtersProducts?.map((product) => (
+              {currentFilterdItems.length > 0
+                ? currentFilterdItems?.map((product) => (
                     <>
                       <tr key={product?._id} className="border-b odd:bg-white even:bg-gray-50 hover:bg-gray-100">
                         <td className="py-4 px-6 rounded ">
@@ -186,7 +193,7 @@ export const ProductTable = () => {
                       </tr>
                     </>
                   ))
-                : products?.map((product) => (
+                : currentItems?.map((product) => (
                     <>
                       <tr key={product?._id} className="border-b odd:bg-white even:bg-gray-50 hover:bg-gray-100">
                         <td className="py-4 px-6 rounded ">
@@ -292,6 +299,31 @@ export const ProductTable = () => {
           </ModalContent>
         </Modal>
       )}
+      {/* Pagination Controls */}
+      <div className="flex justify-center mt-6">
+        {Array.from({ length: totalPages ? totalPages : totalFilterdPages }, (_, index) => (
+          <button
+            key={index}
+            onClick={() => {
+              if (filtersProducts.length > 0) {
+                handlePageChangeFilterd(index + 1);
+              }
+              handlePageChange(index + 1);
+            }}
+            className={`mx-1 px-3 py-1 border rounded ${
+              filtersProducts?.length > 0
+                ? currentPageFilterd === index + 1
+                  ? "bg-blue-500 text-white"
+                  : "bg-white text-blue-500 border-blue-500"
+                : currentPage === index + 1
+                ? "bg-blue-500 text-white"
+                : "bg-white text-blue-500 border-blue-500"
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
     </>
   );
 };
