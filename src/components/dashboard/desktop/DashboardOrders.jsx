@@ -50,7 +50,7 @@ export function DashboardOrders() {
 
   return (
     <div className=" relative  rounded-lg space-y-4">
-      <div className="flex justify-end ">
+      <div className="flex ">
         <div className="flex items-center p-1 px-3 rounded border  text-default-600 placeholder-default-600/70 w-fit  ">
           <input
             type="text"

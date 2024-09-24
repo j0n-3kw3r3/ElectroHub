@@ -137,7 +137,7 @@ export default function Nav({ onClick, darkMode }) {
 
   return (
     <>
-      <Navbar className="md:py-2 dark:bg-darkbg text-default-600 " position="sticky">
+      <Navbar className="md:py-2 -py-1 dark:bg-darkbg text-default-600 " position="sticky">
         <NavbarContent className="md:hidden sm:flex ">
           <NavbarMenuToggle
             icon={isMenuOpen ? <XMarkIcon className="size-4" /> : <Bars3Icon className="size-4" />}
@@ -201,7 +201,7 @@ export default function Nav({ onClick, darkMode }) {
         <NavbarContent as="div" className="items-center w-fit md:gap-3 gap-1 " justify="end">
           {!isSearchOpen ? (
             <NavbarItem className=" md:hidden hover:bg-default-200 rounded-full p-2 ease-in-out duration-200 flex items-center ">
-              <MagnifyingGlassIcon className=" md:hidden flex size-5 " onClick={() => setIsSearchOpen(true)} />
+              <MagnifyingGlassIcon className=" md:hidden flex size-4 " onClick={() => setIsSearchOpen(true)} />
             </NavbarItem>
           ) : null}
           <NavbarItem
@@ -209,9 +209,9 @@ export default function Nav({ onClick, darkMode }) {
             onClick={onClick}
           >
             {darkMode ? (
-              <SunIcon className="md:size-5 size-4 text-default-800 m-1 hover:text-primary hover:size-7 transform ease-in-out duration-250 " />
+              <SunIcon className="md:size-5 size-4 hidden md:block text-default-800 m-1 hover:text-primary hover:size-7 transform ease-in-out duration-250 " />
             ) : (
-              <MoonIcon className="md:size-5 size-4 text-default-800 m-1 hover:text-primary hover:size-7 transform ease-in-out duration-250 " />
+              <MoonIcon className="md:size-5 size-4 hidden md:block text-default-800 m-1 hover:text-primary hover:size-7 transform ease-in-out duration-250 " />
             )}
           </NavbarItem>
           <NavbarItem className=" hover:bg-default-200 rounded-full  ease-in-out duration-200 flex items-center cursor-pointer ">
@@ -333,7 +333,7 @@ export default function Nav({ onClick, darkMode }) {
         </NavbarMenu>
       </Navbar>
 
-      <div className=" shadow border-b border-default-300 bg-white/80 dark:bg-darkbg text-default-600 md:px-[14%] px-[6%] py-1 flex items-center justify-between ">
+      <div className=" shadow border-b border-default-300 bg-white/80 dark:bg-darkbg text-default-600 md:px-[14%] px-[6%] py-1 flex  items-center justify-between ">
         <div className="flex  items-center text-sm md:gap-20 gap-4 ">
           <div className="border-r border-default-400 md:pr-10">
             <Select
@@ -354,10 +354,10 @@ export default function Nav({ onClick, darkMode }) {
         </div>
         <div className="flex mx-auto gap-6 ">
           <Link to="/about-us" className=" cursor-pointer hidden md:block ">
-            About us
+            About
           </Link>
           <Link to="/contact-us" className=" cursor-pointer hidden md:block ">
-            Contact us
+            Contact 
           </Link>
         </div>
 
@@ -365,9 +365,12 @@ export default function Nav({ onClick, darkMode }) {
           <div className="md:w-[6em] w-[3em] md:relative absolute md:right-0 right-6 ">
             <img src={truck} alt="" className="w-full h-full " />
           </div>
-          <div className="w-fit">
-            <p className="text-sm text-primary  ">Free Delivery</p>
-            <p className="text-xs">For all orders above ₦100,000</p>
+          <div className="w-fit md:mr-0 mr-6 ">
+            <p className="md:text-sm text-xs text-primary  ">Free Delivery</p>
+            <p className="text-xs flex flex-col md:flex-row ">For all orders above <span className="">
+              ₦100,000
+            </span>
+            </p>
           </div>
         </div>
 

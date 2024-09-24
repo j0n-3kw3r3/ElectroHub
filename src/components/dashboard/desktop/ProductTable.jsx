@@ -83,7 +83,7 @@ export const ProductTable = () => {
 
   return (
     <>
-      <div className="flex justify-end ">
+      <div className="flex  ">
         <div className="flex items-center p-1 px-3 rounded border  text-default-600 placeholder-default-600/70 w-fit  ">
           <input
             type="text"
@@ -128,12 +128,8 @@ export const ProductTable = () => {
                 ? filtersProducts?.map((product) => (
                     <>
                       <tr key={product?.id} className="border-b odd:bg-white/80 even:bg-gray-50 hover:bg-primary/5  ">
-                        <td className="py-4 px-6 rounded ">
-                          <img
-                            src={product?.images[0]?.url}
-                            alt=""
-                            className="w-20 rounded aspect-square object-cover"
-                          />
+                        <td className="py-4 px-6 w-[200px] rounded ">
+                          <img src={product?.images[0]?.url} alt="" className=" rounded  object-cover w-full " />
                           {/* Display product image */}
                         </td>
                         <td className="py-4 px-6">{product?.name}</td>

@@ -13,6 +13,7 @@ import returnicon from "../assets/image/return.svg";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/modal";
 import { fetchProductsEP } from "../services";
 import { useQuery } from "@tanstack/react-query";
+import { getRecommendations } from "../utils/getRecomendation";
 
 const reviews = [
   {
@@ -50,6 +51,8 @@ export default function Product() {
   let id = useParams().id;
   const navigate = useNavigate();
   const [displayImage, setDisplayImage] = useState();
+  const [recommendations, setRecommendations] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [activeTab, setActiveTab] = useState("Specifications");
 
   const handleTabClick = (tab) => {
@@ -64,7 +67,7 @@ export default function Product() {
     queryKey: ["products"],
     queryFn: fetchProductsEP,
   });
-  const product = products?.find((product) => product?.id.toString() === id.toString());
+  const product = products && products?.find((product) => product?.id.toString() === id.toString());
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart);
   const item = cartItems.cartItems.find((item) => toString(item.id) === toString(id));
@@ -87,9 +90,26 @@ export default function Product() {
       dispatch(deleteFromCart(data));
     }
   };
-  useEffect(() => {
-    setDisplayImage(product?.images[0]?.url);
-  }, [product]);
+
+  // Save product name to searched array in local storage on the load of this page
+  const saveSearchedItem = () => {
+    const store = localStorage.getItem("searches");
+    let searches = store ? JSON.parse(store) : [];
+
+    if (!searches.includes(product?.name)) {
+      searches.push(product?.name);
+      localStorage.setItem("searches", JSON.stringify(searches));
+    }
+  };
+
+    useEffect(() => {
+    }, [products, categories]);
+    
+    useEffect(() => {
+      getRecommendations(products, categories, setRecommendations);
+      setDisplayImage(product?.images[0]?.url);
+      saveSearchedItem();
+    }, [product, categories]);
 
   if (isPending) return <>Loading...</>;
 
@@ -111,7 +131,7 @@ export default function Product() {
             ))}
           </div>
           <div className="md:w-[90%] shadow-md rounded border h-fit overflow-hidden">
-            <img src={displayImage} alt="" className=" w-full object-contain " />
+            <img src={displayImage} alt="" className=" w-full object-contain aspect-square" />
           </div>
         </div>
 
@@ -151,10 +171,10 @@ export default function Product() {
           </div>
 
           <div className=" border-b pb-4">
-            <p className=" line-clamp-3  ">{product?.description}</p>
-            <Button onPress={onOpen} variant="fade" className=" pl-0">
+            {/* <p className=" line-clamp-3  ">{product?.description}</p> */}
+            {/* <Button onPress={onOpen} variant="fade" className=" pl-0">
               <span className=" text-xs text-primary cursor-pointer ">Read More</span>
-            </Button>
+            </Button> */}
 
             <Modal isOpen={isOpen} onOpenChange={onOpenChange} scrollBehavior="inside" size="xl" backdrop="opaque">
               <ModalContent>
@@ -168,7 +188,7 @@ export default function Product() {
                       <Button color="danger" variant="light" onPress={onClose}>
                         Close
                       </Button>
-                      <Button color="primary"  onPress={onClose} onClick={() => handlePress(product)}>
+                      <Button color="primary" onPress={onClose} onClick={() => handlePress(product)}>
                         Add to cart
                       </Button>
                     </ModalFooter>
@@ -264,14 +284,7 @@ export default function Product() {
           </div>
 
           <div className="p-4 max-h-[25rem] overflow-auto scrollbar-hide ">
-            {activeTab === "Specifications" && (
-              <p className="text-gray-700">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.   Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                dolore eu fugiat nulla pariatur.  
-              </p>
-            )}
+            {activeTab === "Specifications" && <p className="text-gray-700">{product?.description}</p>}
             {activeTab === "Reviews" && (
               <div className="">
                 {reviews.map((review) => (
@@ -318,10 +331,10 @@ export default function Product() {
             )}
           </div>
         </div>
-        <div className="bg-white p-4 md:w-1/3 rounded-lg shadow-md">
+       {recommendations && <div className="bg-white p-4 md:w-1/3 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold mb-2">Similar Items</h3>
-          {featuredProducts.map((item) => (
-            <ul className="list-none text-sm ">
+          {recommendations.map((item) => (
+            <ul className="list-none text-sm " key={item.name}>
               <li
                 className="flex items-center mb-2 cursor-pointer hover:bg-gray-100 p-2 rounded-lg"
                 onClick={() => {
@@ -341,7 +354,7 @@ export default function Product() {
               </li>
             </ul>
           ))}
-        </div>
+        </div>}
       </div>
     </div>
   );
