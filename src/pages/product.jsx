@@ -135,7 +135,7 @@ export default function Product() {
           </div>
         </div>
 
-        <div className="md:w-1/2 p-10 md:py-24 pt-4    relative gap-4 flex flex-col ">
+        <div className="md:w-1/2 p-10 md:py-24 pt-4 bg-white relative gap-4 flex flex-col ">
           <div className="items-center flex justify-between    ">
             <h1 className=" text-xl text-default-900 ">{product?.name}</h1>
             <ShareIcon className="size-4 cursor-pointer" />
