@@ -27,7 +27,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #7728c523; 
   }
   
   ::-webkit-scrollbar-thumb {
@@ -37,4 +37,22 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #453081; 
+}
+
+.option:hover {
+  background-color: #453081;
+  color: green;
+}
+
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+  0% { transform: translateX(100%); }
+
+}
+
+.marquee {
+  animation: marquee 60s linear infinite;
+transition-duration: 1s;
 }

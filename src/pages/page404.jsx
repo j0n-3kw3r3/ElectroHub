@@ -3,8 +3,8 @@ import { Link } from "react-router-dom"; // Assuming you're using react-router f
 
 function Page404() {
   return (
-    <div className="h-screen flex items-center justify-center flex-col bg-primary/10">
-      <div className="text-center p-10 bg-white shadow-xl rounded-lg">
+    <div className="h-screen flex items-center justify-center flex-col bg-primary/5">
+      <div className="text-center p-10 bg-white/80 shadow-xl rounded-lg">
         <h1 className="text-9xl font-bold text-gray-800">404</h1>
         <p className="text-2xl font-semibold mt-4">Page Not Found</p>
         <p className="mt-4">The page you're looking for doesn't seem to exist.</p>

@@ -54,19 +54,19 @@ export default function Category() {
 
   return (
     <div className=" my-5 md:mx-[10%] p-5 text-default-600 ">
-      <h1 className="font-bold text-xl mb-4  ">
+      <h1 className="font-bold md:text-xl mb-4  ">
         Search by <span className="text-primary">Category</span>
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center  ">
+      <div className="grid grid-cols-1 md:grid-cols-4 md:text-sm text-primary  text-xs gap-4 items-center  ">
         {categories.map((category, index) => (
           <div
             key={index}
-            className="bg-neutral text-default-600 hover:bg-primary hover:text-white cursor-pointer ease-in-out duration-250 p-6 border border-default-300  shadow-md flex items-center gap-6 "
+            className="bg-white/80  hover:bg-primary hover:text-white cursor-pointer ease-in-out duration-250 md:p-6 p-2 border border-default-300  shadow-md flex items-center gap-6 "
           >
             <div className="w-[3em] h-[3em] ">
               <img src={category.img} alt="" className="w-full h-full object-contain " />
             </div>
-            <h2 className="font-bold text-lg">{category.title}</h2>
+            <h2 className="font-bold ">{category.title}</h2>
           </div>
         ))}
       </div>
