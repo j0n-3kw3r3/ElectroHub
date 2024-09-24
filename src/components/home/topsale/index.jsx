@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { formatCurrency } from "../../../utils/formatter";
 import { HeartIcon, ShoppingCartIcon, StarIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
+import { API_URL } from "../../../constant";
 
 export default function TopSale({ products, userId }) {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ export default function TopSale({ products, userId }) {
   //  toggle like
   const handleLike = (data) => {
     if (data) {
-      axios.post(`${import.meta.env.VITE_URL}/like/${data.id}/${userId}`).then((res) => {
+      axios.post(`${API_URL}/like/${data.id}/${userId}`).then((res) => {
         setLikes((prevLikes) => ({
           ...prevLikes,
           id: data.id,

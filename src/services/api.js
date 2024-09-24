@@ -1,8 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
+import { API_URL } from "../constant";
 
 // create an axios instance
 export const api = axios.create({
-  baseURL: import.meta.env.VITE_URL,
+  baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
@@ -11,23 +12,23 @@ export const api = axios.create({
 
 // request interceptor
 api.interceptors.request.use(
-  async config => {
+  async (config) => {
     const authData = localStorage.getItem("businessAuthInfo"); // Get the stored object
-   if (authData) {
-     const tokenObject = JSON.parse(authData); // Parse the object
-     if (tokenObject.token) {
-       config.headers.Authorization = `Bearer ${tokenObject.token}`; // Attach the token
-     }
-   }
+    if (authData) {
+      const tokenObject = JSON.parse(authData); // Parse the object
+      if (tokenObject.token) {
+        config.headers.Authorization = `Bearer ${tokenObject.token}`; // Attach the token
+      }
+    }
     return config;
   },
-  error => {
+  (error) => {
     return Promise.reject(error);
   }
 );
 // create an axios instance
 export const formDataApi = axios.create({
-  baseURL: import.meta.env.VITE_URL,
+  baseURL: API_URL,
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
     "Access-Control-Allow-Origin": "*",

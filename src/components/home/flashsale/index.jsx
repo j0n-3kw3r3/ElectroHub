@@ -43,11 +43,10 @@ export default function FlashSale({ products, userId }) {
   // filter product based in featured
   const featuredProducts = products.filter((item) => item?.isFeatured);
 
-
   //  toggle like
   const handleLike = (data) => {
     if (data) {
-      axios.post(`${import.meta.env.VITE_URL}/like/${data.id}/${userId}`).then((res) => {
+      axios.post(`${API_URL}/like/${data.id}/${userId}`).then((res) => {
         setLikes((prevLikes) => ({
           ...prevLikes,
           id: data.id,

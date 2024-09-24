@@ -20,6 +20,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProductsEP } from "../../../services";
 import { usePagination } from "../../pagination";
+import { API_URL } from "../../../constant";
 
 //  products data table function
 export const ProductTable = () => {
@@ -59,7 +60,7 @@ export const ProductTable = () => {
   const deleteProduct = async (id) => {
     try {
       await axios
-        .delete(`${import.meta.env.VITE_URL}/products/delete/${id}`, {
+        .delete(`${API_URL}/products/delete/${id}`, {
           headers: {
             authorization: `Bearer ${user.token}`,
           },
