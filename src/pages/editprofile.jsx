@@ -5,6 +5,7 @@ import { updateUserEP } from "../services";
 import { useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { Button } from "@nextui-org/button";
 
 export default function EditProfile() {
   const [profilePicture, setProfilePicture] = useState(null);
@@ -40,6 +41,11 @@ export default function EditProfile() {
     data.email && formData.append("email", data.email);
     data.address && formData.append("address", data.address);
     data.phone && formData.append("phone", data.phone);
+    data.street && formData.append("street", data.street);
+    data.city && formData.append("city", data.city);
+    data.country && formData.append("country", data.country);
+    data.state && formData.append("state", data.state);
+    data.postalCode && formData.append("postalCode", data.postalCode);
 
     const file = document.getElementById("profilePicture").files[0];
     formData.append("image", file);
@@ -48,23 +54,22 @@ export default function EditProfile() {
       await mutateAsync({ formData, id: user.id });
     } catch (error) {
       console.error(error);
-    } 
+    }
   };
 
   return (
     <div className="">
       <Nav />
-      <div className="min-h-screen p-20 bg-gray-100 flex items-center justify-center">
-        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+      <div className="min-h-screen md:p-20 p-4 bg-primary/5 flex items-center justify-center">
+        <div className="bg-white/80 p-8 rounded-lg shadow-lg w-full max-w-md">
           <h1 className="text-2xl font-bold mb-6">Edit Profile</h1>
-          <form>
+          <form onSubmit={handleSaveChanges}>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="profilePicture">
                 Profile Picture
               </label>
               <div className="relative">
-                {
-                  profilePicture ? (
+                {profilePicture ? (
                   <img src={profilePicture} alt="Profile" className="mt-4 w-32 h-32 rounded-full object-cover" />
                 ) : (
                   <div className="mt-4 w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center">
@@ -87,13 +92,13 @@ export default function EditProfile() {
                   type="text"
                   onChange={(e) => setData({ ...data, firstName: e.target.value })}
                   defaultValue={user?.firstName}
-                  />
+                />
                 <InputComponent
                   name="lastName"
                   type="text"
                   onChange={(e) => setData({ ...data, lastName: e.target.value })}
-              defaultValue={user?.lastName}
-                  />
+                  defaultValue={user?.lastName}
+                />
               </div>
               <InputComponent
                 name="email"
@@ -106,23 +111,48 @@ export default function EditProfile() {
                 type="tel"
                 onChange={(e) => setData({ ...data, phone: e.target.value })}
                 defaultValue={user?.phone}
-                />
+              />
               <InputComponent
-                name="address"
+                name="street"
                 type="text"
-                onChange={(e) => setData({ ...data, address: e.target.value })}
-                defaultValue={user?.address}
+                onChange={(e) => setData({ ...data, street: e.target.value })}
+                defaultValue={user?.address?.street}
+              />
+              <InputComponent
+                name="city"
+                type="text"
+                onChange={(e) => setData({ ...data, city: e.target.value })}
+                defaultValue={user?.address?.city}
+              />
+              <div className="flex space-x-4 w-full">
+                <InputComponent
+                  name="state"
+                  type="text"
+                  onChange={(e) => setData({ ...data, state: e.target.value })}
+                  defaultValue={user?.address?.state}
+                />
+                <InputComponent
+                  name="postal code"
+                  type="text"
+                  onChange={(e) => setData({ ...data, postalCode: e.target.value })}
+                  defaultValue={user?.address?.postalCode}
+                />
+              </div>
+              <InputComponent
+                name="country"
+                type="text"
+                onChange={(e) => setData({ ...data, country: e.target.value })}
+                defaultValue={user?.address?.country}
               />
 
               <div className="flex items-center pt-8 justify-between">
-                <button
+                <Button
+                  type="submit"
                   isLoading={isPending}
-                  className="bg-primary hover:bg-primary/80 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  type="button"
-                  onClick={handleSaveChanges}
+                  className=" w-full flex text-default-300  shadow-md text-sm font-medium rounded-md  bg-primary "
                 >
                   Save Changes
-                </button>
+                </Button>
               </div>
             </div>
           </form>

@@ -23,7 +23,7 @@ export function DashboardMerchantsTable() {
         </thead>
         <tbody>
           {merchantsData.map((merchant, index) => (
-            <tr key={merchant.id} className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"} hover:bg-gray-100`}>
+            <tr key={merchant.id} className={`${index % 2 === 0 ? "bg-white/80" : "bg-gray-50"} hover:bg-primary/5`}>
               <td className="py-4 px-6">{merchant.name}</td>
               <td className="py-4 px-6">{merchant.email}</td>
               <td className="py-4 px-6">{merchant.category}</td>

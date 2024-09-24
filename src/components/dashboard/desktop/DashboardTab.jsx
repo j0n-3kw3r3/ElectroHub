@@ -72,10 +72,10 @@ export function DashboardTab() {
 
   return (
     <div className=" space-y-8">
-      <h1 className="">Welcome, {user?.name}!</h1>
-      <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-4">
-        <div className="md:bg-primary bg-white  md:text-white text-primary  p-6 rounded-lg shadow flex justify-between items-center gap-4 hover:bg-primary/80 ">
-          <div className="">
+      <h1 className="">Welcome, {user?.firstName}!</h1>
+      <div className="flex flex-wrap gap-4">
+        <div className="md:bg-primary md:w-fit w-full bg-white/80  md:text-white text-primary  p-6 rounded-lg shadow flex justify-between items-center gap-4 hover:text-white ease-in-out duration-150 hover:bg-primary/80 ">
+          <div className=" w-[220px] ">
             <h2 className="text-sm uppercase ">Total Income</h2>
             <p className="text-3xl">{formatCurrency(parseInt(matrics?.totalIncome))}</p>
           </div>
@@ -83,8 +83,8 @@ export function DashboardTab() {
             <WalletIcon className="h-6 w-6" />
           </div>
         </div>
-        <div className="md:bg-primary bg-white  md:text-white text-primary  p-6 rounded-lg shadow flex justify-between items-center gap-4 hover:bg-primary/80">
-          <div className="">
+        <div className="md:bg-primary md:w-fit w-full bg-white/80  md:text-white text-primary  p-6 rounded-lg shadow flex justify-between items-center gap-4 hover:text-white ease-in-out duration-150 hover:bg-primary/80 ">
+          <div className=" w-[220px] ">
             <h2 className="text-sm uppercase ">Total Products</h2>
             <p className="text-3xl">{matrics?.totalProducts}</p>
           </div>
@@ -92,8 +92,8 @@ export function DashboardTab() {
             <ArchiveBoxIcon className="h-6 w-6" />
           </div>
         </div>
-        <div className="md:bg-primary bg-white  md:text-white text-primary  p-6 rounded-lg shadow flex justify-between items-center gap-4 hover:bg-primary/80">
-          <div className="">
+        <div className="md:bg-primary md:w-fit w-full bg-white/80  md:text-white text-primary  p-6 rounded-lg shadow flex justify-between items-center gap-4 hover:text-white ease-in-out duration-150 hover:bg-primary/80 ">
+          <div className=" w-[220px] ">
             <h2 className="text-sm uppercase ">Total Orders</h2>
             <p className="text-3xl">{matrics?.totalOrders}</p>
           </div>
@@ -101,8 +101,8 @@ export function DashboardTab() {
             <ShoppingBagIcon className="h-6 w-6" />
           </div>
         </div>
-        <div className="md:bg-primary bg-white  md:text-white text-primary  p-6 rounded-lg shadow flex justify-between items-center gap-4 hover:bg-primary/80">
-          <div className="">
+        <div className="md:bg-primary md:w-fit w-full bg-white/80  md:text-white text-primary  p-6 rounded-lg shadow flex justify-between items-center gap-4 hover:text-white ease-in-out duration-150 hover:bg-primary/80 ">
+          <div className=" w-[220px] ">
             <h2 className="text-sm uppercase ">Total Users</h2>
             <p className="text-3xl">{matrics?.totalUsers}</p>
           </div>
@@ -113,26 +113,24 @@ export function DashboardTab() {
         {/* Add more metrics as needed */}
       </div>
 
-      <div className="grid grid-cols-3 gap-4 ">
-        <div className=" col-span-2 p-6 border rounded-lg shadow ">
+      <div className="grid md:grid-cols-3 gap-4 ">
+        <div className="  bg-[#ffffff]  col-span-2 p-6 border rounded-lg shadow ">
           <h1 className="">Daily Sales</h1>
-          <div className="bg-white ">
+          <div className="">
             <Line data={data} className="w-full" />
           </div>
         </div>
-        <div className="bg-white p-6 rounded-lg border shadow">
+        <div className="bg-[#ffffff] p-6 rounded-lg border shadow">
           <h1 className="">Top Products</h1>
           <Doughnut data={data} />
         </div>
-        <div className="bg-white p-6 rounded-lg border shadow">
+        <div className="bg-[#ffffff] p-6 rounded-lg border shadow">
           <h1 className="">Top Products</h1>
           <Radar data={data} />
         </div>
-        <div className=" col-span-2 p-6 border rounded-lg shadow ">
-          <h1 className="">
-            Daily User
-          </h1>
-          <div className="bg-white ">
+        <div className="bg-[#ffffff]  col-span-2 p-6 border rounded-lg shadow ">
+          <h1 className="">Daily User</h1>
+          <div className="">
             <Bar data={data} className="w-full" />
           </div>
         </div>

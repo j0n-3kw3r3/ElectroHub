@@ -50,27 +50,28 @@ function Overview() {
   };
 
   return (
-    <div className="flex h-screen">
-      <aside className="w-64 shadow border-r text-default-800 p-5">
-        <Link to="/" className="  ">
+    <div className="flex flex-col-reverse md:flex-row h-screen">
+      <aside className="md:w-64 shadow flex md:flex-col flex-row  border-r text-default-800 md:p-5 p-1">
+        <Link to="/" className=" md:block hidden ">
           <div className="flex mb-20 mt-10 space-x-2 items-center ">
-            <img src={logo} alt="Logo" className="w-10 h-auto " />           <h1 className=" text-primary font-bold  text-xl ">Electro hub</h1>
+            <img src={logo} alt="Logo" className="md:w-10 w-6  h-auto " />{" "}
+            <h1 className=" text-primary font-bold  text-xl  ">Electro hub</h1>
           </div>
         </Link>
-        <div>
+        <div className="flex md:flex-col justify-between flex-row w-full ">
           {[
-            { name: "Dashboard Overview", icon: <Squares2X2Icon className="size-4 " /> },
-            { name: "Products", icon: <ShoppingBagIcon className="size-4 " /> },
-            { name: "Orders", icon: <ShoppingCartIcon className="size-4 " /> },
-            { name: "Users", icon: <UserGroupIcon className="size-4 " /> },
+            { name: "Dashboard Overview", icon: <Squares2X2Icon className="size-5 " /> },
+            { name: "Products", icon: <ShoppingBagIcon className="size-5 " /> },
+            { name: "Orders", icon: <ShoppingCartIcon className="size-5 " /> },
+            { name: "Users", icon: <UserGroupIcon className="size-5 " /> },
           ].map((item) => (
             <div
               key={item.name}
               className={`${
                 activeTab.includes(item.name) || (item.name === "Users" && showUsersDropdown)
                   ? "bg-primary text-white "
-                  : "hover:bg-primary/90 hover:text-white "
-              } items-center cursor-pointer p-4 my-2 rounded  text-sm font-medium  `}
+                  : "hover:text-primary/90 hover:text-primary hover:font-bold  "
+              } items-center cursor-pointer flex-1 flex md:justify-start justify-center p-4 md:my-2 md:rounded  text-sm font-medium  `}
               onClick={() => {
                 setActiveTab(item.name);
                 if (item.name === "Users") {
@@ -80,9 +81,11 @@ function Overview() {
                 }
               }}
             >
-              <div className="flex items-center">
+              <div className="flex items-center  ">
                 {item?.icon}
-                <span className="ml-2">{item.name === "Dashboard Overview" ? "Dashboard" : item.name}</span>
+                <span className="ml-2 md:block hidden">
+                  {item.name === "Dashboard Overview" ? "Dashboard" : item.name}
+                </span>
               </div>
               <div className="">
                 {item.name === "Users" && (

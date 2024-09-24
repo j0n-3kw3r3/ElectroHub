@@ -4,7 +4,7 @@ import { FiArrowRight } from "react-icons/fi";
 
 export default function Hero() {
   return (
-    <div className="bg-neutral dark:text-default-200 text-default-800  shadow w-full ">
+    <div className="bg-white/80 dark:text-default-200 text-default-800  shadow w-full ">
       <div className="mx-[6%] md:mr-0 md:ml-[14%]  items-center md:flex gap-6 ">
         <div className=" md:w-[50%] w-full md:mx-0 pt-20 ">
           <h1 className="text-4xl font-black  ">Power Your Projects with Quality Electronic Components</h1>

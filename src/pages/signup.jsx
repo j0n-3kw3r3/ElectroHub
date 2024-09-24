@@ -1,4 +1,4 @@
-import { EnvelopeIcon, EyeIcon, EyeSlashIcon, LockClosedIcon, UserIcon } from "@heroicons/react/24/outline";
+import { EnvelopeIcon, LockClosedIcon, UserIcon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
 import React, { useState } from "react";
 import google from "../assets/image/google_g_icon.svg";
@@ -7,40 +7,57 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { registerSuccess } from "../redux/auth";
+import { useDispatch } from "react-redux";
+import CustomInput from "../components/useinput";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useMutation } from "@tanstack/react-query";
+import { registerEP } from "../services";
+
+
+const schema = z.object({
+  email: z.string().email(),
+  password: z.string().min(5, { message: "Password must conatain at least 5 Characters" }),
+  firstName: z.string().min(1, { message: "First name is Required" }),
+});
+
 
 function Signup() {
- const [name, setName] = useState("");
- const [email, setEmail] = useState("");
- const [password, setPassword] = useState("");
- const [isVisible, setIsVisible] = React.useState(false);
- const toggleVisibility = () => setIsVisible(!isVisible);
- const navigate = useNavigate();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
- //  function to handle the form submission
- const handleSubmit = (e) => {
-   e.preventDefault();
-   if (!email || !password) {
-     alert("Please fill all the fields");
-     return;
-   }
- 
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm({
+      resolver: zodResolver(schema),
+    });
 
-   axios
-     .post(`${import.meta.env.VITE_URL}/auth/register`, {
-       name: name,
-       email: email,
-       password: password
-     })
-     .then((res) => {
-         const data = res.data;
-         dispatch(registerSuccess(data));
-         navigate("/");
-     })
-     .catch((err) => {
-       console.log(err);
-       toast.error("Invalid Credentials");
-     });
- };
+  
+    const { mutateAsync, isPending } = useMutation({
+      mutationFn: registerEP,
+      onSuccess: (data) => {
+        toast.success("User created successfully");
+        dispatch(registerSuccess(data));
+            navigate("/");
+      },
+      onError: (error) => {
+        console.log(error);
+        toast.error("failed to create user");
+      },
+    });
+
+  //  function to handle the form submission
+  const submitHandler = async(data) => {
+    try {
+     
+      await mutateAsync(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 
   return (
@@ -61,61 +78,57 @@ function Signup() {
             </p>
           </div>
         </div>
-        <form className="mt-8 p-6 space-y-4" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm text-default-400 space-y-4">
-            <div className="border flex w-full rounded p-2 items-center gap-3 ">
-              <UserIcon className="size-4 text-default-400 pointer-events-none flex-shrink-0" />
-              <input
-                id="name"
-                name="name"
-                type="text"
-                required
-                className=" focus:outline-none bg-transparent w-full "
-                placeholder="Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+        <form className="mt-8 p-6 space-y-4" onSubmit={handleSubmit(submitHandler)}>
+          <div className="rounded-md shadow-sm text-default-400 space-y-8">
+            <CustomInput
+              type="text"
+              variant="bordered"
+              label="First name"
+              name="firstName"
+              radius="sm"
+              placeholder="Enter your First name"
+              errors={errors}
+              isRequired
+              classStyle="text-white/90 "
+              labelstyle=" text-white/90 "
+              register={register}
+              icon={<UserIcon className="size-4 text-default-400 pointer-events-none flex-shrink-0" />}
               />
-            </div>
-            <div className="border flex w-full rounded p-2 items-center gap-3 ">
-              <EnvelopeIcon className="size-4 text-default-400 pointer-events-none flex-shrink-0" />
-              <input
-                id="email"
-                name="email"
-                type="text"
-                required
-                className=" focus:outline-none bg-transparent w-full "
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="border flex w-full rounded p-2 items-center gap-3 ">
-              <LockClosedIcon className="size-4 text-default-400 pointer-events-none flex-shrink-0" />
-              <input
-                id="password"
-                name="password"
-                required
-                className=" focus:outline-none bg-transparent w-full "
-                placeholder="Password"
-                value={password}
-                type={isVisible ? "text" : "password"}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              {isVisible ? (
-                <div className="" onClick={toggleVisibility}>
-                  <EyeSlashIcon className="size-5 text-default-400 pointer-events-none" />
-                </div>
-              ) : (
-                <div className="" onClick={toggleVisibility}>
-                  <EyeIcon className="size-5 text-default-400 pointer-events-none" />
-                </div>
-              )}
-            </div>
+            <CustomInput
+              type="email"
+              variant="bordered"
+              label="Email"
+              radius="sm"
+              name="email"
+              placeholder="emailyou@example.com"
+              errors={errors}
+              isRequired
+              classStyle="text-white/90 mt-10"
+              labelstyle=" text-white/90 "
+              register={register}
+              icon={<EnvelopeIcon className="size-5 text-default-400 pointer-events-none " />}
+            />
+            <CustomInput
+              type="password"
+              variant="bordered"
+              label="Password"
+              radius="sm"
+              name="password"
+              placeholder="Enter your password"
+              errors={errors}
+              isRequired
+              classStyle="text-white/90 mt-10"
+              labelstyle=" text-white/90 "
+              register={register}
+              icon={<LockClosedIcon className="size-4 text-default-400 pointer-events-none flex-shrink-0" />}
+            />
+          
           </div>
 
           <div>
             <Button
               type="submit"
+              isLoading={isPending}
               className=" w-full flex text-white  shadow-md text-sm font-medium rounded-md  bg-primary "
             >
               Sign up

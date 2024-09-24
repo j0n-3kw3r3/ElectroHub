@@ -1,66 +1,111 @@
 import { BsInstagram } from "react-icons/bs";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import bg from "../assets/image/circuit.jpg";
+import CustomInput from "../components/useinput";
+import { ChatBubbleBottomCenterTextIcon, EnvelopeIcon, UserIcon } from "@heroicons/react/24/outline";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useMutation } from "@tanstack/react-query";
+import CustomTextArea from "../components/usetextarea";
+
+const schema = z.object({
+  name: z.string(),
+  message: z.string(),
+  email: z.string().email(),
+});
+
 const ContactUs = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
+
+  // const { mutateAsync, isPending } = useMutation({
+  //   mutationFn: loginEP,
+  //   onSuccess: (data) => {
+  //     dispatch(loginSuccess(data));
+  //   },
+  //   onError: (error) => {
+  //     console.log(error);
+  //     toast.error("Invalid Credentials");
+  //   },
+  // });
+
+  // //  function to handle the form submission
+  // const submitHandler = async (data) => {
+  //   try {
+  //     await mutateAsync(data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
   return (
     <div className="">
-      <div className="relative bg-cover bg-center h-64 backgroundImage">
-        <div className="absolute inset-0 bg-black opacity-50"></div>
+      <div className="relative bg-cover bg-center md:h-40 h-32 ">
+        <div className="absolute inset-0 bg-black/80 z-10 "></div>
         <div className="relative z-10 flex items-center justify-center h-full">
-          <h1 className="text-4xl font-bold text-white text-center mb-8">Contact Us</h1>
+          <h1 className="md:text-4xl text-xl font-bold text-white/90">Contact Us</h1>
         </div>
+        <img src={bg} alt="" className=" absolute top-0 z-0 w-full h-full object-cover " />
       </div>
-      <div className="bg-white p-20 px-[10%] grid grid-cols-2 gap-32 rounded-lg  mx-auto">
-        <form className="space-y-6">
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none/80 focus:ring-primary/80 focus:border-primary/80 sm:text-sm"
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none/80 focus:ring-primary/80 focus:border-blue/80-500 sm:text-sm"
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-              Message
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              rows="4"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none/80 focus:ring-primary/80 focus:border-primary/80 sm:text-sm"
-              required
-            ></textarea>
-          </div>
+      <div className="bg-white/80 md:p-18 p-10 px-[10%] md:flex space-y-16 md:space-y-0  gap-32 rounded-lg  mx-auto">
+        <form className="space-y-6 flex-1 md:max-w-md">
+          <CustomInput
+            type="text"
+            variant="bordered"
+            label="Name"
+            radius="sm"
+            name="name"
+            placeholder="Enter your name"
+            errors={errors}
+            classStyle="w-full mb-10    "
+            register={register}
+            icon={<UserIcon className="size-5 text-default-400 pointer-events-none " />}
+          />
+
+          <CustomInput
+            type="email"
+            variant="bordered"
+            label="Email"
+            radius="sm"
+            name="email"
+            placeholder="emailyou@example.com"
+            errors={errors}
+            classStyle="w-full mb-24  "
+            register={register}
+            icon={<EnvelopeIcon className="size-5 text-default-400 pointer-events-none " />}
+          />
+
+          <CustomTextArea
+            type="text"
+            variant="bordered"
+            radius="sm"
+            label="Message"
+            name="message"
+            placeholder="Enter your message"
+            errors={errors}
+            classStyle=" w-full mb-24  "
+            register={register}
+            icon={<ChatBubbleBottomCenterTextIcon className="size-5 text-default-400 pointer-events-none " />}
+          />
           <div className="text-center">
             <button
               type="submit"
-              className="bg-primary text-white py-2 px-4 rounded hover:bg-primary/80 transition-colors duration-300"
+              className="bg-primary text-white text-sm py-2 px-4 w-full rounded hover:bg-primary/80 transition-colors duration-300"
             >
               Send Message
             </button>
           </div>
         </form>
-        <div className="">
+        <div className=" text-sm">
           <div className=" ">
             <h2 className="text-xl font-semibold mb-4">Follow Us</h2>
-            <div className="flex space-x-8">
+            <div className="flex space-x-4 md:space-x-8">
               <BsInstagram size={15} className=" cursor-pointer" />
               <FaXTwitter size={15} className=" cursor-pointer" />
               <FaFacebookF size={15} className=" cursor-pointer" />
@@ -68,7 +113,7 @@ const ContactUs = () => {
             </div>
           </div>
           <div className="mt-8 ">
-            <h2 className="text-xl font-semibold mb-4">Other Contact Information</h2>
+            <h2 className=" font-semibold mb-4">Other Contact Information</h2>
             <p className="text-gray-700">Phone: (123) 456-7890</p>
             <p className="text-gray-700">Address: 123 Electronics Ave, Tech City, TX 12345</p>
             <div className="mt-4">

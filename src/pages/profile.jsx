@@ -6,10 +6,10 @@ import { Link } from "react-router-dom";
 export default function Profile() {
   const user = useSelector((state) => state.auth);
   return (
-    <div className="">
+    <div className=" h-screen">
       <Nav />
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
+      <div className="bg-primary/5 flex md:items-center pt-10 md:pt-0 justify-center">
+        <div className="bg-white/80 p-8 rounded-lg shadow-lg w-full max-w-sm md:max-w-lg">
           <div className="flex items-center mb-6 space-x-4 ">
             <Avatar
               // isBordered
@@ -37,7 +37,8 @@ export default function Profile() {
               <strong>Phone:</strong> {user?.phone}
             </p>
             <p className="text-gray-700">
-              <strong>Address:</strong> {user?.address}
+              <strong>Address:</strong> {user?.address?.street}, {user?.address?.city}, {user?.address?.state},{" "}
+              {user?.address?.postalCode}
             </p>
           </div>
           <div className="mb-4">

@@ -13,11 +13,10 @@ export const Header = () => {
         <span className="text-xl font-bold">Admin Dashboard</span>
       </div>
       <div className="flex items-center space-x-4 ">
-      
         {/* Search Bar */}
-          <Badge content="" shape="circle" color="danger" size="sm" placement="top-right">
-            <BellIcon className="size-5" />
-          </Badge>
+        <Badge content="" shape="circle" color="danger" size="sm" placement="top-right">
+          <BellIcon className="size-5" />
+        </Badge>
         <div className="flex items-center cursor-pointer">
           <Avatar
             // isBordered
@@ -27,7 +26,7 @@ export const Header = () => {
             showFallback
             name={user?.name}
             size="sm"
-            src={user?.picture}
+            src={user.profilePicture ? user?.profilePicture[0]?.url : ""}
           />
         </div>
       </div>

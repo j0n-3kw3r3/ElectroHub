@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback,  useState } from "react";
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
 import { toast } from "react-toastify";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -79,7 +79,7 @@ export function EditProduct({ isOpen, onOpenChange, product }) {
     }
 
     try {
-      await mutateAsync({ formData, id: product._id });
+      await mutateAsync({ formData, id: product.id });
     } catch (error) {
       console.error(error);
       toast.error("Failed to Update product");
@@ -91,7 +91,7 @@ export function EditProduct({ isOpen, onOpenChange, product }) {
   return (
     <div>
       <Modal isOpen={isOpen} backdrop="blur" scrollBehavior="inside" onOpenChange={onOpenChange}>
-        <ModalContent className="max-w-xl mx-auto p-5   rounded-lg shadow">
+        <ModalContent className="md:max-w-xl  mx-auto p-5 rounded-lg shadow">
           {(onClose) => (
             <>
               <ModalHeader className="text-lg font-semibold text-gray-900">Update Product</ModalHeader>
@@ -233,7 +233,7 @@ export function EditProduct({ isOpen, onOpenChange, product }) {
                       <option value="">Select a category</option>
                       {categories &&
                         categories?.map((category, index) => (
-                          <option key={index} value={category?._id} className="block text-sm font-medium text-gray-700">
+                          <option key={index} value={category?.id} className="block text-sm font-medium text-gray-700">
                             {category.name}
                           </option>
                         ))}
@@ -255,7 +255,7 @@ export function EditProduct({ isOpen, onOpenChange, product }) {
                         subCategories?.map((subCategory, index) => (
                           <option
                             key={index}
-                            value={subCategory?._id}
+                            value={subCategory?.id}
                             className="block text-sm font-medium hover:bg-primary text-gray-700  "
                           >
                             {subCategory.name}

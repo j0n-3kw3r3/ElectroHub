@@ -9,7 +9,6 @@ export const CreateProduct = ({ setProductSubTab }) => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [data, setData] = useState({});
 
-
   const { data: subCategories } = useQuery({
     queryKey: ["subCategories"],
     queryFn: fetchSubCategoriesEP,
@@ -78,7 +77,7 @@ export const CreateProduct = ({ setProductSubTab }) => {
   };
 
   return (
-    <div className="max-w-lg mx-auto border p-4 bg-white shadow-md rounded-lg">
+    <div className="max-w-lg mx-auto border p-4 bg-white/80 shadow-md rounded-lg">
       <form className="space-y-4">
         <div
           className="mt-1 block w-full  border border-dashed rounded-md shadow-sm p-4 text-center cursor-pointer"
@@ -193,7 +192,7 @@ export const CreateProduct = ({ setProductSubTab }) => {
             <option value="">Select a category</option>
             {categories &&
               categories?.map((category, index) => (
-                <option key={index} value={category?._id}>
+                <option key={index} value={category?.id}>
                   {category.name}
                 </option>
               ))}
@@ -213,7 +212,7 @@ export const CreateProduct = ({ setProductSubTab }) => {
             <option value="">Select a sub-category</option>
             {subCategories &&
               subCategories?.map((subCategory, index) => (
-                <option key={index} value={subCategory?._id}>
+                <option key={index} value={subCategory?.id}>
                   {subCategory.name}
                 </option>
               ))}

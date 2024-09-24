@@ -42,12 +42,12 @@ export default function Testimonial() {
   ];
 
   return (
-    <div className="  p-5 md:mx-[5%]">
+    <div className="p-10 md:mx-[5%]">
       {/* Testimonials */}
-      <div className=" pb-10 border-b ">
+      <div className=" pb-10 border-b border-primary ">
         <h1 className="font-bold text-xl mb-4">Testimonials</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div className="  p-5 rounded-lg">
+        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8 items-center">
+          <div className="  p-5 rounded-lg text-sm ">
             <p className="">
               "ElectroHub is my go-to for all electronic components! The quality is unmatched, and their fast shipping
               keeps my projects on schedule. Their expert support has been incredibly helpful!"
@@ -69,7 +69,7 @@ export default function Testimonial() {
               </div>
             </div>
           </div>
-          <div className="  p-5 rounded-lg">
+          <div className="  p-5 rounded-lg text-sm ">
             <p className="">
               "From resistors to Arduino boards, ElectroHub has everything I need at great prices. The customer service
               is fantastic, and delivery is always fast. Highly recommend!"
@@ -93,10 +93,8 @@ export default function Testimonial() {
           </div>
         </div>
       </div>
-      {/* Manufaturer */}
-      <div
-        className="flex marquee gap-16 items-center"
-      >
+      {/* Manufaturers */}
+      <div className="flex marquee gap-16 items-center">
         {manufacturers.map((manufacturer, index) => (
           <div key={index} className="  p-5 rounded-lg">
             <img src={manufacturer.logo} alt={manufacturer.name} className="w-[400px]   rounded-full" />

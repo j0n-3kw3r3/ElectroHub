@@ -27,7 +27,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #7728c523; 
   }
   
   ::-webkit-scrollbar-thumb {
@@ -55,12 +55,4 @@ body {
 .marquee {
   animation: marquee 60s linear infinite;
 transition-duration: 1s;
-}
-
-.backgroundImage{
-  background-image: url('./assets/image/aboutbackground.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  z-index: -1;
 }

@@ -73,13 +73,13 @@ export const ProductTable = () => {
     }
   };
 
-  const { currentPage, totalPages, currentItems, handlePageChange } = usePagination(products, itemsPerPage);
-  const {
-    currentPage: currentPageFilterd,
-    totalPages: totalFilterdPages,
-    currentItems: currentFilterdItems,
-    handlePageChange: handlePageChangeFilterd,
-  } = usePagination(filtersProducts, itemsPerPage);
+  // const { currentPage, totalPages, currentItems, handlePageChange } = usePagination(products, itemsPerPage);
+  // const {
+  //   currentPage: currentPageFilterd,
+  //   totalPages: totalFilterdPages,
+  //   currentItems: currentFilterdItems,
+  //   handlePageChange: handlePageChangeFilterd,
+  // } = usePagination(filtersProducts, itemsPerPage);
 
   return (
     <>
@@ -88,17 +88,17 @@ export const ProductTable = () => {
           <input
             type="text"
             placeholder="Search..."
-            className="focus:outline-none border-none transition text-sm duration-150 ease-in-out"
+            className="focus:outline-none border-none transition text-sm duration-150 ease-in-out bg-transparent "
             style={{ backdropFilter: "blur(5px)" }}
             onChange={handleSearchOrder}
           />
           <MagnifyingGlassIcon className="size-4 cursor-pointer " />
         </div>
       </div>
-      <div className="overflow-x-auto relative shadow-md rounded-lg">
+      <div className="overflow-x-auto scrollbar-hide relative shadow-md rounded-lg">
         {products.length > 0 ? (
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead className="text-xs  uppercase text-white bg-primary dark:bg-gray-700 dark:text-gray-400">
+            <thead className="text-xs  uppercase  border border-b-primary dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="py-4 px-6"></th>
                 <th scope="col" className="py-4 px-6">
@@ -123,11 +123,11 @@ export const ProductTable = () => {
               </tr>
             </thead>
 
-            <tbody>
-              {currentFilterdItems.length > 0
-                ? currentFilterdItems?.map((product) => (
+            <tbody className="text-xs">
+              {filtersProducts.length > 0
+                ? filtersProducts?.map((product) => (
                     <>
-                      <tr key={product?._id} className="border-b odd:bg-white even:bg-gray-50 hover:bg-gray-100">
+                      <tr key={product?.id} className="border-b odd:bg-white/80 even:bg-gray-50 hover:bg-primary/5  ">
                         <td className="py-4 px-6 rounded ">
                           <img
                             src={product?.images[0]?.url}
@@ -193,9 +193,9 @@ export const ProductTable = () => {
                       </tr>
                     </>
                   ))
-                : currentItems?.map((product) => (
+                : products?.map((product) => (
                     <>
-                      <tr key={product?._id} className="border-b odd:bg-white even:bg-gray-50 hover:bg-gray-100">
+                      <tr key={product?.id} className="border-b odd:bg-white/80 even:bg-gray-50 hover:bg-primary/5">
                         <td className="py-4 px-6 rounded ">
                           <img
                             src={product?.images[0]?.url}
@@ -288,7 +288,7 @@ export const ProductTable = () => {
                     color="primary"
                     onPress={onClose}
                     onClick={() => {
-                      deleteProduct(productId?._id);
+                      deleteProduct(productId?.id);
                     }}
                   >
                     Delete
@@ -301,28 +301,28 @@ export const ProductTable = () => {
       )}
       {/* Pagination Controls */}
       <div className="flex justify-center mt-6">
-        {Array.from({ length: totalPages ? totalPages : totalFilterdPages }, (_, index) => (
-          <button
-            key={index}
-            onClick={() => {
-              if (filtersProducts.length > 0) {
-                handlePageChangeFilterd(index + 1);
-              }
-              handlePageChange(index + 1);
-            }}
-            className={`mx-1 px-3 py-1 border rounded ${
-              filtersProducts?.length > 0
-                ? currentPageFilterd === index + 1
-                  ? "bg-blue-500 text-white"
-                  : "bg-white text-blue-500 border-blue-500"
-                : currentPage === index + 1
+        {/* {Array.from({ length: totalPages ? totalPages : totalFilterdPages }, (_, index) => (
+        <button
+          key={index}
+          onClick={() => {
+            if (filtersProducts.length > 0) {
+              handlePageChangeFilterd(index + 1);
+            }
+            handlePageChange(index + 1);
+          }}
+          className={`mx-1 px-3 py-1 border rounded ${
+            filtersProducts?.length > 0
+              ? currentPageFilterd === index + 1
                 ? "bg-blue-500 text-white"
-                : "bg-white text-blue-500 border-blue-500"
-            }`}
-          >
-            {index + 1}
-          </button>
-        ))}
+                : "bg-white/80 text-blue-500 border-blue-500"
+              : currentPage === index + 1
+              ? "bg-blue-500 text-white"
+              : "bg-white/80 text-blue-500 border-blue-500"
+          }`}
+        >
+          {index + 1}
+        </button>
+        ))} */}
       </div>
     </>
   );

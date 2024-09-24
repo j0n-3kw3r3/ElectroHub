@@ -32,7 +32,7 @@ export default function CartModal({ isCartOpen, handleCart, cartItems }) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="  bg-white dark:bg-darkbg h-full w-[400px] absolute shadow-xl flex flex-col right-0 top-0 transition-transform translate-x-0 duration-[800s] delay-300 ease-in-out "
+        className="  bg-white/80 dark:bg-darkbg h-full w-[400px] absolute shadow-xl flex flex-col right-0 top-0 transition-transform translate-x-0 duration-[800s] delay-300 ease-in-out "
       >
         <div className=" w-full flex-grow overflow-y-auto  ">
           <div className="flex  top-0  relative items-center justify-between text-primary p-5 border-b shadow-md border-primary">
@@ -45,7 +45,7 @@ export default function CartModal({ isCartOpen, handleCart, cartItems }) {
             cartItems.cartItems.map((item, index) => (
               <div key={index} className="border-b border-default-600 flex items-center gap-4 p-4 ">
                 <div className="flex flex-grow gap-4 ">
-                  <div className="w-[60px] h-[50px] bg-neutral rounded overflow-hidden border border-default-200 ">
+                  <div className="w-[60px] h-[50px] bg-white/80 rounded overflow-hidden border border-default-200 ">
                     <img src={item?.images[0].url} alt="" className=" w-full h-full object-contain " />
                   </div>
                   <div className="flex-grow text-sm">
@@ -88,6 +88,7 @@ export default function CartModal({ isCartOpen, handleCart, cartItems }) {
               onClick={() => {
                 if (!user?.id) {
                   toast.error("Please login to continue");
+                  navigate("/auth/login");
                 } else if (cartItems.cartItems.length > 0) {
                   navigate("/checkout");
                 }
