@@ -47,7 +47,7 @@ export default function Nav({ onClick, darkMode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [notifications, setNotifications] = useState([]);
+  // const [notifications, setNotifications] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -96,11 +96,11 @@ export default function Nav({ onClick, darkMode }) {
     queryKey: ["category"],
     queryFn: fetchCategoriesEP,
   });
-  const { } = useQuery({
+  const {data:notifications } = useQuery({
     queryKey: ["notifications", user.id],
     queryFn: () => fetchNotificationsEP(user.id),
     onSuccess: (data) => {
-      setNotifications(data);
+      // setNotifications(data);
     }
   });
 
@@ -134,6 +134,7 @@ export default function Nav({ onClick, darkMode }) {
     const results = products.filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()));
     return navigate(`/search?query=${searchTerm}`, { state: { results } });
   };
+  console.log(notifications);
 
   return (
     <>
