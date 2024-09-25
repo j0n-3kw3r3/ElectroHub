@@ -62,7 +62,7 @@ export default function Recommendations({ products, userId }) {
         <div className="gap-4 w-full flex p-1   shadow ">
           {recommendations?.map((item, index) => {
             return (
-              <Card shadow="sm" key={index} radius="none" className="w-[13em] ">
+              <Card shadow="sm" key={index} radius="none" className="rounded-sm w-[13em] ">
                 <CardBody className="overflow-visible p-0 border-b ">
                   <div className="absolute right-4 top-2 p-1 rounded-full  items-center  bg-red-500 text-white  ">
                     -{item.discount}%

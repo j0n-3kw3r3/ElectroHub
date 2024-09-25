@@ -56,18 +56,18 @@ export default function FlashSale({ products, userId }) {
   };
 
   return (
-    <div className=" md:px-[10%] p-10 bg-primary/5 text-default-600  ">
+    <div className=" md:px-[10%] px-[5%] p-10 text-xs md:text-sm bg-primary/5 text-default-600  ">
       <div className="bg-red-500 text-white p-2">
-        <div className="flex justify-between items-center ">
-          <h3 className="font-bold text-xl">Flash Sale</h3>
-          <p className="text-sm">Time Left: {formattedTime}</p>
-          <a href="#" className="text-white text-sm underline">
+        <div className="flex justify-between text-xs items-center ">
+          <h3 className="font-bold md:text-xl">Flash Sale</h3>
+          <p className="">Time Left: {formattedTime}</p>
+          <a href="#" className="text-white underline">
             SEE ALL
           </a>
         </div>
       </div>
       <ScrollShadow className="w-full  " hideScrollBar offset={100} orientation="horizontal" size={20}>
-        <div className="gap-4 w-full flex p-1   shadow ">
+        <div className="gap-4 w-full flex pt-1   shadow ">
           {featuredProducts?.map((item, index) => {
             let liked = false;
             const likedUser = item.likes.map((like) => {
@@ -79,10 +79,11 @@ export default function FlashSale({ products, userId }) {
             }
 
             return (
-              <Card shadow="sm" key={index} radius="none" className="w-[13em] ">
+              <Card shadow="sm" key={index} radius="none" className=" rounded-sm w-[13em] ">
                 <CardBody className="overflow-visible p-0 border-b ">
-                  <div className="absolute right-4 top-2 p-1 rounded-full  items-center  bg-red-500 text-white  ">
-                    -{item.discount}%
+                  <div className="absolute right-0 top-2  px-3 text-[9px] w-[40px] h-[17px] items-center   overflow-hidden ">
+                    <div className=" absolute -right-[14px] -top-1 -rotate-[55deg] bg-red-500 h-[40px] w-[60px] "></div>
+                    <p className="px-3 text-white absolute bg-transparent z-10 right-0  bottom-[50%] translate-y-[50%] " >-{item.discount}%</p>
                   </div>
                   <img
                     alt={item?.name}
@@ -93,23 +94,20 @@ export default function FlashSale({ products, userId }) {
                     }}
                   />
                 </CardBody>
-                <CardFooter className="text-small text-left flex flex-col gap-1 items-start ">
-                  <b
-                    className=" cursor-pointer "
+                <CardFooter className="  text-left flex flex-col gap-1 items-start ">
+                  <p
+                    className=" cursor-pointer text-primary "
                     onClick={() => {
                       navigate(`/product/${item?.id}`);
                     }}
                   >
                     {item?.name}
-                  </b>
+                  </p>
                   <div className="flex items-center gap-2">
                     <StarIcon className={item?.star ? "size-4 fill-[gold] " : "size-4"} color="gold" />
-                    <b>•</b>
-                    <p className="text-default-300 text-xs">500+ sold</p>
                   </div>
                   <div className="flex gap-2 items-center">
-                    <p className="text-default-500 ">{formatCurrency(parseInt(item?.price))}</p>
-                    <p className="text-danger text-xs line-through ">{formatCurrency(parseInt(item?.discount))}</p>
+                    <p className=" font-bold ">{formatCurrency(parseInt(item?.price))}</p>
                   </div>
                 </CardFooter>
               </Card>

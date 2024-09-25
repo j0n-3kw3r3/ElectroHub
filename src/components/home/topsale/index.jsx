@@ -31,8 +31,8 @@ export default function TopSale({ products, userId }) {
   };
 
   return (
-    <div className="  md:px-[10%] bg-primary/5 p-10 text-default-600">
-      <h1 className="font-bold text-xl mb-4  ">Top selling items</h1>
+    <div className="  md:px-[10%] px-[5%] bg-primary/5 p-10 text-default-600">
+      <h1 className="font-bold md:text-xl mb-4  ">Top selling items</h1>
       <ScrollShadow className="w-full  " hideScrollBar offset={100} orientation="horizontal" size={20}>
         <div className="gap-4 w-fit flex p-1">
           {featuredProducts?.map((item, index) => {
@@ -46,7 +46,7 @@ export default function TopSale({ products, userId }) {
             }
 
             return (
-              <Card shadow="sm" key={index} radius="none" className="w-[16em]">
+              <Card shadow="sm" key={index} radius="none" className="rounded-sm w-[13em]">
                 <CardBody className="overflow-visible p-0 bg-white/80 ">
                   <div className="absolute right-4 top-2 p-1 rounded-full  items-center  bg-white/80  ">
                     <HeartIcon
