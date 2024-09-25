@@ -10,6 +10,7 @@ export const createOrderEP = (data) => api.post("/orders", data).then((res) => r
 export const createNotificationEP = (data) => api.post("/notifications", data).then((res) => res?.data);
 export const resetPasswordEP = (data, resetToken) => api.post(`/auth/reset-password/${resetToken}`, data).then((res) => res?.data);
 export const addCartEP = (data, userId) => api.post(`/auth/carts/${userId}/products`, data).then((res) => res?.data);
+export const fetchCartsEP = (id) => api.get(`/carts/${id}`).then((res) => res?.data);
 export const updateProductsEP = (data, id) => formDataApi.put(`/products/${id}`, data).then((res) => res?.data);
 export const fetchNotificationsEP = (id) => api.get(`/notifications/${id}`).then((res) => res?.data);
 export const fetchOrderEP = (id) => api.get(`/orders/${id}`).then((res) => res?.data);

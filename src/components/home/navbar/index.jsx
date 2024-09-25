@@ -96,12 +96,12 @@ export default function Nav({ onClick, darkMode }) {
     queryKey: ["category"],
     queryFn: fetchCategoriesEP,
   });
-  const {data:notifications } = useQuery({
+  const { data: notifications } = useQuery({
     queryKey: ["notifications", user.id],
     queryFn: () => fetchNotificationsEP(user.id),
     onSuccess: (data) => {
       // setNotifications(data);
-    }
+    },
   });
 
   const { data: products } = useQuery({
@@ -134,7 +134,6 @@ export default function Nav({ onClick, darkMode }) {
     const results = products.filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()));
     return navigate(`/search?query=${searchTerm}`, { state: { results } });
   };
-  console.log(notifications);
 
   return (
     <>
@@ -149,7 +148,7 @@ export default function Nav({ onClick, darkMode }) {
           {!isSearchOpen ? (
             <NavbarBrand>
               <Link to="/">
-                <img src={logo} alt="" className=" h-6" />
+                <img src={logo} alt="" className=" h-5" />
               </Link>
             </NavbarBrand>
           ) : (
@@ -210,58 +209,66 @@ export default function Nav({ onClick, darkMode }) {
             onClick={onClick}
           >
             {darkMode ? (
-              <SunIcon className="md:size-5 size-4 hidden md:block text-default-800 m-1 hover:text-primary hover:size-7 transform ease-in-out duration-250 " />
+              <SunIcon className="md:size-5 size-4 hidden md:block text-default-800 m-1 hover:text-primary md:hover:size-7 transform ease-in-out duration-250 " />
             ) : (
-              <MoonIcon className="md:size-5 size-4 hidden md:block text-default-800 m-1 hover:text-primary hover:size-7 transform ease-in-out duration-250 " />
+              <MoonIcon className="md:size-5 size-4 hidden md:block text-default-800 m-1 hover:text-primary md:hover:size-7 transform ease-in-out duration-250 " />
             )}
           </NavbarItem>
           <NavbarItem className=" hover:bg-default-200 rounded-full  ease-in-out duration-200 flex items-center cursor-pointer ">
             <Popover placement="bottom">
               <PopoverTrigger>
                 <Badge
-                  content={notifications && (notifications?.find((notification) => !notification.isRead) ? "" : null)}
+                  content={
+                    Array.isArray(notifications) && notifications.find((notification) => !notification.isRead)
+                      ? ""
+                      : null
+                  }
                   color="danger"
                   size="sm"
                   shape="circle"
                   placement="top-right"
                 >
                   <PopoverTrigger>
-                    <BellAlertIcon className="md:size-5 size-4 m-1 hover:text-primary hover:size-7 transform ease-in-out duration-250  " />
+                    <BellAlertIcon className="md:size-5 size-4 m-1 hover:text-primary md:hover:size-7 transform ease-in-out duration-250  " />
                   </PopoverTrigger>
                 </Badge>
               </PopoverTrigger>
               <PopoverContent className=" rounded-lg border ">
                 {(titleProps) => (
                   <div className="px-1 py-4 ">
-                    <h3 className="text-md font-bold pb-4 pl-2  " {...titleProps}>
+                    <h3 className="text-md font-bold pb-4   " {...titleProps}>
                       Notifications 📢
                     </h3>
-                    <div className="text-tiny h-[18.125rem] scrollbar-hide overflow-auto">
-                      {/* contents */}
+                    {notifications.length > 0 ? (
+                      <div className="text-tiny max-h-[18.125rem] scrollbar-hide overflow-auto">
+                        {/* contents */}
 
-                      <ul className=" ">
-                        {notifications?.map((item, index) => (
-                          <li
-                            key={index}
-                            className={`
+                        <ul className=" ">
+                          {notifications?.map((item, index) => (
+                            <li
+                              key={index}
+                              className={`
                                 cursor-pointer border-b md:w-[25rem] w-[18.75rem] hover:bg-primary hover:text-white p-2 bg-white/80   ${
                                   item.isRead ? "text-gray-400" : "text-gray-800"
                                 } `}
-                            onClick={() => {
-                              navigate(`/order/${item.shortId}`);
-                            }}
-                          >
-                            <div className="flex justify-between items-center">
-                              <h3 className=" font-semibold"> {item.title}</h3>
-                              <span className=" text-[.625rem] font-semibold ">
-                                <TimeAgo date={item.createdAt} />
-                              </span>
-                            </div>
-                            <Markdown>{item.message}</Markdown>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                              onClick={() => {
+                                navigate(`/order/${item.shortId}`);
+                              }}
+                            >
+                              <div className="flex justify-between items-center">
+                                <h3 className=" font-semibold"> {item.title}</h3>
+                                <span className=" text-[.625rem] font-semibold ">
+                                  <TimeAgo date={item.createdAt} />
+                                </span>
+                              </div>
+                              <Markdown>{item.message}</Markdown>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : (
+                      <p className="text-[10px]">No notifications.</p>
+                    )}
                   </div>
                 )}
               </PopoverContent>
@@ -270,13 +277,13 @@ export default function Nav({ onClick, darkMode }) {
           <NavbarItem className=" hover:bg-default-200 rounded-full  mr-2 ease-in-out duration-200 flex items-center cursor-pointer">
             <div className=" w-fit h-fit flex items-center " onClick={handleCart}>
               <Badge
-                content={cartItems?.cartTotalQuantity}
+                content={cartItems?.cartTotalQuantity.length > 0 ? cartItems?.cartTotalQuantity : null}
                 shape="circle"
                 color="danger"
                 size="sm"
                 placement="top-right"
               >
-                <ShoppingCartIcon className="md:size-5 size-4 m-1 hover:text-primary hover:size-7 transform ease-in-out duration-250  " />
+                <ShoppingCartIcon className="md:size-5 size-4 m-1 hover:text-primary md:hover:size-7 transform ease-in-out duration-250  " />
               </Badge>
             </div>
           </NavbarItem>
@@ -341,7 +348,7 @@ export default function Nav({ onClick, darkMode }) {
               placeholder="Categories"
               size="xs"
               startContent={<AdjustmentsHorizontalIcon className="size-4" />}
-              className="w-[10em]  bg-opacity-0 "
+              className="w-[10em] bg-opacity-0 "
               variant="underlined"
               color="primary"
             >
@@ -358,7 +365,7 @@ export default function Nav({ onClick, darkMode }) {
             About
           </Link>
           <Link to="/contact-us" className=" cursor-pointer hidden md:block ">
-            Contact 
+            Contact
           </Link>
         </div>
 
@@ -368,9 +375,8 @@ export default function Nav({ onClick, darkMode }) {
           </div>
           <div className="w-fit md:mr-0 mr-6 ">
             <p className="md:text-sm text-xs text-primary  ">Free Delivery</p>
-            <p className="text-xs flex flex-col md:flex-row ">For all orders above <span className="">
-              ₦100,000
-            </span>
+            <p className="text-xs flex flex-col md:flex-row ">
+              For all orders above <span className="">₦100,000</span>
             </p>
           </div>
         </div>
