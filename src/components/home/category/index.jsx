@@ -7,8 +7,10 @@ import multimeter from "../../../assets/image/multimeter.png";
 import sensor from "../../../assets/image/sensor.png";
 import solder from "../../../assets/image/solder.png";
 import power from "../../../assets/image/power.png";
+import { useNavigate } from "react-router-dom";
 
-export default function Category() {
+export default function Category({ data }) {
+  const navigate = useNavigate();
   const categories = [
     {
       title: "Capacitor",
@@ -52,6 +54,12 @@ export default function Category() {
     },
   ];
 
+    const searchProducts = (searchTerm) => {
+      const results =
+        Array.isArray(data) &&
+        data?.filter((product) => product?.category[0]?.name.toLowerCase().includes(searchTerm?.toLowerCase()));
+      return navigate(`/search?query=${searchTerm}`, { state: { results } });
+    };
   return (
     <div className=" my-5 md:mx-[10%] p-5 text-default-600 ">
       <h1 className="font-bold md:text-xl mb-4  ">
@@ -62,6 +70,7 @@ export default function Category() {
           <div
             key={index}
             className="bg-white/80  hover:bg-primary hover:text-white cursor-pointer ease-in-out duration-250 md:p-6 p-2 border border-default-300  shadow-md flex items-center gap-6 "
+            onClick={()=>searchProducts(category.title)}
           >
             <div className="w-[3em] h-[3em] ">
               <img src={category.img} alt="" className="w-full h-full object-contain " />

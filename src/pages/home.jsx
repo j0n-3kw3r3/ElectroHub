@@ -30,15 +30,17 @@ export default function Home() {
           Holiday Sale! Get 20% off on all products. Use code <span className="font-bold text-primary">HOLIDAY20</span>
         </p>
       </div>
-      <Hero />
+      <Hero data={data} />
 
-      <SectionOne />
+      <SectionOne data={data} />
       {data?.length > 0 && <FlashSale products={data} userId={user.id} />}
-      <Category />
+      <Category data={data} />
       {data?.length > 0 && <NewArival products={data} userId={user.id} />}
       <div className=" border-red-500 border-b border-t  text-red-500 p-2 text-center ">
         <h3 className="md:text-xl text-sm font-bold">CLOSEOUT DEALS</h3>
-        <p className="md:text-sm text-[.625rem]">Discover the best deals on Micro Controllers and save up to 40% while you're at it!</p>
+        <p className="md:text-sm text-[.625rem]">
+          Discover the best deals on Micro Controllers and save up to 40% while you're at it!
+        </p>
         <a href="#" className=" underline text-sm">
           Shop Now
         </a>
