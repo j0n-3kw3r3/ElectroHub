@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 export default function SectionOne({ data }) {
   const navigate = useNavigate();
   return (
-    <div className=" my-5 mx-[5%] md:mx-[10%] p-5 text-default-600">
+    <div className=" my-5 mx-[5%] md:px-[10%]  text-default-600">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center  ">
         <div className="bg-white/80 border  p-5 md:pr-0 flex flex-col-reverse md:flex-row  items-center justify-center">
           <div className=" md:space-y-4 space-y-2   md:text-medium text-xs ">

@@ -10,7 +10,7 @@ export const Header = () => {
     <header className="bg-white  shadow-primary/20 shadow-md text-default-600 z-50 sticky w-full top-0 flex justify-between items-center p-4 py-6">
       <div className="flex items-center">
         {/* Brand Name */}
-        <span className="text-xl font-bold">Admin Dashboard</span>
+        <span className="md:text-xl font-bold">Admin Dashboard</span>
       </div>
       <div className="flex items-center space-x-4 ">
         {/* Search Bar */}

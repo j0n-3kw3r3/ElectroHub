@@ -112,6 +112,9 @@ export default function Checkout() {
     mutationFn: createNotificationEP,
     onSuccess: (data) => {
       navigate(`/order/${orderData.orderId}`);
+          dispatch(clearCart());
+        
+
     },
     onError: (error) => {
       console.log(error);
@@ -131,8 +134,8 @@ export default function Checkout() {
   });
 
   return (
-    <div className=" h-screen ">
-      <div className="flex px-[10%]  border-b py-3 items-center justify-between">
+    <div className=" md:h-screen ">
+      <div className="flex px-[10%] fixed w-full bg-white/80  border-b py-3 items-center justify-between">
         {/* logo */}
         <Link to="/" className=" h-10 flex justify-center items-center gap-2 text-primary ">
           <img src={logo} alt="" className="w-10" />
@@ -143,9 +146,9 @@ export default function Checkout() {
           <h1 className="uppercase font-bold">Checkout</h1>
         </div>
       </div>
-      <div className="  grid grid-cols-5  ">
-        <div className="bg-white/80 h-screen p-8 pb-32 overflow-auto scrollbar-hide col-span-3  ">
-          <div className="  pl-[100px] ">
+      <div className=" flex md:flex-row flex-col-reverse pt-16  ">
+        <div className="bg-white/80 md:h-screen p-8 pb-32 overflow-auto scrollbar-hide md:w-3/4  ">
+          <div className="  md:pl-[100px] ">
             <h1 className=" border-b pb-4 font-bold mb-6">Delivery Information</h1>
             <form className="max-w-md" onSubmit={submitHandler}>
               {!deliverAddressDone ? (
@@ -308,16 +311,17 @@ export default function Checkout() {
             </div>
           </div>
         </div>
-        <div className="bg-primary/5 p-10 h-screen space-y-5 pb-32 overflow-auto scrollbar-hide col-span-2 ">
+        <div className="bg-primary/5 p-10 md:h-screen space-y-5 md:pb-32 overflow-auto scrollbar-hide md:w-2/4 ">
           <h1 className=" font-bold text-center text-xl">Order Summary</h1>
-          <div className=" max-w-sm mx-auto border rounded bg-white/80 shadow-sm w-full ">
+          <div className=" md:max-w-sm  max-w-lg mx-auto border rounded bg-white/80 shadow-sm  ">
             {cartItems?.cartItems?.map((item, index) => (
               <div key={index} className="border-b  flex items-center gap-4 p-4 ">
-                <div className="flex flex-grow gap-4 ">
-                  <div className="w-[60px] h-[50px] bg-white/80 rounded overflow-hidden border border-default-200 ">
+                 <div className="w-[60px] h-[50px] bg-white/80 rounded overflow-hidden border border-default-200 ">
                     <img src={item?.images[0].url} alt="" className=" w-full h-full object-contain " />
-                  </div>
-                  <div className="flex-grow text-sm">
+                  </div> <div className="md:flex flex-grow gap-4 ">
+                
+
+                  <div className=" flex-grow text-sm">
                     <div className="truncate font-semibold  text-ellipsis overflow-hidden w-[180px] text-default-500  ">
                       {item?.name}
                     </div>
@@ -329,10 +333,11 @@ export default function Checkout() {
                       <p className=" text-xs truncate  text-ellipsis ">{item?.cartQuantity}</p>
                     </div>
                   </div>
-                </div>
-                <div className="flex items-center justify-between text-sm ">
+                  <div className="flex items-center justify-between md:text-sm text-xs ">
                   <p className=" font-bold ">{formatCurrency(parseInt(item.price))}</p>
                 </div>
+                </div>
+               
               </div>
             ))}
             <div className="  space-y-2 p-4  pt-10  shadow-lg ">
@@ -368,11 +373,11 @@ export default function Checkout() {
           </div>
 
           <div className="border p-4 bg-white/80 mx-auto rounded shadow-sm max-w-sm">
-            <h2 className="text-lg font-bold mb-2">SHIPPING & DELIVERY</h2>
-            <p className="text-gray-700 mb-4">
+            <h2 className="md:text-lg font-bold mb-2">SHIPPING & DELIVERY</h2>
+            <p className="text-gray-700 text-xs mb-4">
               Orders are delivered on business days (Monday-Friday) excluding public holidays.
             </p>
-            <a href="#" className="text-blue-500 hover:underline">
+            <a href="#" className="text-primary text-sm hover:underline">
               See details
             </a>
           </div>

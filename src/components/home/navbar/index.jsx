@@ -154,7 +154,7 @@ export default function Nav({ onClick, darkMode }) {
           ) : (
             <Input
               classNames={{
-                base: " w-[10em] h-10 ",
+                base: " w-[10em] h-10 rounded ",
                 mainWrapper: "h-full",
                 input: "text-small",
                 inputWrapper: "h-full font-normal text-default-500 bg-white/80 dark:bg-default-500/20",
@@ -182,10 +182,10 @@ export default function Nav({ onClick, darkMode }) {
         <NavbarContent justify="center" className="w-[30em] hidden md:flex ">
           <Input
             classNames={{
-              base: " w-full h-10",
+              base: " w-full  h-10",
               mainWrapper: "h-full",
               input: "text-small",
-              inputWrapper: "h-full font-normal text-default-500 bg-white/80 dark:bg-default-500/20",
+              inputWrapper: "rounded h-full font-normal text-default-500 bg-white/80 dark:bg-default-500/20",
             }}
             variant="bordered"
             placeholder="Search product..."
@@ -277,7 +277,7 @@ export default function Nav({ onClick, darkMode }) {
           <NavbarItem className=" hover:bg-default-200 rounded-full  mr-2 ease-in-out duration-200 flex items-center cursor-pointer">
             <div className=" w-fit h-fit flex items-center " onClick={handleCart}>
               <Badge
-                content={cartItems?.cartTotalQuantity.length > 0 ? cartItems?.cartTotalQuantity : null}
+                content={cartItems?.cartTotalQuantity > 0 ? cartItems?.cartTotalQuantity : null}
                 shape="circle"
                 color="danger"
                 size="sm"

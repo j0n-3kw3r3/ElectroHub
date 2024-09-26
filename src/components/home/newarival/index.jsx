@@ -25,7 +25,7 @@ export default function NewArival({ products }) {
   const newProducts = products.filter((item) => item?.isProductNew);
 
   return (
-    <div className="  md:px-[10%] p-10 bg-primary/5 text-default-600">
+    <div className="  md:px-[10%] p-5 px-[5%] bg-primary/5 text-default-600">
       <h1 className="font-bold text-xl mb-4 ">New Arrival</h1>
       <ScrollShadow className="w-full  " hideScrollBar offset={100} orientation="horizontal" size={20}>
         <div className="gap-4 w-fit flex p-1">
@@ -38,14 +38,14 @@ export default function NewArival({ products }) {
               placement="top-left"
               key={index}
             >
-              <Card shadow="sm" radius="none" className="rounded-sm md:text-medium text-xs md:text-sm w-[13em] md:w-[14em] ">
+              <Card shadow="sm" radius="none" className="rounded-sm md:text-medium text-xs w-[13em] md:w-[14em] ">
                 <CardBody className="overflow-visible h-[8em] p-0 border-b shadow bg-white/80 ">
                   <div className="absolute right-4 top-2 p-1 rounded-full  items-center  bg-white/80  ">
                     <HeartIcon
                       size={20}
                       className={
                         !item?.likes.length
-                          ? "text-danger size-5 cursor-pointer hover:scale-110  "
+                          ? "text-danger md:size-5 size-4 cursor-pointer hover:scale-110  "
                           : " text-danger fill-danger size-5 cursor-pointer hover:scale-110 "
                       }
                     />
@@ -73,7 +73,7 @@ export default function NewArival({ products }) {
 
                   <div className=" text-left gap-2 items-center">
                     <p className="text-default-500 ">{formatCurrency(parseInt(item?.price))}</p>
-                    <p className="text-danger text-xs line-through ">{formatCurrency(parseInt(item?.discount))}</p>
+                    <p className="text-danger text-xs ">{ item?.discount}% off</p>
                   </div>
                   <button
                     size="sm"

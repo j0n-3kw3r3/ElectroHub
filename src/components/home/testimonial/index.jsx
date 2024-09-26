@@ -42,7 +42,7 @@ export default function Testimonial() {
   ];
 
   return (
-    <div className="p-10 md:mx-[5%]">
+    <div className="p-10 md:px-[10%]">
       {/* Testimonials */}
       <div className=" pb-10 border-b border-primary ">
         <h1 className="font-bold text-xl mb-4">Testimonials</h1>

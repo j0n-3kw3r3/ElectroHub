@@ -71,7 +71,7 @@ function Overview() {
                 activeTab.includes(item.name) || (item.name === "Users" && showUsersDropdown)
                   ? "bg-primary text-white "
                   : "hover:text-primary/90 hover:text-primary hover:font-bold  "
-              } items-center cursor-pointer flex-1 flex md:justify-start justify-center p-4 md:my-2 md:rounded  text-sm font-medium  `}
+              } items-center cursor-pointer flex-1 flex md:justify-start justify-center md:p-4 p-3 md:my-2 md:rounded  text-sm font-medium  `}
               onClick={() => {
                 setActiveTab(item.name);
                 if (item.name === "Users") {
