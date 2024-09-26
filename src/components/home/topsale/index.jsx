@@ -30,8 +30,15 @@ export default function TopSale({ products, userId }) {
     }
   };
 
+    const handlePress = (data) => {
+      if (data) {
+        dispatch(addToCart(data));
+        toast.success(`${data?.title} has been added to your cart`);
+      }
+    };
+
   return (
-    <div className="  md:px-[10%] px-[5%] bg-primary/5 p-10 text-default-600">
+    <div className=" md:px-[10%] px-[5%] bg-primary/5 p-10 text-default-600">
       <h1 className="font-bold md:text-xl mb-4  ">Top selling items</h1>
       <ScrollShadow className="w-full  " hideScrollBar offset={100} orientation="horizontal" size={20}>
         <div className="gap-4 w-fit flex p-1">

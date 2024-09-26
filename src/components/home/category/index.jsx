@@ -61,7 +61,7 @@ export default function Category({ data }) {
       return navigate(`/search?query=${searchTerm}`, { state: { results } });
     };
   return (
-    <div className=" my-5 md:mx-[10%] p-5 text-default-600 ">
+    <div className=" my-5 md:px-[10%] p-5 text-default-600 ">
       <h1 className="font-bold md:text-xl mb-4  ">
         Search by <span className="text-primary">Category</span>
       </h1>

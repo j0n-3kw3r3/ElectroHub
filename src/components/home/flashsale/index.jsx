@@ -79,7 +79,7 @@ export default function FlashSale({ products, userId }) {
             }
 
             return (
-              <Card shadow="sm" key={index} radius="none" className=" rounded-sm w-[13em] ">
+              <Card shadow="sm" key={index} radius="none" className=" rounded-sm w-[15em] ">
                 <CardBody className="overflow-visible p-0 border-b ">
                   <div className="absolute right-0 top-2  px-3 text-[9px] w-[40px] h-[17px] items-center   overflow-hidden ">
                     <div className=" absolute -right-[14px] -top-1 -rotate-[55deg] bg-red-500 h-[40px] w-[60px] "></div>
@@ -87,7 +87,7 @@ export default function FlashSale({ products, userId }) {
                   </div>
                   <img
                     alt={item?.name}
-                    className="w-full object-contain h-[10em] cursor-pointer "
+                    className="w-full object-contain cursor-pointer "
                     src={item?.images[0]?.url}
                     onClick={() => {
                       navigate(`/product/${item?.id}`);

@@ -71,43 +71,43 @@ export function DashboardTab() {
   if (error) return "An error has occurred: " + error.message;
 
   return (
-    <div className=" space-y-8">
+    <div className=" text-xs space-y-8">
       <h1 className="">Welcome, {user?.firstName}!</h1>
       <div className="flex flex-wrap gap-4">
-        <div className="md:bg-primary md:w-fit w-full bg-white/80  md:text-white text-primary  p-6 rounded-lg shadow flex justify-between items-center gap-4 hover:text-white ease-in-out duration-150 hover:bg-primary/80 ">
+        <div className="md:bg-primary md:w-fit w-full bg-white/80  md:text-white text-primary  md:p-6 p-4 rounded-lg shadow flex justify-between items-center gap-4 hover:text-white ease-in-out duration-150 hover:bg-primary/80 ">
           <div className=" w-[220px] ">
-            <h2 className="text-sm uppercase ">Total Income</h2>
-            <p className="text-3xl">{formatCurrency(parseInt(matrics?.totalIncome))}</p>
+            <h2 className="md:text-sm text-xs uppercase   ">Total Income</h2>
+            <p className="md:text-3xl text-lg ">{formatCurrency(parseInt(matrics?.totalIncome))}</p>
           </div>
           <div className="">
-            <WalletIcon className="h-6 w-6" />
+            <WalletIcon className="md:size-6 size-5" />
           </div>
         </div>
-        <div className="md:bg-primary md:w-fit w-full bg-white/80  md:text-white text-primary  p-6 rounded-lg shadow flex justify-between items-center gap-4 hover:text-white ease-in-out duration-150 hover:bg-primary/80 ">
+        <div className="md:bg-primary md:w-fit w-full bg-white/80  md:text-white text-primary  md:p-6 p-4 rounded-lg shadow flex justify-between items-center gap-4 hover:text-white ease-in-out duration-150 hover:bg-primary/80 ">
           <div className=" w-[220px] ">
-            <h2 className="text-sm uppercase ">Total Products</h2>
-            <p className="text-3xl">{matrics?.totalProducts}</p>
+            <h2 className="md:text-sm text-xs uppercase   ">Total Products</h2>
+            <p className="md:text-3xl text-lg ">{matrics?.totalProducts}</p>
           </div>
           <div className="">
-            <ArchiveBoxIcon className="h-6 w-6" />
+            <ArchiveBoxIcon className="md:size-6 size-5" />
           </div>
         </div>
-        <div className="md:bg-primary md:w-fit w-full bg-white/80  md:text-white text-primary  p-6 rounded-lg shadow flex justify-between items-center gap-4 hover:text-white ease-in-out duration-150 hover:bg-primary/80 ">
+        <div className="md:bg-primary md:w-fit w-full bg-white/80  md:text-white text-primary  md:p-6 p-4 rounded-lg shadow flex justify-between items-center gap-4 hover:text-white ease-in-out duration-150 hover:bg-primary/80 ">
           <div className=" w-[220px] ">
-            <h2 className="text-sm uppercase ">Total Orders</h2>
-            <p className="text-3xl">{matrics?.totalOrders}</p>
+            <h2 className="md:text-sm text-xs uppercase   ">Total Orders</h2>
+            <p className="md:text-3xl text-lg ">{matrics?.totalOrders}</p>
           </div>
           <div className="">
-            <ShoppingBagIcon className="h-6 w-6" />
+            <ShoppingBagIcon className="md:size-6 size-5" />
           </div>
         </div>
-        <div className="md:bg-primary md:w-fit w-full bg-white/80  md:text-white text-primary  p-6 rounded-lg shadow flex justify-between items-center gap-4 hover:text-white ease-in-out duration-150 hover:bg-primary/80 ">
+        <div className="md:bg-primary md:w-fit w-full bg-white/80  md:text-white text-primary  md:p-6 p-4 rounded-lg shadow flex justify-between items-center gap-4 hover:text-white ease-in-out duration-150 hover:bg-primary/80 ">
           <div className=" w-[220px] ">
-            <h2 className="text-sm uppercase ">Total Users</h2>
-            <p className="text-3xl">{matrics?.totalUsers}</p>
+            <h2 className="md:text-sm text-xs uppercase   ">Total Users</h2>
+            <p className="md:text-3xl text-lg ">{matrics?.totalUsers}</p>
           </div>
           <div className="">
-            <UserIcon className="h-6 w-6" />
+            <UserIcon className="md:size-6 size-5" />
           </div>
         </div>
         {/* Add more metrics as needed */}

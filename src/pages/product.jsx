@@ -14,6 +14,7 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure
 import { fetchProductsEP } from "../services";
 import { useQuery } from "@tanstack/react-query";
 import { getRecommendations } from "../utils/getRecomendation";
+import { Avatar } from "@nextui-org/react";
 
 const reviews = [
   {
@@ -102,42 +103,41 @@ export default function Product() {
     }
   };
 
-    useEffect(() => {
-    }, [products, categories]);
-    
-    useEffect(() => {
-      getRecommendations(products, categories, setRecommendations);
-      setDisplayImage(product?.images[0]?.url);
-      saveSearchedItem();
-    }, [product, categories]);
+  useEffect(() => {}, [products, categories]);
+
+  useEffect(() => {
+    getRecommendations(products, categories, setRecommendations);
+    setDisplayImage(product?.images[0]?.url);
+    saveSearchedItem();
+  }, [product, categories]);
 
   if (isPending) return <>Loading...</>;
 
   return (
     <div className=" dark:bg-darkbg text-default-600 gap-[1.6875rem] ">
       <div className="flex md:flex-row flex-col ">
-        <div className="md:w-1/2 md:p-16 p-8 h-full flex md:flex-row flex-col-reverse gap-4 ">
-          <div className="md:w-[15%]  flex md:flex-col flex-row gap-4 rounded ">
-            {product?.images.map((img, index) => (
+        <div className="md:w-1/2  p-8 md:pl-[15%] h-full flex  flex-col-reverse gap-4 ">
+          <div className="md:w-[15%]  flex   flex-row gap-4 rounded ">
+            {product?.images.slice(0, 6).map((img, index) => (
               <img
                 key={index}
                 src={img.url}
                 alt=""
-                className=" md:w-full w-[15%] object-contain cursor-pointer shadow aspect-square"
+                className=" md:w-full w-[20%] object-contain cursor-pointer shadow aspect-square"
                 onClick={() => {
                   setDisplayImage(img.url);
                 }}
               />
             ))}
           </div>
-          <div className="md:w-[90%] shadow-md rounded border h-fit overflow-hidden">
+          <div className=" shadow-md rounded border h-fit overflow-hidden">
             <img src={displayImage} alt="" className=" w-full object-contain aspect-square" />
           </div>
         </div>
 
-        <div className="md:w-1/2 p-10 md:py-24 pt-4 bg-white relative gap-4 flex flex-col ">
+        <div className="md:w-1/2 p-10 md:py-12 pt-4 md:pr-[15%] bg-white relative gap-4 flex flex-col ">
           <div className="items-center flex justify-between    ">
-            <h1 className=" text-xl text-default-900 ">{product?.name}</h1>
+            <h1 className=" text-xl font-semibold text-default-900 ">{product?.name}</h1>
             <ShareIcon className="size-4 cursor-pointer" />
           </div>
 
@@ -166,73 +166,51 @@ export default function Product() {
             </div>
           </div>
           <div className="gap-4 flex items-center">
-            <p className=" text-primary text-3xl font-bold">{formatCurrency(parseInt(product?.price))}</p>
+            <p className=" font-semibold ">{formatCurrency(parseInt(product?.price))}</p>
             <p className="text-danger text-xs ">-{product?.discount}%</p>
           </div>
 
-          <div className=" border-b pb-4">
-            {/* <p className=" line-clamp-3  ">{product?.description}</p> */}
-            {/* <Button onPress={onOpen} variant="fade" className=" pl-0">
-              <span className=" text-xs text-primary cursor-pointer ">Read More</span>
-            </Button> */}
-
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange} scrollBehavior="inside" size="xl" backdrop="opaque">
-              <ModalContent>
-                {(onClose) => (
-                  <>
-                    <ModalHeader className="flex flex-col gap-1">{product?.title}</ModalHeader>
-                    <ModalBody>
-                      <p>{product?.description}</p>
-                    </ModalBody>
-                    <ModalFooter>
-                      <Button color="danger" variant="light" onPress={onClose}>
-                        Close
-                      </Button>
-                      <Button color="primary" onPress={onClose} onClick={() => handlePress(product)}>
-                        Add to cart
-                      </Button>
-                    </ModalFooter>
-                  </>
-                )}
-              </ModalContent>
-            </Modal>
-          </div>
-
-          <div className="space-y-2">
-            <p className="">Quantity</p>
-            <div className="flex items-center gap-2 border w-fit border-primary rounded  ">
-              <button className="text-primary bg-transparent border-r border-primary  px-2 py-1   hover:bg-primary hover:text-white">
-                <PlusIcon className="size-4" onClick={() => handleAdd(product)} />
-              </button>
-              <p className="text-sm">{item?.cartQuantity}</p>
-              <button className="text-primary bg-transparent border-l border-primary  px-2 py-1   hover:bg-primary hover:text-white">
-                <MinusIcon className="size-4" onClick={() => handleremove(product.id)} />
-              </button>
+          <div className=" flex justify-between items-center space-y-2">
+            <div className=""> 
+              <div className="flex items-center gap-2 border w-fit border-primary rounded  ">
+                 <button
+                  className="text-primary bg-transparent border-r border-primary  px-2 py-1   hover:bg-primary hover:text-white"
+                  onClick={() => handleremove(product.id)}
+                >
+                  <MinusIcon className="size-4" />
+                </button>
+                <p className="text-sm">{item?.cartQuantity > 0 ? item?.cartQuantity : "0"}</p>
+               <button
+                  className="text-primary bg-transparent border-l border-primary  px-2 py-1   hover:bg-primary hover:text-white"
+                  onClick={() => handleAdd(product)}
+                >
+                  <PlusIcon className="size-4" />
+                </button>
+              </div>
             </div>
+            <HeartIcon
+              className={
+                product?.liked
+                  ? "hover:scale-110 ease-in-out size-6 fill-danger text-red-500 cursor-pointer "
+                  : "text-red-500 cursor-pointer hover:scale-110 ease-in-out size-6"
+              }
+            />
           </div>
 
-          <div className=" flex items-center justify-between gap-6">
+          <div className="  items-center justify-between gap-6">
             <Button
               size="md"
-              variant="bordered"
               radius="none"
-              className="text-white w-full mt-2  bg-primary "
+              className="text-white rounded w-full mt-2  bg-primary "
               onClick={() => handlePress(product)}
               startContent={<BiCart size={18} />}
             >
               Add to cart
             </Button>
-            <HeartIcon
-              className={
-                product?.liked
-                  ? "hover:scale-110 ease-in-out size-8 fill-danger text-red-500 cursor-pointer "
-                  : "text-red-500 cursor-pointer hover:scale-110 ease-in-out size-8"
-              }
-            />
           </div>
           <div className="">
             <div className="border rounded-md">
-              <div className="flex border-b gap-10 p-4 ">
+              <div className="flex border-b gap-10 p-3 ">
                 <img src={delivery} alt="" className=" w-8" />
                 <div className="">
                   <h1 className=" font-semibold">Delivery</h1>
@@ -241,7 +219,7 @@ export default function Product() {
                   </p>
                 </div>
               </div>
-              <div className="flex  gap-10 p-4 ">
+              <div className="flex  gap-10 p-3 ">
                 <img src={returnicon} alt="" className=" w-8" />
                 <div className="">
                   <h1 className=" font-semibold">Return Policy</h1>
@@ -254,8 +232,8 @@ export default function Product() {
       </div>
 
       <div className=" bg-primary/5 md:p-20 p-8 pt-10 gap-10 flex md:flex-row flex-col ">
-        <div className=" bg-white md:w-2/3 p-4 rounded-lg shadow-md">
-          <div className="flex justify-between border-b border-gray-200 mb-4">
+        <div className={` bg-white md:w-2/3  flex-1 md:p-4 overflow-hidden rounded-lg shadow-md `}>
+          <div className="flex justify-between border-b border-gray-200 ">
             <div
               className={`text-sm w-full text-center cursor-pointer px-4 py-2 ${
                 activeTab === "Specifications" ? "bg-primary text-white" : "hover:bg-gray-200"
@@ -283,7 +261,7 @@ export default function Product() {
             </div>
           </div>
 
-          <div className="p-4 max-h-[25rem] overflow-auto scrollbar-hide ">
+          <div className="p-4 max-h-[25rem] text-sm  overflow-auto scrollbar-hide ">
             {activeTab === "Specifications" && <p className="text-gray-700">{product?.description}</p>}
             {activeTab === "Reviews" && (
               <div className="">
@@ -300,17 +278,21 @@ export default function Product() {
             )}{" "}
             {activeTab === "Marchant" && (
               <div className="border p-4 rounded-lg shadow-sm mb-4">
-                <div className="flex justify-between border-b p-2 ">
-                  <h2 className="text-2xl font-semibold mb-4">Merchant Profile</h2>
-                  <div className="w-16 h-16 border bg-primary/5 overflow-hidden rounded-full mr-2">
-                    <img
-                      src={item.images[0].url}
-                      alt="Rucksack Backpack Large"
-                      className=" object-cover w-full h-full "
-                    />
-                  </div>
+                <div className="flex justify-between  border-b p-2 ">
+                  <h2 className="md:text-2xl font-semibold mb-4">Merchant Profile</h2>
+
+                  <Avatar
+                    // isBordered
+                    as="button"
+                    className="transition-transform"
+                    color="neutral"
+                    showFallback
+                    // name={user?.name}
+                    size="sm"
+                    src={item?.images[0] ? item?.images[0].url : ""}
+                  />
                 </div>
-                <div className=" py-4 ">
+                <div className=" py-4 text-xs md:text-sm  ">
                   <p className="">
                     <strong>Name:</strong> {merchantProfile.name}
                   </p>
@@ -331,30 +313,34 @@ export default function Product() {
             )}
           </div>
         </div>
-       {recommendations && <div className="bg-white p-4 md:w-1/3 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold mb-2">Similar Items</h3>
-          {recommendations.map((item) => (
-            <ul className="list-none text-sm " key={item.name}>
-              <li
-                className="flex items-center mb-2 cursor-pointer hover:bg-gray-100 p-2 rounded-lg"
-                onClick={() => {
-                  navigate(`/product/${item.id}`);
-                }}
-              >
-                <img
-                  src={item.images[0].url}
-                  alt="Rucksack Backpack Large"
-                  className="w-16 h-16 border rounded-lg mr-2"
-                />
-                <div>
-                  <p className="text-gray-700">{item.name}</p>
-                  <p className="text-gray-500">Line Mounts</p>
-                  <p className="text-gray-700 font-semibold">{formatCurrency(parseInt(item?.price))}</p>
-                </div>
-              </li>
-            </ul>
-          ))}
-        </div>}
+        {recommendations.length > 0 && (
+          <div className="bg-white p-4 md:w-1/3 max-h-[270px]  rounded-lg shadow-md">
+            <h3 className="text-lg font-semibold mb-2">Similar Items</h3>
+            <div className="h-[85%] overflow-auto scrollbar-hide ">
+              {recommendations.map((item) => (
+                <ul className="list-none text-sm " key={item.name}>
+                  <li
+                    className="flex items-center mb-2 cursor-pointer hover:bg-gray-100 p-2 rounded-lg"
+                    onClick={() => {
+                      navigate(`/product/${item.id}`);
+                    }}
+                  >
+                    <img
+                      src={item.images[0].url}
+                      alt="Rucksack Backpack Large"
+                      className="w-16 h-16 border rounded-lg mr-2"
+                    />
+                    <div>
+                      <p className="text-gray-700">{item.name}</p>
+                      <p className="text-gray-500">Line Mounts</p>
+                      <p className="text-gray-700 font-semibold">{formatCurrency(parseInt(item?.price))}</p>
+                    </div>
+                  </li>
+                </ul>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -362,15 +348,15 @@ export default function Product() {
 
 const Review = ({ username, rating, comment, date }) => {
   return (
-    <div className="border p-4 rounded-lg shadow-sm mb-4">
-      <div className="flex items-center justify-between mb-2">
+    <div className="border p-4 rounded-lg shadow-sm space-y-2 mb-2">
+      <div className="flex items-center justify-between ">
         <h3 className="font-semibold">{username}</h3>
         <span className="text-yellow-500">
           {"★".repeat(rating)} <span className="text-gray-400">{"★".repeat(5 - rating)}</span>
         </span>
       </div>
-      <p className="text-gray-600 mb-2">{comment}</p>
-      <p className="text-gray-400 text-sm">{new Date(date).toLocaleDateString()}</p>
+      <p className="text-gray-600 ">{comment}</p>
+      <p className="text-gray-400 ">{new Date(date).toLocaleDateString()}</p>
     </div>
   );
 };
