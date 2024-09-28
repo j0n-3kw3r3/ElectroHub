@@ -8,7 +8,10 @@ import Checkout from "../pages/checkout";
 import Profile from "../pages/profile";
 import EditProfile from "../pages/editprofile";
 
-const renderRoutes = (layout, routes, user) => (
+import { ReactElement } from "react";
+import { RouteObject } from "react-router-dom";
+
+const renderRoutes = (layout: ReactElement, routes: RouteObject[], user: any) => (
   <Routes>
     <Route element={layout}>
       {routes.map(({ path, element }) => (
@@ -24,11 +27,11 @@ const renderRoutes = (layout, routes, user) => (
   </Routes>
 );
 
-const RouterComponent = ({ user }) => {
+const RouterComponent = ({ user }:any) => {
   return (
     <Router>
       <Routes>
-        <Route path="auth/*" element={renderRoutes(<AuthLayout />, authRoutes)} />
+        <Route path="auth/*" element={renderRoutes(<AuthLayout />, authRoutes, user)} />
         <Route path="/*" element={renderRoutes(<Applayout />, inAppRoutes, user)} />
        
       </Routes>

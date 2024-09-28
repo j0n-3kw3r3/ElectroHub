@@ -7,7 +7,7 @@ import { RiMastercardFill } from "react-icons/ri";
 
 export default function Footer() {
   return (
-    <div className=" bg-white/80 dark:bg-darkbg text-default-600 border-primary/70  border-t px-[10%] py-6 pt-10 space-y-2 ">
+    <div className=" bg-white/80   text-default-600 border-primary/70  border-t px-[10%] py-6 pt-10 space-y-2 ">
       <div className="md:flex md:justify-between space-y-4 md:space-y-0  ">
         <div className="flex gap-6 justify-center items-center  ">
           <BsInstagram size={15} />

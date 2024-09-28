@@ -1,9 +1,8 @@
 export const getRecommendations = (products, categories, setRecommendations) => {
-
   const store = localStorage.getItem("searches");
   let searches = store ? JSON.parse(store) : [];
   let recommendation = [];
-  
+
   if (searches) {
     searches.forEach((search) => {
       products?.forEach((product) => {

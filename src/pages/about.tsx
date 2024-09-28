@@ -6,7 +6,7 @@ import customers from "../assets/image/customers.jpg";
 import bg from "../assets/image/circuit.jpg";
 import { Link } from "react-router-dom";
 
-const AboutUs = () => {
+const AboutUs = () => { 
   return (
     <div>
       {/* Hero Section */}

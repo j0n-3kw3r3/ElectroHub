@@ -1,0 +1,105 @@
+/* eslint-disable no-unsed-vars */
+
+
+
+export interface SignUpParamsProps{
+    email: string;
+    password: string;
+    firstName: string;
+}
+
+export interface SignInParamsProps {
+    email: string;
+    password: string;
+}
+
+export interface UserProps {
+    email: string;
+    firstName: string;
+    lastName: string;
+    token: string;
+}
+
+export interface ProductItemProps {
+    isFeatured: boolean;
+    id: string;
+    _id: string;
+    name: string;
+    category: {
+        id: string;
+        name: string;
+    }[];
+    createdAt: string;
+    description: string;
+    discount: number;
+    images: {
+        public_id: string;
+        url: string;
+    }[];
+    instock: boolean;
+    isProductNew: boolean;
+    likes: [];
+    manufacturer: string;
+    numLikes: number;
+    numReviews: number;
+    price: number;
+    quantity: number;
+    reviews: [];
+    star: number;
+    subcategory: [];
+    updatedAt: string;
+    v: number;
+    cartQuantity: number;
+}
+
+
+
+export interface CartProps {
+    cartItems: ProductItemProps[];
+    cartTotalAmount: number;
+    cartTotalQuantity: number;
+}
+
+export interface CategoryProps {
+    _id: string;
+    name: string;
+    description: string;
+    createdAt: string;
+    __v: number;
+    id: string;
+}
+
+export interface Recipient {
+    _id: string;
+    name: string;
+    email: string;
+    id: string;
+}
+
+export interface OrderNotification {
+    _id: string;
+    recipient: Recipient;
+    title: string;
+    message: string;
+    shortId: string;
+    isRead: boolean;
+    createdAt: string;
+    __v: number;
+    id: string;
+}
+
+export interface Product {
+    id: string;
+    name: string;
+    price: string;
+    discount: number;
+    images: { url: string }[];
+    isFeatured: boolean;
+    likes: { user: string }[];
+    star?: boolean;
+}
+
+export interface FlashSaleProps {
+    products: ProductItemProps[];
+    userId: string;
+}

@@ -1,14 +1,14 @@
-import { Badge, Button, Card, CardBody, CardFooter, ScrollShadow } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
+import { ScrollShadow } from "@nextui-org/react";
+
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../../../redux/cartSlice";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { formatCurrency } from "../../../utils/formatter";
-import { HeartIcon, ShoppingCartIcon, StarIcon } from "@heroicons/react/24/outline";
-import axios from "axios";
+import { StarIcon } from "@heroicons/react/24/outline";
+import { FlashSaleProps } from "@/types";
 
-export default function FlashSale({ products, userId }) {
+export default function FlashSale({ products, userId }: FlashSaleProps) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [likes, setLikes] = useState({});
@@ -30,30 +30,30 @@ export default function FlashSale({ products, userId }) {
     .toString()
     .padStart(2, "0")}s`;
 
-  const handlePress = (data) => {
-    console.log(data);
-    if (data) {
-      dispatch(addToCart(data));
-      toast.success(`${data.name} has been added to your cart`, {
-        className: " text-xs",
-      });
-    }
-  };
+  // const handlePress = (data) => {
+  //   console.log(data);
+  //   if (data) {
+  //     dispatch(addToCart(data));
+  //     toast.success(`${data.name} has been added to your cart`, {
+  //       className: " text-xs",
+  //     });
+  //   }
+  // };
 
   // filter product based in featured
   const featuredProducts = products.filter((item) => item?.isFeatured);
 
   //  toggle like
-  const handleLike = (data) => {
-    if (data) {
-      axios.post(`${API_URL}/like/${data.id}/${userId}`).then((res) => {
-        setLikes((prevLikes) => ({
-          ...prevLikes,
-          id: data.id,
-        }));
-      });
-    }
-  };
+  // const handleLike = (data) => {
+  //   if (data) {
+  //     axios.post(`${API_URL}/like/${data.id}/${userId}`).then((res) => {
+  //       setLikes((prevLikes) => ({
+  //         ...prevLikes,
+  //         id: data.id,
+  //       }));
+  //     });
+  //   }
+  // };
 
   return (
     <div className=" md:px-[10%] px-[5%] p-10 text-xs md:text-sm bg-primary/5 text-default-600  ">
@@ -68,22 +68,15 @@ export default function FlashSale({ products, userId }) {
       </div>
       <ScrollShadow className="w-full  " hideScrollBar offset={100} orientation="horizontal" size={20}>
         <div className="gap-4 w-full flex pt-1   shadow ">
-          {featuredProducts?.map((item, index) => {
-            let liked = false;
-            const likedUser = item.likes.map((like) => {
-              return like?.user;
-            });
-
-            if (likedUser.includes(userId)) {
-              liked = true;
-            }
-
+          {featuredProducts?.map((item) => {
             return (
-              <Card shadow="sm" key={index} radius="none" className=" rounded-sm w-[15em] ">
-                <CardBody className="overflow-visible p-0 border-b ">
+              <Card className="rounded-sm w-[15em] bg-white/90 border mb-1 shadow">
+                <CardHeader className="overflow-visible p-0  border-b ">
                   <div className="absolute right-0 top-2  px-3 text-[9px] w-[40px] h-[17px] items-center   overflow-hidden ">
                     <div className=" absolute -right-[14px] -top-1 -rotate-[55deg] bg-red-500 h-[40px] w-[60px] "></div>
-                    <p className="px-3 text-white absolute bg-transparent z-10 right-0  bottom-[50%] translate-y-[50%] " >-{item.discount}%</p>
+                    <p className="px-3 text-white absolute bg-transparent z-10 right-0  bottom-[50%] translate-y-[50%] ">
+                      -{item.discount}%
+                    </p>
                   </div>
                   <img
                     alt={item?.name}
@@ -93,8 +86,8 @@ export default function FlashSale({ products, userId }) {
                       navigate(`/product/${item?.id}`);
                     }}
                   />
-                </CardBody>
-                <CardFooter className="  text-left flex flex-col gap-1 items-start ">
+                </CardHeader>
+                <CardContent className="text-left flex flex-col gap-1 p-2  items-start ">
                   <p
                     className=" cursor-pointer text-primary "
                     onClick={() => {
@@ -107,9 +100,13 @@ export default function FlashSale({ products, userId }) {
                     <StarIcon className={item?.star ? "size-4 fill-[gold] " : "size-4"} color="gold" />
                   </div>
                   <div className="flex gap-2 items-center">
-                    <p className=" font-bold ">{formatCurrency(parseInt(item?.price))}</p>
+                    <p className=" font-bold ">{formatCurrency(parseInt(item?.price.toString()))}</p>
                   </div>
-                </CardFooter>
+                </CardContent>
+                {/* <CardFooter className="flex justify-between">
+                    <Button variant="outline">Cancel</Button>
+                    <Button>Deploy</Button>
+                    </CardFooter> */}
               </Card>
             );
           })}

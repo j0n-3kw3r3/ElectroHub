@@ -11,7 +11,7 @@ import TopSale from "../components/home/topsale";
 import FlashSale from "../components/home/flashsale";
 
 export default function Home() {
-  const user = useSelector((state) => state.auth);
+  const user = useSelector((state:any) => state.auth);
 
   const { isPending, error, data } = useQuery({
     queryKey: ["products"],
@@ -23,7 +23,7 @@ export default function Home() {
   // if (error) return "An error has occurred: " + error.message;
 
   return (
-    <div className=" dark:bg-darkbg">
+    <div className="  ">
       <div className="bg-red-00 border-b p-1 text-center ">
         <p className="text-[.625rem] md:text-sm border-t  border-primary border-b md:p-2 p-1 ">
           Holiday Sale! Get 20% off on all products. Use code <span className="font-bold text-primary">HOLIDAY20</span>
