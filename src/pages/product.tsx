@@ -55,6 +55,7 @@ export default function Product() {
   const [recommendations, setRecommendations] = useState([]);
   const [categories, setCategories] = useState([]);
   const [activeTab, setActiveTab] = useState("Specifications");
+  const user = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
 
   const handleTabClick = (tab) => {
@@ -98,6 +99,7 @@ export default function Product() {
     const store = localStorage.getItem("searches");
     let searches = store ? JSON.parse(store) : [];
 
+    
     if (!searches.includes(product?.name)) {
       searches.push(product?.name);
       localStorage.setItem("searches", JSON.stringify(searches));
@@ -290,7 +292,7 @@ export default function Product() {
                     showFallback
                     name={user?.name}
                     size="sm"
-                    // src={user?.profilePicture[0] ? user?.profilePicture[0]?.url : ""}
+                    src={user?.profilePicture[0] ? user?.profilePicture[0]?.url : ""}
                   />
                 </div>
                 <div className=" py-4 text-xs md:text-sm  ">
