@@ -1,16 +1,14 @@
-import { Badge, Card, CardBody, CardFooter, ScrollShadow } from "@nextui-org/react"; 
+import { Badge, ScrollShadow } from "@nextui-org/react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../redux/cartSlice";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import { formatCurrency } from "../../../utils/formatter";
-import { HeartIcon,  } from "@heroicons/react/24/outline";
+import { HeartIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
-export default function NewArival({ products, userId }: {
-  products: any[];
-  userId: string;
-}) {
+export default function NewArival({ products, userId }: { products: any[]; userId: string }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -34,14 +32,16 @@ export default function NewArival({ products, userId }: {
           {newProducts?.map((item, index) => (
             <Badge
               content="new"
-              className="bg-secondary text-white "
+              className="bg-secondary text-red-500 "
               size="sm"
               isInvisible={item?.isProductNew}
               placement="top-left"
               key={index}
             >
-              <Card shadow="sm" radius="none" className="rounded-sm md:text-medium text-xs w-[13em] md:w-[14em] ">
-                <CardBody className="overflow-visible h-[8em] p-0 border-b shadow bg-white/80 ">
+              {/*  */}
+
+              <Card className="rounded-sm md:text-medium text-xs p-0 w-[13em] md:w-[14em] ">
+                <CardHeader className="overflow-hidden w-full h-[10em] p-0 border-b shadow bg-white/80 ">
                   <div className="absolute right-4 top-2 p-1 rounded-full  items-center  bg-white/80  ">
                     <HeartIcon
                       width={20}
@@ -61,8 +61,8 @@ export default function NewArival({ products, userId }: {
                       navigate(`/product/${item?.id}`);
                     }}
                   />
-                </CardBody>
-                <CardFooter className=" text-center w-full p-2 flex flex-col gap-1 items-start ">
+                </CardHeader>
+                <CardContent className=" text-center w-full p-2 flex flex-col gap-1 items-start ">
                   <p
                     className="xs text-center w-full cursor-pointer "
                     onClick={() => {
@@ -72,19 +72,21 @@ export default function NewArival({ products, userId }: {
                     {item?.name}
                   </p>
 
-                  <div className="flex justify-between w-full">
-                    <div className=" text-left gap-2 items-center">
-                      <p className="text-default-500 ">{formatCurrency(parseInt(item?.price))}</p>
-                      <p className="text-danger text-xs ">{item?.discount}% off</p>
+                </CardContent>
+                  <CardFooter className="w-full p-2">
+                    <div className="flex justify-between w-full ">
+                      <div className=" text-left gap-2 items-center">
+                        <p className="text-default-500 ">{formatCurrency(parseInt(item?.price))}</p>
+                        <p className="text-danger text-xs ">{item?.discount}% off</p>
+                      </div>
+                      <Button
+                        className="text-white text-[8px]  border rounded p-2  hover:text-white "
+                        onClick={() => handlePress(item)}
+                      >
+                        ORDER
+                      </Button>
                     </div>
-                    <Button
-                      className="text-white text-[8px] border rounded    hover:text-white "
-                      onClick={() => handlePress(item)}
-                    >
-                      ORDER
-                    </Button>
-                  </div>
-                </CardFooter>
+                  </CardFooter>
               </Card>
             </Badge>
           ))}
