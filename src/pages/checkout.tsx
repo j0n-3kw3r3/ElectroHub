@@ -296,12 +296,12 @@ export default function Checkout() {
             <div className="flex border bg-gray-50 max-w-md mt-4 rounded p-2 items-center">
               <input
                 type="checkbox"
-                className="w-6 h-6 text-primary border-gray-300 rounded focus:ring-primary dark:focus:ring-primary "
+                className="w-6 h-6 text-primary border-gray-300 rounded focus:ring-primary   "
                 checked={isSubscribed}
                 onChange={handleToggle}
               />
               <div className="">
-                <div className="ml-2 text-sm font-semibold text-gray-900 dark:text-gray-300">
+                <div className="ml-2 text-sm font-semibold text-gray-900 ">
                   Get SMS alerts about your orders
                 </div>
                 <div className="ml-2 text-sm text-gray-500">

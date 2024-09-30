@@ -69,8 +69,8 @@ export function DashboardUsersTable() {
         </div>
       </div>
       <div className="overflow-x-auto relative border shadow-md sm:rounded-lg space-y-4 ">
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-primary font-[700] uppercase border border-b-primary dark:bg-gray-700 dark:text-gray-400">
+        <table className="w-full text-sm text-left text-gray-500  ">
+          <thead className="text-xs text-primary font-[700] uppercase border border-b-primary ">
             <tr>
               <th scope="col" className="py-3 px-6">
                 {" "}

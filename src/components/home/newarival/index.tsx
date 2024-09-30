@@ -1,18 +1,18 @@
-import { Badge, Button, Card, CardBody, CardFooter, ScrollShadow } from "@nextui-org/react";
-import React from "react";
+import { Badge, ScrollShadow } from "@nextui-org/react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../redux/cartSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { products } from "../../../assets/data/product";
 import { formatCurrency } from "../../../utils/formatter";
-import { HeartIcon, ShoppingCartIcon, StarIcon } from "@heroicons/react/24/outline";
+import { HeartIcon } from "@heroicons/react/24/outline";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
-export default function NewArival({ products }) {
+export default function NewArival({ products, userId }: { products: any[]; userId: string }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handlePress = (data) => {
+  const handlePress = (data: any) => {
     if (data) {
       dispatch(addToCart(data));
       toast.success(`${data.name} has been added to your cart`, {
@@ -28,21 +28,24 @@ export default function NewArival({ products }) {
     <div className="  md:px-[10%] p-5 px-[5%] bg-primary/5 text-default-600">
       <h1 className="font-bold text-xl mb-4 ">New Arrival</h1>
       <ScrollShadow className="w-full  " hideScrollBar offset={100} orientation="horizontal" size={20}>
-        <div className="gap-4 w-fit flex p-1">
+        <div className="gap-4 w-fit flex p-1 overflow-auto scrollbar-hide ">
           {newProducts?.map((item, index) => (
             <Badge
               content="new"
-              className="bg-secondary text-white "
+              className="bg-secondary text-red-500 "
               size="sm"
               isInvisible={item?.isProductNew}
               placement="top-left"
               key={index}
             >
-              <Card shadow="sm" radius="none" className="rounded-sm md:text-medium text-xs w-[13em] md:w-[14em] ">
-                <CardBody className="overflow-visible h-[8em] p-0 border-b shadow bg-white/80 ">
+              {/*  */}
+
+              <Card className="rounded-sm md:text-medium text-xs p-0 w-[13em] md:w-[14em] ">
+                <CardHeader className="overflow-hidden w-full h-[10em] p-0 border-b shadow bg-white/80 ">
                   <div className="absolute right-4 top-2 p-1 rounded-full  items-center  bg-white/80  ">
                     <HeartIcon
-                      size={20}
+                      width={20}
+                      height={20}
                       className={
                         !item?.likes.length
                           ? "text-danger md:size-5 size-4 cursor-pointer hover:scale-110  "
@@ -58,8 +61,8 @@ export default function NewArival({ products }) {
                       navigate(`/product/${item?.id}`);
                     }}
                   />
-                </CardBody>
-                <CardFooter className=" text-center w-full p-2 flex flex-col gap-1 items-start ">
+                </CardHeader>
+                <CardContent className=" text-center w-full p-2 flex flex-col gap-1 items-start ">
                   <p
                     className="xs text-center w-full cursor-pointer "
                     onClick={() => {
@@ -68,24 +71,22 @@ export default function NewArival({ products }) {
                   >
                     {item?.name}
                   </p>
-                 
-                  <div className="flex justify-between w-full">
 
-                  <div className=" text-left gap-2 items-center">
-                    <p className="text-default-500 ">{formatCurrency(parseInt(item?.price))}</p>
-                    <p className="text-danger text-xs ">{ item?.discount}% off</p>
-                  </div>
-                  <button
-                    size="sm"
-                    variant="bordered"
-                    radius="none"
-                    className="text-white text-xs border rounded px-2 py-1 mt-2 bg-primary  hover:bg-primary hover:text-white "
-                    onClick={() => handlePress(item)}
-                  >
-                    ORDER
-                  </button>
-                  </div>
-                </CardFooter>
+                </CardContent>
+                  <CardFooter className="w-full p-2">
+                    <div className="flex justify-between w-full ">
+                      <div className=" text-left gap-2 items-center">
+                        <p className="text-default-500 ">{formatCurrency(parseInt(item?.price))}</p>
+                        <p className="text-danger text-xs ">{item?.discount}% off</p>
+                      </div>
+                      <Button
+                        className="text-white text-[8px]  border rounded p-2  hover:text-white "
+                        onClick={() => handlePress(item)}
+                      >
+                        ORDER
+                      </Button>
+                    </div>
+                  </CardFooter>
               </Card>
             </Badge>
           ))}

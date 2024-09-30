@@ -55,8 +55,10 @@ export default function Product() {
   const [recommendations, setRecommendations] = useState([]);
   const [categories, setCategories] = useState([]);
   const [activeTab, setActiveTab] = useState("Specifications");
+  const user = useSelector((state: any) => state.auth);
+  const dispatch = useDispatch();
 
-  const handleTabClick = (tab) => {
+  const handleTabClick = (tab: string) => {
     setActiveTab(tab);
   };
 
@@ -69,10 +71,10 @@ export default function Product() {
     queryFn: fetchProductsEP,
   });
   const product = products && products?.find((product) => product?.id.toString() === id.toString());
-  const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart);
-  const item = cartItems.cartItems.find((item) => toString(item.id) === toString(id));
+  const item = cartItems.cartItems.find((item) => toString(item.id) === toString(item)); 
   const featuredProducts = products?.filter((item) => item?.isFeatured);
+ 
 
   const handlePress = (data) => {
     if (data) {
@@ -97,6 +99,7 @@ export default function Product() {
     const store = localStorage.getItem("searches");
     let searches = store ? JSON.parse(store) : [];
 
+    
     if (!searches.includes(product?.name)) {
       searches.push(product?.name);
       localStorage.setItem("searches", JSON.stringify(searches));
@@ -114,7 +117,7 @@ export default function Product() {
   if (isPending) return <>Loading...</>;
 
   return (
-    <div className=" dark:bg-darkbg text-default-600 gap-[1.6875rem] ">
+    <div className=" text-default-600 gap-[1.6875rem] ">
       <div className="flex md:flex-row flex-col ">
         <div className="md:w-1/2  p-8 md:pl-[15%] h-full flex  flex-col-reverse gap-4 ">
           <div className="md:w-[15%]  flex   flex-row gap-4 rounded ">
@@ -263,7 +266,7 @@ export default function Product() {
 
           <div className="p-4 max-h-[25rem] text-sm  overflow-auto scrollbar-hide ">
             {activeTab === "Specifications" && <p className="text-gray-700">{product?.description}</p>}
-            {activeTab === "Reviews" && (
+            {/* {activeTab === "Reviews" && (
               <div className="">
                 {reviews.map((review) => (
                   <Review
@@ -275,7 +278,7 @@ export default function Product() {
                   />
                 ))}
               </div>
-            )}{" "}
+            )}  */}
             {activeTab === "Marchant" && (
               <div className="border p-4 rounded-lg shadow-sm mb-4">
                 <div className="flex justify-between  border-b p-2 ">
@@ -287,9 +290,9 @@ export default function Product() {
                     className="transition-transform"
                     color="neutral"
                     showFallback
-                    // name={user?.name}
+                    name={user?.name}
                     size="sm"
-                    src={item?.images[0] ? item?.images[0].url : ""}
+                    src={user?.profilePicture[0] ? user?.profilePicture[0]?.url : ""}
                   />
                 </div>
                 <div className=" py-4 text-xs md:text-sm  ">
@@ -313,7 +316,7 @@ export default function Product() {
             )}
           </div>
         </div>
-        {recommendations.length > 0 && (
+        {/* {recommendations.length > 0 && (
           <div className="bg-white p-4 md:w-1/3 max-h-[270px]  rounded-lg shadow-md">
             <h3 className="text-lg font-semibold mb-2">Similar Items</h3>
             <div className="h-[85%] overflow-auto scrollbar-hide ">
@@ -340,7 +343,7 @@ export default function Product() {
               ))}
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );
