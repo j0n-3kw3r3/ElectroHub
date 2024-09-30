@@ -174,7 +174,7 @@ export default function Nav() {
                 onKeyDown={handleSearch}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="
-            focus:outline-red-500 rounded-none w-full "
+               rounded-none w-full "
               />
             </div>
           )}
@@ -197,7 +197,7 @@ export default function Nav() {
               onKeyDown={handleSearch}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="
-            focus:outline-red-500 rounded-none w-full "
+             rounded-none w-full "
             />
           </div>
         </NavbarContent>
@@ -290,22 +290,22 @@ export default function Nav() {
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>
+              <DropdownMenuItem className=" hover:text-white">
                 <p className="font-semibold">Signed in as </p>
                 <p className="font-semibold">{user?.email}</p>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem className=" hover:text-white">
                 {" "}
                 <Link to="my-account">My Account</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>Orders</DropdownMenuItem>
-              <DropdownMenuItem>Saved Items</DropdownMenuItem>
+              <DropdownMenuItem className=" hover:text-white">Orders</DropdownMenuItem>
+              <DropdownMenuItem className=" hover:text-white">Saved Items</DropdownMenuItem>
               {user.isAuthenticated ? (
-                <DropdownMenuItem key="logout" color="danger" onClick={logoutSuccess}>
+                <DropdownMenuItem className=" hover:text-white" key="logout" color="danger" onClick={logoutSuccess}>
                   Log Out
                 </DropdownMenuItem>
               ) : (
-                <DropdownMenuItem key="logout" onClick={handleLogin}>
+                <DropdownMenuItem className=" hover:text-white" key="logout" onClick={handleLogin}>
                   Log In
                 </DropdownMenuItem>
               )}
@@ -317,7 +317,7 @@ export default function Nav() {
           {menuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
-                className="w-full"
+                className="w-full "
                 color={index === 1 ? "warning" : index === menuItems.length - 1 ? "danger" : "foreground"}
                 to={item.href}
               >

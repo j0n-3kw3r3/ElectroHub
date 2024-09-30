@@ -14,6 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { registerEP } from "../services";
+import { SignUpParamsProps } from "@/types";
 
 
 const schema = z.object({
@@ -31,7 +32,7 @@ function Signup() {
       register,
       handleSubmit,
       formState: { errors },
-    } = useForm({
+    } = useForm<SignUpParamsProps>({
       resolver: zodResolver(schema),
     });
 
@@ -50,9 +51,8 @@ function Signup() {
     });
 
   //  function to handle the form submission
-  const submitHandler = async(data) => {
+  const submitHandler = async (data: SignUpParamsProps) => {
     try {
-     
       await mutateAsync(data);
     } catch (error) {
       console.error(error);
@@ -61,15 +61,15 @@ function Signup() {
 
 
   return (
-    <div className=" bg-[#0F0F0F] flex h-[100vh] bg-[bg] text-white w-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative ">
+    <div className=" bg-[#0F0F0F] flex h-[100vh] bg-[bg] text-slate-300 w-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative ">
       <img src={bg} alt="" className=" absolute w-full object-contain z-0 " />
-      <div className="max-w-sm rounded-lg w-full bg-[#191919] z-20 ">
+      <div className="max-w-sm rounded-lg w-full  bg-[#191919] z-20 ">
         <div>
           <h2 className="mt-6 text-center text-2xl font-bold ">Sign Up</h2>
           <div className="mt-2 text-center flex justify-center ">
             Do you have an account?{" "}
             <p
-              className=" text-primary hover:underline ml-1 cursor-pointer "
+              className=" text-accent hover:underline ml-1 cursor-pointer "
               onClick={() => {
                 navigate("/auth/login");
               }}
@@ -79,63 +79,56 @@ function Signup() {
           </div>
         </div>
         <form className="mt-8 p-6 space-y-4" onSubmit={handleSubmit(submitHandler)}>
-          <div className="rounded-md shadow-sm text-default-400 space-y-8">
+          <div className="rounded-md shadow-sm  space-y-2">
             <CustomInput
               type="text"
               variant="bordered"
               label="First name"
               name="firstName"
-              radius="sm"
               placeholder="Enter your First name"
               errors={errors}
-              isRequired
-              classStyle="text-white/90 "
-              labelstyle=" text-white/90 "
+              classStyle="text-slate-400 "
+              labelstyle=" text-slate-400 "
               register={register}
-              icon={<UserIcon className="size-4 text-default-400 pointer-events-none flex-shrink-0" />}
-              />
+              icon={<UserIcon className="size-4 text-slate-300 pointer-events-none flex-shrink-0" />}
+            />
             <CustomInput
               type="email"
               variant="bordered"
               label="Email"
-              radius="sm"
               name="email"
               placeholder="emailyou@example.com"
               errors={errors}
-              isRequired
-              classStyle="text-white/90 mt-10"
-              labelstyle=" text-white/90 "
+              classStyle="text-slate-400 "
+              labelstyle=" text-slate-400 "
               register={register}
-              icon={<EnvelopeIcon className="size-5 text-default-400 pointer-events-none " />}
+              icon={<EnvelopeIcon className="size-5 text-slate-300 pointer-events-none " />}
             />
             <CustomInput
               type="password"
               variant="bordered"
               label="Password"
-              radius="sm"
               name="password"
               placeholder="Enter your password"
               errors={errors}
-              isRequired
-              classStyle="text-white/90 mt-10"
-              labelstyle=" text-white/90 "
+              classStyle="text-slate-400 "
+              labelstyle=" text-slate-400 "
               register={register}
-              icon={<LockClosedIcon className="size-4 text-default-400 pointer-events-none flex-shrink-0" />}
+              icon={<LockClosedIcon className="size-4 text-slate-300 pointer-events-none flex-shrink-0" />}
             />
-          
           </div>
 
           <div>
             <Button
               type="submit"
               isLoading={isPending}
-              className=" w-full flex text-white  shadow-md text-sm font-medium rounded-md  bg-primary "
+              className=" w-full flex text-slate-300  shadow-md text-sm font-medium rounded-md  bg-accent "
             >
               Sign up
             </Button>
           </div>
 
-          <div className="flex items-center text-default-400 gap-4">
+          <div className="flex items-center text-slate-300 gap-4">
             <div className="border-b border-default-500 w-full"></div>
             <div className="">OR</div>
             <div className="border-b border-default-500 w-full"></div>

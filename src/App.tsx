@@ -9,7 +9,7 @@ export default function App() {
   const user = useSelector((state:any) => state.auth); 
   return (
     <div className="bg-[#fbf9fc]">
-      <ToastContainer position="top-right" />
+      <ToastContainer position="top-left" />
       <RouterComponent user={user} />
     </div>
   );

@@ -23,7 +23,7 @@ export default {
         success: "#00D68F",
         error: "#FF3D71",
         warning: "#FFAA00",
-        white: "#FFFFFF",
+        white: "#fffffff9",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

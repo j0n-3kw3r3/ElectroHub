@@ -24,7 +24,7 @@ function ForgotPassword() {
       register,
       handleSubmit,
       formState: { errors },
-    } = useForm({
+    } = useForm<{ email: string }>({
       resolver: zodResolver(schema),
     });
 
@@ -42,7 +42,7 @@ function ForgotPassword() {
     });
 
   //  function to handle the form submission
-  const submitHandler = async (data) => {
+  const submitHandler = async (data: { email: string }) => {
     try {
       await mutateAsync(data);
     } catch (error) {
@@ -52,7 +52,7 @@ function ForgotPassword() {
 
 
   return (
-    <div className="bg-[#0F0F0F] flex h-[100vh] bg-[bg] text-default-300 w-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative ">
+    <div className="bg-[#0F0F0F] text-slate-300 flex h-[100vh] bg-[bg] text-default-300 w-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative ">
       <img src={bg} alt="" className=" absolute w-full object-contain z-0 " />
       <div className="max-w-sm rounded-lg w-full bg-[#191919] z-20 ">
         <div>
@@ -63,12 +63,10 @@ function ForgotPassword() {
             <CustomInput
               type="email"
               variant="bordered"
-              label="Email"
-              radius="sm"
+              label="Email" 
               name="email"
               placeholder="emailyou@example.com"
-              errors={errors}
-              isRequired
+              errors={errors} 
               classStyle="mt-10  text-white/90"
               labelstyle=" text-white/90 "
               register={register}
@@ -78,7 +76,7 @@ function ForgotPassword() {
 
           <div className="text-right">
             <p
-              className="text-primary text-sm hover:underline cursor-pointer"
+              className="text-accent text-sm hover:underline cursor-pointer"
               onClick={() => {
                 navigate("/auth/login");
               }}
@@ -90,7 +88,7 @@ function ForgotPassword() {
             <Button
               type="submit"
               isLoading={isPending}
-              className=" w-full flex text-default-300  shadow-md text-sm font-medium rounded-md  bg-primary "
+              className=" w-full flex text-default-300  shadow-md text-sm font-medium rounded-md  bg-accent "
             >
               Forgot Password
             </Button>
