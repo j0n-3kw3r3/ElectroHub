@@ -58,7 +58,7 @@ export default function Product() {
   const user = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
 
-  const handleTabClick = (tab) => {
+  const handleTabClick = (tab: string) => {
     setActiveTab(tab);
   };
 
