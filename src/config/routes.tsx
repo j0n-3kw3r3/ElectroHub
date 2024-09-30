@@ -1,3 +1,4 @@
+import ChangePassword from "@/pages/changepassword";
 import AboutUs from "../pages/about";
 import ContactUs from "../pages/contact";
 import Dashboard from "../pages/dashboard";
@@ -15,6 +16,7 @@ const authRoutes = [
   { path: "/signup", element: <Signup /> },
   { path: "/forgot-password", element: <ForgotPassword /> },
   { path: "/reset-password/:resetToken", element: <ResetPassword /> },
+  { path: "/change-password", element: <ChangePassword /> },
 ];
 
 const inAppRoutes = [

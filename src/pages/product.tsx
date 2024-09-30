@@ -15,6 +15,7 @@ import { fetchProductsEP } from "../services";
 import { useQuery } from "@tanstack/react-query";
 import { getRecommendations } from "../utils/getRecomendation";
 import { Avatar } from "@nextui-org/react";
+import { CartProps, ProductItemProps } from "@/types";
 
 const reviews = [
   {
@@ -51,7 +52,7 @@ export default function Product() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   let id = useParams().id;
   const navigate = useNavigate();
-  const [displayImage, setDisplayImage] = useState();
+  const [displayImage, setDisplayImage] = useState<string | undefined>(undefined);
   const [recommendations, setRecommendations] = useState([]);
   const [categories, setCategories] = useState([]);
   const [activeTab, setActiveTab] = useState("Specifications");
@@ -70,25 +71,26 @@ export default function Product() {
     queryKey: ["products"],
     queryFn: fetchProductsEP,
   });
-  const product = products && products?.find((product) => product?.id.toString() === id.toString());
-  const cartItems = useSelector((state) => state.cart);
-  const item = cartItems.cartItems.find((item) => toString(item.id) === toString(item)); 
-  const featuredProducts = products?.filter((item) => item?.isFeatured);
- 
+  const product =
+    products && products?.find((product: ProductItemProps) => product?.id.toString() === (id ?? "").toString());
+  const cartItems = useSelector((state: any) => state.cartItems);
+  const item =
+    cartItems &&
+    cartItems.cartItems.find((item: ProductItemProps) => item.id.toString() === item.toString());
 
-  const handlePress = (data) => {
+  const handlePress = (data: ProductItemProps) => {
     if (data) {
       dispatch(addToCart(data));
-      toast.success(`${data?.title} has been added to your cart`);
+      toast.success(`${data?.name} has been added to your cart`);
     }
   };
 
-  const handleAdd = (data) => {
+  const handleAdd = (data: ProductItemProps) => {
     if (data) {
       dispatch(addToCart(data));
     }
   };
-  const handleremove = (data) => {
+  const handleremove = (data: ProductItemProps) => {
     if (data) {
       dispatch(deleteFromCart(data));
     }
@@ -99,7 +101,6 @@ export default function Product() {
     const store = localStorage.getItem("searches");
     let searches = store ? JSON.parse(store) : [];
 
-    
     if (!searches.includes(product?.name)) {
       searches.push(product?.name);
       localStorage.setItem("searches", JSON.stringify(searches));
@@ -121,9 +122,9 @@ export default function Product() {
       <div className="flex md:flex-row flex-col ">
         <div className="md:w-1/2  p-8 md:pl-[15%] h-full flex  flex-col-reverse gap-4 ">
           <div className="md:w-[15%]  flex   flex-row gap-4 rounded ">
-            {product?.images.slice(0, 6).map((img, index) => (
+            {product?.images.slice(0, 6).map((img: { url: string }) => (
               <img
-                key={index}
+                key={img.url}
                 src={img.url}
                 alt=""
                 className=" md:w-full w-[20%] object-contain cursor-pointer shadow aspect-square"
@@ -174,16 +175,16 @@ export default function Product() {
           </div>
 
           <div className=" flex justify-between items-center space-y-2">
-            <div className=""> 
+            <div className="">
               <div className="flex items-center gap-2 border w-fit border-primary rounded  ">
-                 <button
+                <button
                   className="text-primary bg-transparent border-r border-primary  px-2 py-1   hover:bg-primary hover:text-white"
                   onClick={() => handleremove(product.id)}
                 >
                   <MinusIcon className="size-4" />
                 </button>
                 <p className="text-sm">{item?.cartQuantity > 0 ? item?.cartQuantity : "0"}</p>
-               <button
+                <button
                   className="text-primary bg-transparent border-l border-primary  px-2 py-1   hover:bg-primary hover:text-white"
                   onClick={() => handleAdd(product)}
                 >
@@ -287,8 +288,7 @@ export default function Product() {
                   <Avatar
                     // isBordered
                     as="button"
-                    className="transition-transform"
-                    color="neutral"
+                    className="transition-transform" 
                     showFallback
                     name={user?.name}
                     size="sm"
@@ -349,17 +349,17 @@ export default function Product() {
   );
 }
 
-const Review = ({ username, rating, comment, date }) => {
-  return (
-    <div className="border p-4 rounded-lg shadow-sm space-y-2 mb-2">
-      <div className="flex items-center justify-between ">
-        <h3 className="font-semibold">{username}</h3>
-        <span className="text-yellow-500">
-          {"★".repeat(rating)} <span className="text-gray-400">{"★".repeat(5 - rating)}</span>
-        </span>
-      </div>
-      <p className="text-gray-600 ">{comment}</p>
-      <p className="text-gray-400 ">{new Date(date).toLocaleDateString()}</p>
-    </div>
-  );
-};
+// const Review = ({ username, rating, comment, date }) => {
+//   return (
+//     <div className="border p-4 rounded-lg shadow-sm space-y-2 mb-2">
+//       <div className="flex items-center justify-between ">
+//         <h3 className="font-semibold">{username}</h3>
+//         <span className="text-yellow-500">
+//           {"★".repeat(rating)} <span className="text-gray-400">{"★".repeat(5 - rating)}</span>
+//         </span>
+//       </div>
+//       <p className="text-gray-600 ">{comment}</p>
+//       <p className="text-gray-400 ">{new Date(date).toLocaleDateString()}</p>
+//     </div>
+//   );
+// };

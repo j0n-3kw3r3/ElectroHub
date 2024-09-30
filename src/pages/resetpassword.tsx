@@ -5,7 +5,7 @@ import bg from "../assets/image/bg.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useMutation } from "@tanstack/react-query";
@@ -31,25 +31,24 @@ function ResetPassword() {
         register,
         handleSubmit,
         formState: { errors },
-      } = useForm({
+      } = useForm<{ password: string }>({
         resolver: zodResolver(schema),
       });
 
       const { mutateAsync, isPending } = useMutation({
-        mutationFn: (data) => resetPasswordEP(data, cartId),
+        mutationFn: (data: { password: string }) => resetPasswordEP(data, resetToken),
         onSuccess: (data) => {
           toast.success(data.message);
           navigate("/auth/login");
         },
-        onError: (error) => {
+        onError: (error: any) => {
           console.log(error);
-
-          toast.error(error);
+          toast.error(error.message || "An error occurred");
         },
       });
 
       //  function to handle the form submission
-      const submitHandler = async (data) => {
+      const submitHandler: SubmitHandler<{ password: string }> = async (data) => {
         try {
           await mutateAsync(data);
         } catch (error) {
@@ -58,7 +57,7 @@ function ResetPassword() {
       };
 
   return (
-    <div className="bg-[#0F0F0F] flex h-[100vh] bg-[bg] text-default-300 w-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative ">
+    <div className="bg-[#0F0F0F] flex h-[100vh] bg-[bg] text-slate-300 w-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative ">
       <img src={bg} alt="" className=" absolute w-full object-contain z-0 " />
       <div className="max-w-sm rounded-lg w-full bg-[#191919] z-20 ">
         <div>
@@ -69,12 +68,10 @@ function ResetPassword() {
             <CustomInput
               type="password"
               variant="bordered"
-              label="Password"
-              radius="sm"
+              label="Password" 
               name="password"
               placeholder="Enter your password"
-              errors={errors}
-              isRequired
+              errors={errors}  
               classStyle="mt-10 text-white/90"
               labelstyle=" text-white/90 "
               register={register}
@@ -83,7 +80,7 @@ function ResetPassword() {
           </div>
           <div className="text-right">
             <p
-              className="text-primary text-sm hover:underline cursor-pointer"
+              className="text-accent text-sm hover:underline cursor-pointer"
               onClick={() => {
                 navigate("/auth/login");
               }}
@@ -96,7 +93,7 @@ function ResetPassword() {
             <Button
               type="submit"
               isLoading={isPending}
-              className=" w-full flex text-default-300  shadow-md text-sm font-medium rounded-md  bg-primary "
+              className=" w-full flex shadow-md text-sm font-medium rounded-md  bg-accent "
             >
               Reset Password
             </Button>
