@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { Button } from "@nextui-org/button";
 import { createProductsEP, fetchCategoriesEP, fetchSubCategoriesEP } from "../../../services";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { CategoryProps } from "@/types";
 
 // Product management component
 export const CreateProduct = ({ setProductSubTab }) => {
@@ -191,8 +192,8 @@ export const CreateProduct = ({ setProductSubTab }) => {
           >
             <option value="">Select a category</option>
             {categories &&
-              categories?.map((category, index) => (
-                <option key={index} value={category?.id}>
+              categories?.map((category: CategoryProps) => (
+                <option key={category.id} value={category?.id}>
                   {category.name}
                 </option>
               ))}

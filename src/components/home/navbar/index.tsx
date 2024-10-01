@@ -275,13 +275,13 @@ export default function Nav() {
             <DropdownMenuTrigger>
               <Avatar>
                 <AvatarImage
-                  className=" w-full h-full overflow-hidden rounded-full bg-primary"
+                  className=" w-full h-full overflow-hidden rounded-full "
                   src={user.profilePicture ? user?.profilePicture[0]?.url : ""}
                 />
                 <AvatarFallback>
                   <span
                     aria-label="avatar"
-                    className=" w-full h-full overflow-hidden rounded-full bg-primary"
+                    className=" w-full h-full overflow-hidden rounded-full "
                     role="img"
                   >
                     <img src={avatar} alt="" />

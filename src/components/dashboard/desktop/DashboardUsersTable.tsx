@@ -2,12 +2,34 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { fetchUsersEP, toggleRoleEP } from "../../../services";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Avatar, Switch } from "@nextui-org/react";
 import { toast } from "react-toastify";
+import { UserProps } from "@/types";
+import { Switch } from "@/components/ui/switch";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import avatar from "../../../assets/image/avatar.svg";
 
 export function DashboardUsersTable() {
   const [filtersUsers, setFiltersUsers] = useState([]);
   const queryClient = useQueryClient(); // Get the query client instance
+
+  const { mutateAsync } = useMutation({
+    mutationFn: toggleRoleEP,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const handleSwitch = async (id: string) => {
+    try {
+      await mutateAsync(id);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to Update product");
+    }
+  };
 
   const {
     isPending,
@@ -23,9 +45,9 @@ export function DashboardUsersTable() {
   if (error) return "An error has occurred: " + error.message;
 
   // Function filters logistics data based on search input
-  const handleSearchUser = (e) => {
+  const handleSearchUser = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!users) return;
-    const filteredData = users.filter((item) => {
+    const filteredData = users.filter((item: UserProps) => {
       return (
         item.email.toLowerCase().includes(e.target.value.toLowerCase()) ||
         item.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
@@ -33,25 +55,6 @@ export function DashboardUsersTable() {
       );
     });
     setFiltersUsers(filteredData ? filteredData : users);
-  };
-
-  const { mutateAsync } = useMutation({
-    mutationFn: ({ data, id }) => toggleRoleEP(data, id),
-    onSuccess: () => {
-      queryClient.invalidateQueries("users");
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
-
-  const handleSwitch = async (id) => {
-    try {
-      await mutateAsync({ data: "null", id });
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to Update product");
-    }
   };
 
   return (
@@ -63,7 +66,7 @@ export function DashboardUsersTable() {
             placeholder="Search..."
             className="focus:outline-none border-none transition text-sm duration-150 ease-in-out"
             style={{ backdropFilter: "blur(5px)" }}
-            onChange={handleSearchUser}
+            // onChange={handleSearchUser}
           />
           <MagnifyingGlassIcon className="size-4 cursor-pointer " />
         </div>
@@ -74,7 +77,6 @@ export function DashboardUsersTable() {
             <tr>
               <th scope="col" className="py-3 px-6">
                 {" "}
-                fww
               </th>
               <th scope="col" className="py-3 px-6">
                 Name
@@ -92,19 +94,20 @@ export function DashboardUsersTable() {
           </thead>
           <tbody>
             {filtersUsers.length > 0
-              ? filtersUsers.map((user, index) => (
+              ? filtersUsers.map((user: UserProps, index) => (
                   <tr key={user?.id} className={`${index % 2 === 0 ? "bg-white/80" : "bg-gray-50"} hover:bg-primary/5`}>
                     <td className="py-4 px-6">
-                      <Avatar
-                        // isBordered
-                        as="button"
-                        className="transition-transform"
-                        color="neutral"
-                        showFallback
-                        name={user?.name}
-                        size="sm"
-                        src={user.profilePicture ? user?.profilePicture[0]?.url : ""}
-                      />
+                      <Avatar>
+                        <AvatarImage
+                          className=" w-full h-full overflow-hidden rounded-full "
+                          src={(user.profilePicture && user.profilePicture[0]?.url) ?? ""}
+                        />
+                        <AvatarFallback>
+                          <span aria-label="avatar" className=" w-full h-full overflow-hidden rounded-full " role="img">
+                            <img src={avatar} alt="" />
+                          </span>
+                        </AvatarFallback>
+                      </Avatar>
                     </td>
                     <td className="py-4 px-6">
                       {user?.firstName} {user?.lastName}
@@ -113,19 +116,20 @@ export function DashboardUsersTable() {
                     <td className="py-4 px-6">{user.role}</td>
                   </tr>
                 ))
-              : users.map((user, index) => (
+              : users.map((user: UserProps, index: number) => (
                   <tr key={user?.id} className={`${index % 2 === 0 ? "bg-white/80" : "bg-gray-50"} hover:bg-primary/5`}>
                     <td className="py-4 px-6">
-                      <Avatar
-                        // isBordered
-                        as="button"
-                        className="transition-transform"
-                        color="neutral"
-                        showFallback
-                        name={user?.name}
-                        size="sm"
-                        src={user.profilePicture ? user?.profilePicture[0]?.url : ""}
-                      />
+                      <Avatar>
+                        <AvatarImage
+                          className=" w-full h-full overflow-hidden rounded-full "
+                          src={(user.profilePicture && user.profilePicture[0]?.url) ?? ""}
+                        />
+                        <AvatarFallback>
+                          <span aria-label="avatar" className=" w-full h-full overflow-hidden rounded-full " role="img">
+                            <img src={avatar} alt="" />
+                          </span>
+                        </AvatarFallback>
+                      </Avatar>
                     </td>
                     <td className="py-4 px-6">
                       {user?.firstName} {user?.lastName}
@@ -133,9 +137,8 @@ export function DashboardUsersTable() {
                     <td className="py-4 px-6">{user.email}</td>
                     <td className="py-4 px-6">{user.role}</td>
                     <td className="py-4 px-6">
-                      <Switch isSelected={user?.role === "admin"} onValueChange={() => handleSwitch(user.id)}>
-                        {user?.role === "user" ? "user" : "admin"}
-                      </Switch>
+                    <Switch checked={ user?.role === "admin" } onCheckedChange={ () => handleSwitch(user.id) }  />
+                      <p> {user?.role === "user" ? "user" : "admin"}</p>
                     </td>
                   </tr>
                 ))}

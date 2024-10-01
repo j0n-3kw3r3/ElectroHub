@@ -71,7 +71,7 @@ function Overview() {
                 activeTab.includes(item.name) || (item.name === "Users" && showUsersDropdown)
                   ? "bg-primary text-white "
                   : "  hover:text-primary hover:font-bold  "
-              } items-center cursor-pointer flex-1 flex md:justify-start justify-center md:p-4 p-3 md:my-2 md:rounded  text-sm font-medium  `}
+              } items-center flex-row md:items-start cursor-pointer flex-1 flex md:flex-col items md:justify-start justify-center md:p-4 p-3 md:my-2 md:rounded  text-sm font-medium  `}
               onClick={() => {
                 setActiveTab(item.name);
                 if (item.name === "Users") {
@@ -81,34 +81,36 @@ function Overview() {
                 }
               }}
             >
-              <div className="flex items-center  ">
+              <div className=" flex ">
                 {item?.icon}
                 <span className="ml-2 md:block hidden">
                   {item.name === "Dashboard Overview" ? "Dashboard" : item.name}
                 </span>
               </div>
-              <div className="">
+              <div className=" md:w-full md:ml-4">
                 {item.name === "Users" && (
-                  <ul className={`mt-2  ${showUsersDropdown ? "block" : "hidden"}`}>
+                  <ul className={`mt-2   ${showUsersDropdown ? "block" : "hidden"}`}>
                     <li
                       className={`cursor-pointer p-2 my-1 rounded flex gap-2 items-center text-sm font-medium  ${
                         usersSubTab === "Merchants"
-                          ? "hover:bg-primary bg-secondary hover:text-white "
+                          ? "hover:bg-primary flex  w-full bg-accent hover:text-white "
                           : " bg-primary text-white "
                       }`}
                       onClick={() => setUsersSubTab("Merchants")}
                     >
                       <BuildingStorefrontIcon className="size-4 " />
-                      Merchants
+
+                      <span className="ml-2 md:block hidden">Merchants</span>
                     </li>
                     <li
-                      className={`cursor-pointer flex p-2 my-1 rounded items-center gap-2  text-sm font-medium hover:bg-primary ${
-                        usersSubTab === "Customers" ? "hover:bg-primary bg-secondary " : "bg-primary "
+                      className={`cursor-pointer p-2 my-1 rounded items-center gap-2  text-sm font-medium hover:bg-primary ${
+                        usersSubTab === "Customers" ? "hover:bg-primary flex  w-full bg-accent " : "bg-primary "
                       }`}
                       onClick={() => setUsersSubTab("Customers")}
                     >
                       <UsersIcon className="size-4" />
-                      Customers
+
+                      <span className="ml-2 md:block hidden">Customers</span>
                     </li>
                   </ul>
                 )}
