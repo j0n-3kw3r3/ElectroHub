@@ -103,3 +103,40 @@ export interface FlashSaleProps {
     products: ProductItemProps[];
     userId: string;
 }
+
+
+export interface UserProps {
+    createdAt: string;
+    email: string;
+    firstName: string;
+    id: string;
+    isAdmin: boolean;
+    lastName: string;
+    name: string;
+    phone: string;
+    cart: ProductItemProps[];
+    address: AddressProps[];
+    profilePicture: ProfilePicture[];
+    role: string;
+    likes: [];
+    _id: string;
+    v: number;
+}
+
+export interface AddressProps {
+    city: string;
+    country: string;
+    id: string;
+    postalCode: string;
+    state: string;
+    street: string;
+    _id: string;
+    v: number;
+}
+
+interface ProfilePicture {
+    public_id: string;
+    url: string;
+    _id: string;
+    id: string;
+}
